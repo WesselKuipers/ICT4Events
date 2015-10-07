@@ -1,1 +1,0 @@
-This is the repository for the ICT4Events project by group S21A at Fontys
