@@ -6,11 +6,14 @@ using System.Text;
 using System.Threading.Tasks;
 using SharedModels.Models;
 using System.Security.Cryptography;
+using SharedModels.Enums;
 
 namespace SharedModels.Logic
 {
     public class UserLogic
     {
+        // TODO: check for permissionTypes in methods
+
         private readonly User _user;
         public static string Salt = GetHashString("saltyString");
 
@@ -30,6 +33,51 @@ namespace SharedModels.Logic
                 _user.Password = GetHashString(password + Salt);
             else
                 throw new PasswordsDontMatchException();
+        }
+
+        /// <summary>
+        /// Registers a new user, sends a confirmation email to the new users emailaddress
+        /// </summary>
+        /// <param name="user">User created in user interface</param>
+        /// <returns>a new user object with correct user id</returns>
+        public User RegisterUser(User user)
+        {
+            // TODO: use UserOracleContext.Insert(user) as return value
+            // TODO: send confirmation email
+
+            return user;
+        }
+
+        /// <summary>
+        /// Changes the user accounts permission level
+        /// </summary>
+        /// <param name="newPermissionType">PermissionType to change permission level to</param>
+        public void ChangePermissionType(PermissionType newPermissionType)
+        {
+            _user.Permission = newPermissionType;
+        }
+
+
+        /// <summary>
+        /// Update an existing user
+        /// </summary>
+        /// <param name="user">User to be updated</param>
+        /// <returns>Updated user</returns>
+        public User UpdateUser(User user)
+        {
+            // TODO: return UserOracleContext.Update(user);
+            return user;
+        }
+
+        /// <summary>
+        /// Deletes a user account
+        /// </summary>
+        /// <param name="userId">ID of the user to be deleted</param>
+        /// <returns>true if delete was succesfull</returns>
+        public bool DeleteUser(int userId)
+        {
+            // TODO: return UserOracleContext.Delete(userId);
+            return true;
         }
 
         /// <summary>
