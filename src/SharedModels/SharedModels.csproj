@@ -45,7 +45,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\ContextInterfaces\IEventContext.cs" />
+    <Compile Include="Data\ContextInterfaces\IGuestContext.cs" />
+    <Compile Include="Data\ContextInterfaces\ILocationContext.cs" />
+    <Compile Include="Data\ContextInterfaces\IMaterialContext.cs" />
+    <Compile Include="Data\ContextInterfaces\IMediaContext.cs" />
+    <Compile Include="Data\ContextInterfaces\IPostContext.cs" />
+    <Compile Include="Data\ContextInterfaces\IReportContext.cs" />
     <Compile Include="Data\Database.cs" />
+    <Compile Include="Data\ContextInterfaces\IUserContext.cs" />
+    <Compile Include="Data\OracleContexts\UserOracleContext.cs" />
+    <Compile Include="Debug\Logger.cs" />
     <Compile Include="Enums\MediaType.cs" />
     <Compile Include="Models\Event.cs" />
     <Compile Include="Models\Guest.cs" />

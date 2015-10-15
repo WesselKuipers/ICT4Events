@@ -15,6 +15,7 @@ namespace SharedModels.Models
         public string Name { get; set; }
         public string Surname { get; set; }
         public string Password { get; set; } // Hashed of course
+        public string Country { get; set; }
         public string City { get; set; }
         public string Postal { get; set; }
         public string Address { get; set; }
@@ -22,7 +23,7 @@ namespace SharedModels.Models
         public DateTime RegistrationDate { get; }
         public PermissionType Permission { get; }
 
-        public User(int id, string username, string password, string name, string city = "", string postal = "",
+        public User(int id, string username, string password, string name, string surname = "", string country = "", string city = "", string postal = "",
             string address = "", string telephone = "", DateTime regDate = new DateTime(),
             PermissionType permission = PermissionType.User)
         {
@@ -35,6 +36,7 @@ namespace SharedModels.Models
             Username = username;
             Password = password;
             Name = name;
+            Surname = surname;
             City = city;
             Postal = postal;
             Address = address;

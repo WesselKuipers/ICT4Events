@@ -13,13 +13,13 @@ namespace SharedModels.Models
         public DateTime EndDate { get; }
         public Location Location { get; set; }
 
-        public Guest(int id, string username, string password, string name, bool paid, Event ev, bool present,
-            DateTime startDate, DateTime endDate, Location location, int passnr = -1, string city = "",
-            string postal = "", string address = "", string telephone = "", DateTime regDate = new DateTime(),
-            PermissionType permission = PermissionType.User)
-            : base(id, username, password, name, city, postal, address, telephone, regDate, permission)
+        public Guest(int id, string username, string password, string name, int passNumber, bool paid, Event ev,
+            bool present, DateTime startDate, DateTime endDate, Location location, DateTime regDate = new DateTime(),
+            PermissionType permission = PermissionType.User, string surname = "", string country = "", string city = "",
+            string postal = "", string address = "", string telephone = "")
+            : base(id, username, password, name, surname, country, city, postal, address, telephone, regDate, permission)
         {
-            PassNumber = passnr;
+            PassNumber = passNumber;
             Paid = paid;
             Event = ev;
             Present = present;

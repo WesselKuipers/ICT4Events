@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Oracle.DataAccess;
 using Oracle.DataAccess.Client;
+using SharedModels.Debug;
 
 namespace SharedModels.Data
 {
@@ -41,8 +42,72 @@ namespace SharedModels.Data
             }
             catch (OracleException e)
             {
-                // TODO: logging
+                Logger.Write(e.Message);
             }
+        }
+
+        public static OracleDataReader ExecuteReader(string query, List<OracleParameter> args = null)
+        {
+            OracleDataReader result;
+
+            using (var con = new OracleCommand(query, Connection))
+            {
+                if (args != null)
+                {
+                    foreach (var arg in args)
+                    {
+                        con.Parameters.Add(arg);
+                    }
+                }
+
+                result = con.ExecuteReader();
+            }
+
+            Close();
+
+            return result;
+        }
+
+        public static bool ExecuteNonQuery(string query, List<OracleParameter> args = null)
+        {
+            var result = -1;
+
+            using (var con = new OracleCommand(query, Connection))
+            {
+                if (args != null)
+                {
+                    foreach (var arg in args)
+                    {
+                        con.Parameters.Add(arg);
+                    }
+                }
+
+                result = con.ExecuteNonQuery();
+            }
+
+            Close();
+
+            return result >= 0;
+        }
+
+        public static object ExecuteScalar(string query, List<OracleParameter> args = null)
+        {
+            object result;
+
+            using (var con = new OracleCommand(query, Connection))
+            {
+                if (args != null)
+                {
+                    foreach (var arg in args)
+                    {
+                        con.Parameters.Add(arg);
+                    }
+                }
+
+                result = con.ExecuteScalar();
+            }
+
+            return result;
         }
 
         private static void Close()
