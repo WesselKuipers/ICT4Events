@@ -14,7 +14,7 @@ namespace SharedModels.Data
     // http://i.imgur.com/NYSyRMr.png Local connection example
     public class Database
     {
-        private static readonly string _connectionString = "User Id=dbi333426;Password=d5igdqmqdY;Server=fhictora01.fhict.local";
+        private static readonly string _connectionString = "User Id=dbi333426;Password=d5igdqmqdY;Data Source=fhictora01.fhict.local/fhictora";
         //private static readonly string _connectionString = "User Id=ICT4Events;Password=wessel;Data Source=127.0.0.1";
 
         private static OracleConnection _connection;
@@ -35,7 +35,14 @@ namespace SharedModels.Data
         private static void Connect()
         {
             _connection = new OracleConnection { ConnectionString = _connectionString };
-            _connection.Open();
+            try
+            {
+                _connection.Open();
+            }
+            catch (OracleException e)
+            {
+                // TODO: logging
+            }
         }
 
         private static void Close()
