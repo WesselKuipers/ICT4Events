@@ -21,7 +21,7 @@ namespace SharedModels.Models
         public string Address { get; set; }
         public string Telephone { get; set; }
         public DateTime RegistrationDate { get; }
-        public PermissionType Permission { get; }
+        public PermissionType Permission { get; set; }
 
         public User(int id, string username, string password, string name, string surname = "", string country = "", string city = "", string postal = "",
             string address = "", string telephone = "", DateTime regDate = new DateTime(),
