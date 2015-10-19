@@ -3,6 +3,7 @@ using System.Net.Mail;
 using System.Text;
 using SharedModels.Models;
 using System.Security.Cryptography;
+using SharedModels.Data.ContextInterfaces;
 using SharedModels.Data.OracleContexts;
 using SharedModels.Enums;
 
@@ -12,7 +13,7 @@ namespace SharedModels.Logic
     {
         // TODO: check for permissionTypes in methods
 
-        private readonly UserOracleContext _context;
+        private readonly IUserContext _context;
         private static readonly string Salt = GetHashString("saltyString");
 
         public UserLogic()
