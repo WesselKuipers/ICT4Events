@@ -11,26 +11,25 @@ namespace SharedModels.Logic
     public class UserLogic
     {
         // TODO: check for permissionTypes in methods
-
-        private readonly User _user;
+        
         private readonly UserOracleContext _context;
-        public static string Salt = GetHashString("saltyString");
+        private static readonly string Salt = GetHashString("saltyString");
 
-        public UserLogic(User user)
+        public UserLogic()
         {
-            _user = user;
             _context = new UserOracleContext();
         }
 
         /// <summary>
         /// Sets the password for a user if the 2 given passwords match.
         /// </summary>
+        /// <param name="user">user to set password for</param>
         /// <param name="password">password given by user</param>
         /// <param name="passwordAgain">password again given by user</param>
-        public void SetPassword(string password, string passwordAgain)
+        public void SetPassword(User user, string password, string passwordAgain)
         {
             if (string.Equals(password, passwordAgain))
-                _user.Password = GetHashString(password + Salt);
+                user.Password = GetHashString(password + Salt);
             else
                 throw new PasswordsDontMatchException();
         }
@@ -82,8 +81,9 @@ namespace SharedModels.Logic
         /// <summary>
         /// Changes the user accounts permission level
         /// </summary>
+        /// <param name="user">user to change permission level of</param>
         /// <param name="newPermissionType">PermissionType to change permission level to</param>
-        public void ChangePermissionType(PermissionType newPermissionType) => _user.Permission = newPermissionType;
+        public void ChangePermissionType(User user, PermissionType newPermissionType) => user.Permission = newPermissionType;
 
 
         /// <summary>
