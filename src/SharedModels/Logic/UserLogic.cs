@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using SharedModels.Models;
 using System.Security.Cryptography;
+using SharedModels.Data.ContextInterfaces;
 using SharedModels.Enums;
 
 namespace SharedModels.Logic
@@ -14,14 +15,22 @@ namespace SharedModels.Logic
     {
         // TODO: check for permissionTypes in methods
 
-        private readonly User _user;
+        //private readonly User _user;
+        private IUserContext _context;
+
         public static string Salt = GetHashString("saltyString");
 
-        public UserLogic(User user)
+        //public UserLogic(User user)
+        //{
+        //    _user = user;
+        //}
+
+        public UserLogic(IUserContext context)
         {
-            _user = user;
+            _context = context;
         }
 
+        // TODO: Move this method to UI logic? Or: Pass user object
         /// <summary>
         /// Sets the password for a user if the 2 given passwords match.
         /// </summary>
@@ -29,10 +38,19 @@ namespace SharedModels.Logic
         /// <param name="passwordAgain">password again given by user</param>
         public void SetPassword(string password, string passwordAgain)
         {
-            if (string.Equals(password, passwordAgain))
-                _user.Password = GetHashString(password + Salt);
-            else
-                throw new PasswordsDontMatchException();
+            //if (string.Equals(password, passwordAgain))
+            //    _user.Password = GetHashString(password + Salt);
+            //else
+            //    throw new PasswordsDontMatchException();
+        }
+
+        /// <summary>
+        /// Gets a hashed password.
+        /// </summary>
+        /// <param name="password">password to hash</param>
+        public static string GetHashedPassword(string password)
+        {
+            return GetHashString(password + Salt);
         }
 
         /// <summary>
@@ -54,7 +72,7 @@ namespace SharedModels.Logic
         /// <param name="newPermissionType">PermissionType to change permission level to</param>
         public void ChangePermissionType(PermissionType newPermissionType)
         {
-            _user.Permission = newPermissionType;
+            //_user.Permission = newPermissionType;
         }
 
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -11,7 +12,7 @@ using SharedModels.Models;
 
 namespace SharedModels.Data.OracleContexts
 {
-    class UserOracleContext : IUserContext
+    public class UserOracleContext : IUserContext
     {
         // TODO: Test all of these queries.
 
@@ -43,9 +44,10 @@ namespace SharedModels.Data.OracleContexts
         public User Insert(User user)
         {
             var query =
-                "INSERT INTO useraccount (userid, username, password, firstname, surname, country, address, city, postal, phonenumber, permissionlevel) VALUES (seq_user.nextval, :username, :firstname, :surname, :country, :address, :city, :postal, :phonenumber, :permissionlevel)";
+                "INSERT INTO useraccount (userid, username, password, firstname, surname, country, address, city, postal, phonenumber, permissionlevel) VALUES (seq_user.nextval, :username, :password, :firstname, :surname, :country, :address, :city, :postal, :phonenumber, :permissionlevel)";
             var parameters = new List<OracleParameter>
             {
+                new OracleParameter("username", user.Username),
                 new OracleParameter("password", user.Password),
                 new OracleParameter("firstname", user.Name),
                 new OracleParameter("surname", user.Surname),
@@ -87,13 +89,18 @@ namespace SharedModels.Data.OracleContexts
             return Database.ExecuteNonQuery(query, parameters);
         }
 
-        private User GetUserFromRecord(OracleDataReader record)
+        private User GetUserFromRecord(IDataRecord record)
         {
             var values = new string[record.FieldCount];
-
+            for (var i = 0; i < values.Length; i++)
+            {
+                values[i] = record[i].ToString();
+            }
+            
+            // Date format: 19-10-2015 01:57:21
             return new User(Convert.ToInt32(values[0]), values[1], values[2], values[3], values[5], values[4],
                 values[7], values[8], values[6], values[9],
-                DateTime.ParseExact(values[10], "MM-dd-yyyy", CultureInfo.InvariantCulture),
+                DateTime.ParseExact(values[10], "dd-MM-yyyy hh:mm:ss", CultureInfo.InvariantCulture),
                 (PermissionType)Convert.ToInt32(values[11]));
         }
     }
