@@ -10,8 +10,6 @@ using SharedModels.Debug;
 
 namespace SharedModels.Data
 {
-    // TODO: Implement IDisposable, test using VPN
-    // Probably requires a wrapper for that
     public class Database
     {
         //private static readonly string _connectionString = "User Id=dbi333426;Password=d5igdqmqdY;Data Source=fhictora01.fhict.local/fhictora";
@@ -45,24 +43,87 @@ namespace SharedModels.Data
             }
         }
 
-        public static OracleDataReader ExecuteReader(string query, List<OracleParameter> args = null)
+        public static List<List<string>> ExecuteReader(string query, List<OracleParameter> args = null)
         {
-            OracleDataReader result;
+            var result = new List<List<string>>();
 
-            using (var con = new OracleCommand(query, Connection))
+            try
             {
-                if (args != null)
+                using (var con = new OracleCommand(query, Connection))
                 {
-                    foreach (var arg in args)
+                    if (args != null)
                     {
-                        con.Parameters.Add(arg);
+                        foreach (var arg in args)
+                        {
+                            con.Parameters.Add(arg);
+                        }
+                    }
+
+                    var queryResult = con.ExecuteReader();
+                    while (queryResult.Read())
+                    {
+                        var record = new string[queryResult.FieldCount];
+                        for (var i = 0; i < queryResult.FieldCount; i++)
+                        {
+                            record[i] = queryResult.GetValue(i).ToString();
+                        }
+
+                        result.Add(record.ToList());
                     }
                 }
-
-                result = con.ExecuteReader();
             }
-            // TODO: Implement way to pass records AND dispose the reader
-            //Close();
+            catch (OracleException e)
+            {
+                Logger.Write(e.Message);
+                return null;
+            }
+            finally
+            {
+                Close();
+            }
+
+            return result;
+        }
+       
+        public static List<Dictionary<string, string>> ExecuteReaderDict(string query, List<OracleParameter> args = null)
+        {
+            var result = new List<Dictionary<string, string>>();
+
+            try
+            {
+                using (var con = new OracleCommand(query, Connection))
+                {
+                    if (args != null)
+                    {
+                        foreach (var arg in args)
+                        {
+                            con.Parameters.Add(arg);
+                        }
+                    }
+
+                    var queryResult = con.ExecuteReader();
+
+                    while (queryResult.Read())
+                    {
+                        var record = new Dictionary<string, string>();
+                        for (var i = 0; i < queryResult.FieldCount; i++)
+                        {
+                            record[queryResult.GetName(i)] = queryResult.GetValue(i).ToString();
+                        }
+
+                        result.Add(record);
+                    }
+                }
+            }
+            catch (OracleException e)
+            {
+                Logger.Write(e.Message);
+                return null;
+            }
+            finally
+            {
+                Close();
+            }
 
             return result;
         }
@@ -71,17 +132,72 @@ namespace SharedModels.Data
         {
             var result = -1;
 
-            using (var con = new OracleCommand(query, Connection))
+            try
             {
-                if (args != null)
+                using (var con = new OracleCommand(query, Connection))
                 {
-                    foreach (var arg in args)
+                    if (args != null)
                     {
-                        con.Parameters.Add(arg);
+                        foreach (var arg in args)
+                        {
+                            con.Parameters.Add(arg);
+                        }
+                    }
+
+                    result = con.ExecuteNonQuery();
+                }
+            }
+            catch (OracleException e)
+            {
+                Logger.Write(e.Message);
+                return false;
+            }
+            finally
+            {
+                Close();
+            }
+
+            return result >= 0;
+        }
+
+        public static bool ExecuteNonQuery(string query, out string returnValue, List<OracleParameter> args = null)
+        {
+            var result = -1;
+            OracleParameter returnParameter = null;
+            returnValue = string.Empty;
+
+            try
+            {
+                using (var con = new OracleCommand(query, Connection))
+                {
+                    if (args != null)
+                    {
+                        foreach (var arg in args)
+                        {
+                            if (arg.Direction == ParameterDirection.ReturnValue)
+                            {
+                                 returnParameter = arg;
+                            }
+                            con.Parameters.Add(arg);
+                        }
+                    }
+
+                    result = con.ExecuteNonQuery();
+
+                    if (returnParameter != null)
+                    {
+                        returnValue = (returnParameter.Value.ToString());
                     }
                 }
-
-                result = con.ExecuteNonQuery();
+            }
+            catch(OracleException e)
+            {
+                Logger.Write(e.Message);
+                return false;
+            }
+            finally
+            {
+                Close();
             }
 
             Close();
@@ -93,17 +209,29 @@ namespace SharedModels.Data
         {
             object result;
 
-            using (var con = new OracleCommand(query, Connection))
+            try
             {
-                if (args != null)
+                using (var con = new OracleCommand(query, Connection))
                 {
-                    foreach (var arg in args)
+                    if (args != null)
                     {
-                        con.Parameters.Add(arg);
+                        foreach (var arg in args)
+                        {
+                            con.Parameters.Add(arg);
+                        }
                     }
-                }
 
-                result = con.ExecuteScalar();
+                    result = con.ExecuteScalar();
+                }
+            }
+            catch (OracleException e)
+            {
+                Logger.Write(e.Message);
+                return null;
+            }
+            finally
+            {
+                Close();
             }
 
             return result;

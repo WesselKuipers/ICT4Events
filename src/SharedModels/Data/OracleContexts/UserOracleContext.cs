@@ -18,16 +18,10 @@ namespace SharedModels.Data.OracleContexts
 
         public List<User> GetAll()
         {
-            var users = new List<User>();
-            var query = "SELECT * FROM useraccount";
+            var query = "SELECT * FROM useraccount ORDER BY userid";
             var res = Database.ExecuteReader(query);
 
-            while (res.Read())
-            {
-                users.Add(GetUserFromRecord(res));
-            }
-
-            return users;
+            return res.Select(GetUserFromRecord).ToList();
         }
 
         public User GetById(int id)
@@ -38,13 +32,13 @@ namespace SharedModels.Data.OracleContexts
                 new OracleParameter("userid", id)
             };
 
-            return GetUserFromRecord(Database.ExecuteReader(query, parameters));
+            return GetUserFromRecord(Database.ExecuteReader(query, parameters).First());
         }
 
         public User Insert(User user)
         {
             var query =
-                "INSERT INTO useraccount (userid, username, password, firstname, surname, country, address, city, postal, phonenumber, permissionlevel) VALUES (seq_user.nextval, :username, :password, :firstname, :surname, :country, :address, :city, :postal, :phonenumber, :permissionlevel)";
+                "INSERT INTO useraccount (userid, username, password, firstname, surname, country, address, city, postal, phonenumber, permissionlevel) VALUES (seq_user.nextval, :username, :password, :firstname, :surname, :country, :address, :city, :postal, :phonenumber, :permissionlevel) RETURNING userid INTO :lastID";
             var parameters = new List<OracleParameter>
             {
                 new OracleParameter("username", user.Username),
@@ -56,15 +50,21 @@ namespace SharedModels.Data.OracleContexts
                 new OracleParameter("city", user.City),
                 new OracleParameter("postal", user.Postal),
                 new OracleParameter("phonenumber", user.Telephone),
-                new OracleParameter("permissionlevel", (int)user.Permission)
+                new OracleParameter("permissionlevel", (int)user.Permission),
+                new OracleParameter("lastID", OracleDbType.Decimal) {Direction = ParameterDirection.ReturnValue}
             };
 
-            return GetUserFromRecord(Database.ExecuteReader(query, parameters));
+            string newID;
+            if (!Database.ExecuteNonQuery(query, out newID, parameters)) return null;
+            var selectQuery = "SELECT * FROM useraccount WHERE userid = :id";
+            var selectParam = new List<OracleParameter> {new OracleParameter("id", Convert.ToInt32(newID))};
+            return GetUserFromRecord(Database.ExecuteReader(selectQuery, selectParam).First());
         }
 
+        // BUG: This query isn't updating for some reason.
         public bool Update(User user)
         {
-            const string query = "UPDATE useraccount SET firstname = :firstname, surname = :surname, country = :country, address = :address, city = :city, postal = :postal, phonenumber = :phonenumber, permissionlevel = :permissionlevel WHERE userid = :userid";
+            const string query = "UPDATE useraccount SET firstname = :firstname, surname = :surname, country = :country, address = :address, city = :city, postal = :postal, phonenumber = :phonenumber, permissionlevel = :permissionlevel WHERE userid = 5";
             var parameters = new List<OracleParameter>
             {
                 new OracleParameter("userid", user.ID),
@@ -84,24 +84,18 @@ namespace SharedModels.Data.OracleContexts
         public bool Delete(User user)
         {
             var query = "DELETE FROM useraccount WHERE userid = :userid";
-            var parameters = new List<OracleParameter> {new OracleParameter("userid", user.ID)};
+            var parameters = new List<OracleParameter> { new OracleParameter("userid", user.ID) };
 
             return Database.ExecuteNonQuery(query, parameters);
         }
 
-        private User GetUserFromRecord(IDataRecord record)
-        {
-            var values = new string[record.FieldCount];
-            for (var i = 0; i < values.Length; i++)
-            {
-                values[i] = record[i].ToString();
-            }
-            
+        private User GetUserFromRecord(List<string> record)
+        {           
             // Date format: 19-10-2015 01:57:21
-            return new User(Convert.ToInt32(values[0]), values[1], values[2], values[3], values[5], values[4],
-                values[7], values[8], values[6], values[9],
-                DateTime.ParseExact(values[10], "dd-MM-yyyy hh:mm:ss", CultureInfo.InvariantCulture),
-                (PermissionType)Convert.ToInt32(values[11]));
+            return new User(Convert.ToInt32(record[0]), record[1], record[2], record[3], record[5], record[4],
+                record[7], record[8], record[6], record[9],
+                DateTime.ParseExact(record[10], "dd-MM-yyyy HH:mm:ss", CultureInfo.InvariantCulture),
+                (PermissionType)Convert.ToInt32(record[11]));
         }
     }
 }
