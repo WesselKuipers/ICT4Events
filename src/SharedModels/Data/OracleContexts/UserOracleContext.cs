@@ -14,8 +14,6 @@ namespace SharedModels.Data.OracleContexts
 {
     public class UserOracleContext : IUserContext
     {
-        // TODO: Test all of these queries.
-
         public List<User> GetAll()
         {
             var query = "SELECT * FROM useraccount ORDER BY userid";
@@ -61,10 +59,11 @@ namespace SharedModels.Data.OracleContexts
             return GetUserFromRecord(Database.ExecuteReader(selectQuery, selectParam).First());
         }
 
-        // BUG: This query isn't updating for some reason.
+        // BUG: This doesn't work in the local XE DB?
         public bool Update(User user)
         {
-            const string query = "UPDATE useraccount SET firstname = :firstname, surname = :surname, country = :country, address = :address, city = :city, postal = :postal, phonenumber = :phonenumber, permissionlevel = :permissionlevel WHERE userid = 5";
+            const string query = "UPDATE useraccount SET firstname = :firstname, surname = :surname, country = :country, address = :address, city = :city, postal = :postal, phonenumber = :phonenumber, permissionlevel = :permissionlevel WHERE userid = :userid";
+
             var parameters = new List<OracleParameter>
             {
                 new OracleParameter("userid", user.ID),
@@ -90,12 +89,11 @@ namespace SharedModels.Data.OracleContexts
         }
 
         private User GetUserFromRecord(List<string> record)
-        {           
+        {
             // Date format: 19-10-2015 01:57:21
-            return new User(Convert.ToInt32(record[0]), record[1], record[2], record[3], record[5], record[4],
+            return new User(Convert.ToInt32(record[0]), record[1], record[2], record[3], record[4], record[5],
                 record[7], record[8], record[6], record[9],
-                DateTime.ParseExact(record[10], "dd-MM-yyyy HH:mm:ss", CultureInfo.InvariantCulture),
-                (PermissionType)Convert.ToInt32(record[11]));
+                DateTime.Parse(record[10]), (PermissionType) Convert.ToInt32(record[11]));
         }
     }
 }

@@ -12,8 +12,8 @@ namespace SharedModels.Data
 {
     public class Database
     {
-        //private static readonly string _connectionString = "User Id=dbi333426;Password=d5igdqmqdY;Data Source=fhictora01.fhict.local/fhictora";
-        private static readonly string _connectionString = "User Id=ICT4Events;Password=wessel;Data Source=127.0.0.1";
+        private static readonly string _connectionString = "User Id=dbi333426;Password=d5igdqmqdY;Data Source=fhictora01.fhict.local/fhictora"; // Oracle DB on Athena
+        //private static readonly string _connectionString = "User Id=ICT4Events;Password=wessel;Data Source=127.0.0.1"; // Oracle XE connection
 
         private static OracleConnection _connection;
 
@@ -131,7 +131,6 @@ namespace SharedModels.Data
         public static bool ExecuteNonQuery(string query, List<OracleParameter> args = null)
         {
             var result = -1;
-
             try
             {
                 using (var con = new OracleCommand(query, Connection))
@@ -140,7 +139,7 @@ namespace SharedModels.Data
                     {
                         foreach (var arg in args)
                         {
-                            con.Parameters.Add(arg);
+                           con.Parameters.Add(arg);
                         }
                     }
 
@@ -163,6 +162,7 @@ namespace SharedModels.Data
         public static bool ExecuteNonQuery(string query, out string returnValue, List<OracleParameter> args = null)
         {
             var result = -1;
+
             OracleParameter returnParameter = null;
             returnValue = string.Empty;
 
@@ -176,7 +176,7 @@ namespace SharedModels.Data
                         {
                             if (arg.Direction == ParameterDirection.ReturnValue)
                             {
-                                 returnParameter = arg;
+                                returnParameter = arg;
                             }
                             con.Parameters.Add(arg);
                         }
@@ -199,8 +199,6 @@ namespace SharedModels.Data
             {
                 Close();
             }
-
-            Close();
 
             return result >= 0;
         }

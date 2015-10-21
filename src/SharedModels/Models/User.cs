@@ -37,6 +37,7 @@ namespace SharedModels.Models
             Password = password;
             Name = name;
             Surname = surname;
+            Country = country;
             City = city;
             Postal = postal;
             Address = address;
