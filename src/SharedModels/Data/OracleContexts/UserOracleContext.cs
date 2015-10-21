@@ -54,9 +54,7 @@ namespace SharedModels.Data.OracleContexts
 
             string newID;
             if (!Database.ExecuteNonQuery(query, out newID, parameters)) return null;
-            var selectQuery = "SELECT * FROM useraccount WHERE userid = :id";
-            var selectParam = new List<OracleParameter> {new OracleParameter("id", Convert.ToInt32(newID))};
-            return GetUserFromRecord(Database.ExecuteReader(selectQuery, selectParam).First());
+            return GetById(Convert.ToInt32(newID));
         }
 
         // BUG: This doesn't work in the local XE DB?

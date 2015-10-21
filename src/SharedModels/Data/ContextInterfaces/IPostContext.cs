@@ -7,13 +7,9 @@ using SharedModels.Models;
 
 namespace SharedModels.Data.ContextInterfaces
 {
-    public interface IPostContext
+    public interface IPostContext : IRepositoryContext<Post, int>
     {
         List<Post> GetAllByEvent(Event ev);
-        Post GetById(int id);
         List<Post> GetRepliesById(int id);
-        Post Insert(Post post);
-        bool Update(Post post);
-        bool Delete(Post post);
     }
 }

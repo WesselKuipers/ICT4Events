@@ -3,11 +3,7 @@ using SharedModels.Models;
 
 namespace SharedModels.Data.ContextInterfaces
 {
-    public interface IGuestContext
+    public interface IGuestContext : IRepositoryContext<Guest, int>
     {
-        List<Guest> GetAllByEvent(Event ev);
-        Guest Insert(Guest guest);
-        bool Update(Guest guest);
-        bool Delete(Guest guest);
     }
 }

@@ -3,12 +3,7 @@ using SharedModels.Models;
 
 namespace SharedModels.Data.ContextInterfaces
 {
-    public interface IUserContext
+    public interface IUserContext : IRepositoryContext<User, int>
     {
-        List<User> GetAll();
-        User GetById(int id);
-        User Insert(User user);
-        bool Update(User user);
-        bool Delete(User user);
     }
 }

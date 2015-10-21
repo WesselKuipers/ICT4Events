@@ -7,12 +7,8 @@ using SharedModels.Models;
 
 namespace SharedModels.Data.ContextInterfaces
 {
-    public interface IMediaContext
+    public interface IMediaContext : IRepositoryContext<Media, int>
     {
-        List<Media> GetAllByUser(User user);
-        Media GetById(int id);
-        Media Insert(Media location);
-        bool Update(Media location);
-        bool Delete(Media location);
+        List<Media> GetAllByGuest(Guest guest);
     }
 }

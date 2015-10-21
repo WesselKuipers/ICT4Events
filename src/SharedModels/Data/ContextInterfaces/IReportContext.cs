@@ -7,12 +7,9 @@ using SharedModels.Models;
 
 namespace SharedModels.Data.ContextInterfaces
 {
-    public interface IReportContext
+    public interface IReportContext : IRepositoryContext<Report, int>
     {
         List<Report> GetAllByPost(Post post);
         Report GetByPostId(int id);
-        Report Insert(Report location);
-        bool Update(Report location);
-        bool Delete(Report location);
     }
 }

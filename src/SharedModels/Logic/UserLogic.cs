@@ -6,6 +6,7 @@ using System.Security.Cryptography;
 using SharedModels.Data.ContextInterfaces;
 using SharedModels.Data.OracleContexts;
 using SharedModels.Enums;
+using SharedModels.Exceptions;
 
 namespace SharedModels.Logic
 {
@@ -87,11 +88,10 @@ namespace SharedModels.Logic
                 smtp.Send(message);
                 return true;
             }
-            catch (Exception e)
+            catch (SmtpException e)
             {
                 throw new Exception(e.Message);
             }
-
         }
 
         /// <summary>
@@ -147,13 +147,5 @@ namespace SharedModels.Logic
 
             return sb.ToString();
         }
-    }
-
-    /// <summary>
-    /// This exception should be thrown when 2 passwords do not match.
-    /// </summary>
-    internal class PasswordsDontMatchException : Exception
-    {
-        public override string Message => "Wachtwoorden komen niet overeen.";
     }
 }

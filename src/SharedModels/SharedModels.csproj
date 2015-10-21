@@ -52,11 +52,14 @@
     <Compile Include="Data\ContextInterfaces\IMediaContext.cs" />
     <Compile Include="Data\ContextInterfaces\IPostContext.cs" />
     <Compile Include="Data\ContextInterfaces\IReportContext.cs" />
+    <Compile Include="Data\ContextInterfaces\IRepositoryContext.cs" />
     <Compile Include="Data\Database.cs" />
     <Compile Include="Data\ContextInterfaces\IUserContext.cs" />
+    <Compile Include="Data\OracleContexts\EventOracleContext.cs" />
     <Compile Include="Data\OracleContexts\UserOracleContext.cs" />
     <Compile Include="Debug\Logger.cs" />
     <Compile Include="Enums\MediaType.cs" />
+    <Compile Include="Exceptions\PasswordsDontMatchException.cs" />
     <Compile Include="Models\Event.cs" />
     <Compile Include="Models\Guest.cs" />
     <Compile Include="Models\Location.cs" />
