@@ -57,7 +57,6 @@
     <Compile Include="Data\ContextInterfaces\IUserContext.cs" />
     <Compile Include="Data\OracleContexts\EntityOracleContext.cs" />
     <Compile Include="Data\OracleContexts\EventOracleContext.cs" />
-    <Compile Include="Data\OracleContexts\GuestOracleContext.cs" />
     <Compile Include="Data\OracleContexts\LocationOracleContext.cs" />
     <Compile Include="Data\OracleContexts\MaterialOracleContext.cs" />
     <Compile Include="Data\OracleContexts\UserOracleContext.cs" />
