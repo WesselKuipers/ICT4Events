@@ -8,6 +8,6 @@
         Duitsland,
         Frankrijk,
         Engeland,
-        Anders
+        Overige
     }
 }
