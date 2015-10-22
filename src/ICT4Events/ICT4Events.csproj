@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ICT4Events</RootNamespace>
     <AssemblyName>ICT4Events</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -72,6 +73,21 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="view\Accountsystem\AccountsystemForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="view\Accountsystem\AccountsystemForm.Designer.cs">
+      <DependentUpon>AccountsystemForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="view\Accountsystem\views\ucEditUser.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="view\Accountsystem\views\ucEditUser.Designer.cs">
+      <DependentUpon>ucEditUser.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -80,7 +96,14 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="view\Accountsystem\AccountsystemForm.resx">
+      <DependentUpon>AccountsystemForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="view\Accountsystem\views\ucEditUser.resx">
+      <DependentUpon>ucEditUser.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

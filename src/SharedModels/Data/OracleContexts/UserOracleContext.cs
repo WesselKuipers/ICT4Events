@@ -67,12 +67,12 @@ namespace SharedModels.Data.OracleContexts
                 new OracleParameter("userid", user.ID),
                 new OracleParameter("firstname", user.Name),
                 new OracleParameter("surname", user.Surname),
-                new OracleParameter("country", user.Country),
+                new OracleParameter("country", user.Country.ToString()),
                 new OracleParameter("address", user.Address),
                 new OracleParameter("city", user.City),
                 new OracleParameter("postal", user.Postal),
                 new OracleParameter("phonenumber", user.Telephone),
-                new OracleParameter("permissionlevel", (int)user.Permission)
+                new OracleParameter("permissionlevel", Convert.ToInt32(user.Permission))
             };
 
             return Database.ExecuteNonQuery(query, parameters);
@@ -89,7 +89,7 @@ namespace SharedModels.Data.OracleContexts
         private User GetUserFromRecord(List<string> record)
         {
             // Date format: 19-10-2015 01:57:21
-            return new User(Convert.ToInt32(record[0]), record[1], record[2], record[3], record[4], record[5],
+            return new User(Convert.ToInt32(record[0]), record[1], record[2], record[3], record[4], (Country)Convert.ToInt32(record[5]),
                 record[7], record[8], record[6], record[9],
                 DateTime.Parse(record[10]), (PermissionType) Convert.ToInt32(record[11]));
         }

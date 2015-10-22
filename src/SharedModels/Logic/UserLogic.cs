@@ -70,8 +70,8 @@ namespace SharedModels.Logic
         /// <returns>true if mail was successfully send, throws exception if sending mail fails</returns>
         private static bool SendConfirmationEmail(User user)
         {
-            // TODO: Create a new email account for ICT4Events
-            var message = new MailMessage("ICT4EventsEmail@test.com", user.Username)
+            // TODO: to should be user.Username
+            var message = new MailMessage("ict4events.s21a@gmail.com", "goos.bekerom@gmail.com")
             {
                 Subject = "Confirmation of your new user account for ICT4Events",
                 Body =
@@ -81,7 +81,7 @@ namespace SharedModels.Logic
             };
 
             // TODO: Find out what our smtp host is
-            var smtp = new SmtpClient("Wat is onze smtp host?");
+            var smtp = new SmtpClient("smtp.gmail.com", 587);
 
             try
             {
