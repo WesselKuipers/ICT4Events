@@ -1,12 +1,16 @@
 ﻿namespace SharedModels.Models
 {
-    /// <summary>
-    /// TODO: Inquire about MaterialType properties
-    /// </summary>
+    // TODO: Specify event?
     public class MaterialType
     {
         public int ID { get; }
         public string Name { get; set; }
-        public Event Event { get; }
+        //public int EventID { get; }
+
+        public MaterialType(int id, string name)
+        {
+            ID = id;
+            Name = name;
+        }
     }
 }
