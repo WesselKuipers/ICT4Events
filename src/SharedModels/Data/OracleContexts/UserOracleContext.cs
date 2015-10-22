@@ -12,25 +12,25 @@ using SharedModels.Models;
 
 namespace SharedModels.Data.OracleContexts
 {
-    public class UserOracleContext : IUserContext
+    public class UserOracleContext : EntityOracleContext<User>, IUserContext
     {
         public List<User> GetAll()
         {
             var query = "SELECT * FROM useraccount ORDER BY userid";
             var res = Database.ExecuteReader(query);
 
-            return res.Select(GetUserFromRecord).ToList();
+            return res.Select(GetEntityFromRecord).ToList();
         }
 
-        public User GetById(int id)
+        public User GetById(object id)
         {
             var query = "SELECT * FROM useraccount WHERE userid = :userid";
             var parameters = new List<OracleParameter>
             {
-                new OracleParameter("userid", id)
+                new OracleParameter("userid", (int) id)
             };
 
-            return GetUserFromRecord(Database.ExecuteReader(query, parameters).First());
+            return GetEntityFromRecord(Database.ExecuteReader(query, parameters).First());
         }
 
         public User Insert(User user)
@@ -86,7 +86,7 @@ namespace SharedModels.Data.OracleContexts
             return Database.ExecuteNonQuery(query, parameters);
         }
 
-        private User GetUserFromRecord(List<string> record)
+        protected override User GetEntityFromRecord(List<string> record)
         {
             // Date format: 19-10-2015 01:57:21
             return new User(Convert.ToInt32(record[0]), record[1], record[2], record[3], record[4], (Country)Convert.ToInt32(record[5]),

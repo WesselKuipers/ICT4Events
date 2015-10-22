@@ -10,7 +10,7 @@ namespace SharedModels.Models
     {
         public Post MainPost { get; }
 
-        public Reply(int id, Guest guest, Media media, string content, Post mainPost) : base(id, guest, media, content)
+        public Reply(int id, int guestID, int mediaID, string content, Post mainPost) : base(id, guestID, mediaID, content)
         {
             MainPost = mainPost;
         }

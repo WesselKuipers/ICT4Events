@@ -10,24 +10,24 @@ namespace SharedModels.Models
     {
         public int ID { get; }
         public string Name { get; set; }
-        public Event Event { get; }
-        public MaterialType Type { get; set; }
-        public Guest Guest { get; set; }
+        public int EventID { get; }
+        public int TypeID { get; set; }
+        public int GuestID { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
 
-        public Material(int id, string name, Event ev, MaterialType type)
+        public Material(int id, string name, int ev, int type)
         {
             ID = id;
             Name = name;
-            Event = ev;
-            Type = type;
+            EventID = ev;
+            TypeID = type;
         }
 
-        public Material(int id, string name, Event ev, MaterialType type, Guest guest, DateTime start, DateTime end)
+        public Material(int id, string name, int ev, int type, DateTime start, DateTime end, int guest = 0)
             : this(id, name, ev, type)
         {
-            Guest = guest;
+            GuestID = guest;
             StartDate = start;
             EndDate = end;
         }

@@ -7,7 +7,7 @@ using SharedModels.Models;
 
 namespace SharedModels.Data.ContextInterfaces
 {
-    public interface IMediaContext : IRepositoryContext<Media, int>
+    public interface IMediaContext : IRepositoryContext<Media>
     {
         List<Media> GetAllByGuest(Guest guest);
     }
