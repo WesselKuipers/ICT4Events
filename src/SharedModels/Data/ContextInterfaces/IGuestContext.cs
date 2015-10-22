@@ -3,7 +3,7 @@ using SharedModels.Models;
 
 namespace SharedModels.Data.ContextInterfaces
 {
-    public interface IGuestContext : IRepositoryContext<Guest, int>
+    public interface IGuestContext : IRepositoryContext<Guest>
     {
     }
 }

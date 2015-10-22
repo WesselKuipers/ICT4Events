@@ -8,25 +8,25 @@ using SharedModels.Models;
 
 namespace SharedModels.Data.OracleContexts
 {
-    public class EventOracleContext : IEventContext
+    public class EventOracleContext : EntityOracleContext<Event>, IEventContext
     {
         public List<Event> GetAll()
         {
             var query = "SELECT * FROM event ORDER BY eventid";
             var res = Database.ExecuteReader(query);
 
-            return res.Select(GetEventFromRecord).ToList();
+            return res.Select(GetEntityFromRecord).ToList();
         }
 
-        public Event GetById(int id)
+        public Event GetById(object id)
         {
             var query = "SELECT * FROM event WHERE eventid = :eventid";
             var parameters = new List<OracleParameter>
             {
-                new OracleParameter("eventid", id)
+                new OracleParameter("eventid", (int) id)
             };
 
-            return GetEventFromRecord(Database.ExecuteReader(query, parameters).First());
+            return GetEntityFromRecord(Database.ExecuteReader(query, parameters).First());
         }
 
         public Event Insert(Event ev)
@@ -75,7 +75,7 @@ namespace SharedModels.Data.OracleContexts
             return Database.ExecuteNonQuery(query, parameters);
         }
 
-        private Event GetEventFromRecord(List<string> record)
+        protected override Event GetEntityFromRecord(List<string> record)
         {
             return new Event(Convert.ToInt32(record[0]), record[1], DateTime.Parse(record[2]), DateTime.Parse(record[3]),
                 record[4], record[5], Convert.ToInt32(record[6]));

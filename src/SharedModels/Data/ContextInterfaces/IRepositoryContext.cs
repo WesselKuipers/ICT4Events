@@ -7,10 +7,10 @@ namespace SharedModels.Data.ContextInterfaces
     /// </summary>
     /// <typeparam name="TEntity">Type of model implemented</typeparam>
     /// <typeparam name="TKey">Type of key used for identification</typeparam>
-    public interface IRepositoryContext<TEntity, in TKey> where TEntity : class
+    public interface IRepositoryContext<TEntity> where TEntity : class
     {
         List<TEntity> GetAll();
-        TEntity GetById(TKey id);
+        TEntity GetById(object id);
         TEntity Insert(TEntity entity);
         bool Update(TEntity entity);
         bool Delete(TEntity entity);

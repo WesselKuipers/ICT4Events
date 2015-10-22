@@ -10,8 +10,8 @@ namespace SharedModels.Models
     public class Post
     {
         public int ID { get; }
-        public Guest Author { get; }
-        public Media Media { get; set; }
+        public int GuestID { get; }
+        public int MediaID { get; set; }
         public string Content { get; set; }
 
         // TODO: Check if it's more desired to do a more accurate split like:
@@ -20,11 +20,11 @@ namespace SharedModels.Models
 
         public bool Visible { get; set; } = true;
 
-        public Post(int id, Guest guest, Media media, string content)
+        public Post(int id, int guestID, int mediaID, string content)
         {
             ID = id;
-            Author = guest;
-            Media = media;
+            GuestID = guestID;
+            MediaID = mediaID;
             Content = content;
         }
     }

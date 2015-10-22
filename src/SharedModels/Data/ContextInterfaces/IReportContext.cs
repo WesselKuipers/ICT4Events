@@ -7,7 +7,7 @@ using SharedModels.Models;
 
 namespace SharedModels.Data.ContextInterfaces
 {
-    public interface IReportContext : IRepositoryContext<Report, int>
+    public interface IReportContext : IRepositoryContext<Report>
     {
         List<Report> GetAllByPost(Post post);
         Report GetByPostId(int id);

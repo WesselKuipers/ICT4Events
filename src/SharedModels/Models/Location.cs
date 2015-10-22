@@ -5,15 +5,19 @@ namespace SharedModels.Models
     public class Location
     {
         public int ID { get; }
+        public int EventID { get; }
+        public string Name { get; set; }
         public int Capacity { get; set; }
-        public Event Event { get; }
+        public decimal Price { get; set; }
         public Point Coordinates { get; set; }
 
-        public Location(int id, int capacity, Event ev, Point coords)
+        public Location(int id, int eventID, string name, int capacity, decimal price, Point coords)
         {
             ID = id;
+            EventID = eventID;
+            Name = name;
             Capacity = capacity;
-            Event = ev;
+            Price = price;
             Coordinates = coords;
         }
 

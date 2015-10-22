@@ -7,7 +7,7 @@ using SharedModels.Models;
 
 namespace SharedModels.Data.ContextInterfaces
 {
-    public interface IEventContext : IRepositoryContext<Event, int>
+    public interface IEventContext : IRepositoryContext<Event>
     {
     }
 }
