@@ -30,9 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Oracle.DataAccess, Version=4.112.2.0, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=AMD64">
+    <Reference Include="Oracle.DataAccess, Version=4.121.2.0, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\app\Wessel\product\11.2.0\client_1\odp.net\bin\4\Oracle.DataAccess.dll</HintPath>
+      <HintPath>..\..\lib\Oracle.DataAccess.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -57,11 +57,11 @@
     <Compile Include="Data\ContextInterfaces\IUserContext.cs" />
     <Compile Include="Data\OracleContexts\EntityOracleContext.cs" />
     <Compile Include="Data\OracleContexts\EventOracleContext.cs" />
-    <Compile Include="Data\OracleContexts\GuestOracleContext.cs" />
     <Compile Include="Data\OracleContexts\LocationOracleContext.cs" />
     <Compile Include="Data\OracleContexts\MaterialOracleContext.cs" />
     <Compile Include="Data\OracleContexts\UserOracleContext.cs" />
     <Compile Include="Debug\Logger.cs" />
+    <Compile Include="Enums\Country.cs" />
     <Compile Include="Enums\MediaType.cs" />
     <Compile Include="Exceptions\PasswordsDontMatchException.cs" />
     <Compile Include="Models\Event.cs" />
