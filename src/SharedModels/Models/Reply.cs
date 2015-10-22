@@ -8,11 +8,11 @@ namespace SharedModels.Models
 {
     public class Reply : Post
     {
-        public Post MainPost { get; }
+        public int MainPostID { get; }
 
-        public Reply(int id, int guestID, int mediaID, string content, Post mainPost) : base(id, guestID, mediaID, content)
+        public Reply(int id, int guestId, int eventId, int mediaId, int mainPostId, DateTime date, bool visible, string content) : base(id, guestId, eventId, mediaId, date, visible, content)
         {
-            MainPost = mainPost;
+            MainPostID = mainPostId;
         }
     }
 }

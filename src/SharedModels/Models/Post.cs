@@ -11,20 +11,24 @@ namespace SharedModels.Models
     {
         public int ID { get; }
         public int GuestID { get; }
+        public int EventID { get; }
         public int MediaID { get; set; }
+        public DateTime Date { get; set; }
+        public bool Visible { get; set; }
         public string Content { get; set; }
 
         // TODO: Check if it's more desired to do a more accurate split like:
         // http://stackoverflow.com/questions/16725848/how-to-split-text-into-words
         public List<string> Tags => Content.Split(' ').Where(word => word.StartsWith("#")).ToList();
 
-        public bool Visible { get; set; } = true;
-
-        public Post(int id, int guestID, int mediaID, string content)
+        public Post(int id, int guestId, int eventId, int mediaId, DateTime date, bool visible, string content)
         {
             ID = id;
-            GuestID = guestID;
-            MediaID = mediaID;
+            GuestID = guestId;
+            EventID = eventId;
+            MediaID = mediaId;
+            Date = date;
+            Visible = visible;
             Content = content;
         }
     }

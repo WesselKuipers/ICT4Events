@@ -80,7 +80,7 @@ namespace SharedModels.Data.OracleContexts
             var parameters = new List<OracleParameter>
             {
                 new OracleParameter("eventid", guest.EventID),
-                new OracleParameter("eventid", guest.ID)
+                new OracleParameter("userid", guest.ID)
             };
 
             var res = Database.ExecuteReader(query, parameters);

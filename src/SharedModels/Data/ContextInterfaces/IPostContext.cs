@@ -10,6 +10,6 @@ namespace SharedModels.Data.ContextInterfaces
     public interface IPostContext : IRepositoryContext<Post>
     {
         List<Post> GetAllByEvent(Event ev);
-        List<Post> GetRepliesById(int id);
+        List<Reply> GetRepliesByPost(Post post);
     }
 }
