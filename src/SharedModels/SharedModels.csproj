@@ -60,6 +60,7 @@
     <Compile Include="Data\OracleContexts\GuestOracleContext.cs" />
     <Compile Include="Data\OracleContexts\LocationOracleContext.cs" />
     <Compile Include="Data\OracleContexts\MaterialOracleContext.cs" />
+    <Compile Include="Data\OracleContexts\MediaOracleContext.cs" />
     <Compile Include="Data\OracleContexts\UserOracleContext.cs" />
     <Compile Include="Debug\Logger.cs" />
     <Compile Include="Enums\Country.cs" />
