@@ -144,7 +144,7 @@ namespace SharedModels.Data.OracleContexts
             {
                 material.GuestID = Convert.ToInt32(record[4]);
                 material.StartDate = DateTime.Parse(record[5]);
-                material.StartDate = DateTime.Parse(record[6]);
+                material.EndDate = DateTime.Parse(record[6]);
             }
 
             return material;
