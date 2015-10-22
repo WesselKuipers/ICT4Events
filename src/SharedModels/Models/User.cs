@@ -14,7 +14,7 @@ namespace SharedModels.Models
         public string Username { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
-        public string Password { get; set; } // Hashed of course
+        public string Password { get; set; }
         public Country Country { get; set; }
         public string City { get; set; }
         public string Postal { get; set; }

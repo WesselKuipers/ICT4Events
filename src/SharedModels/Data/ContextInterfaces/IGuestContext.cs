@@ -5,5 +5,6 @@ namespace SharedModels.Data.ContextInterfaces
 {
     public interface IGuestContext : IRepositoryContext<Guest>
     {
+        List<Guest> GetByEvent(Event ev);
     }
 }

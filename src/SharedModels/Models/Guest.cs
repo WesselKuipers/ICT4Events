@@ -7,25 +7,25 @@ namespace SharedModels.Models
     {
         public string PassID { get; set; }
         public bool Paid { get; set; }
-        public Event Event { get; }
+        public int EventID { get; }
         public bool Present { get; set; }
         public DateTime StartDate { get; }
         public DateTime EndDate { get; }
-        public Location Location { get; set; }
+        public int LocationID { get; set; }
 
-        public Guest(int id, string username, string password, string name, string passId, bool paid, Event ev,
-            bool present, DateTime startDate, DateTime endDate, Location location, DateTime regDate = new DateTime(),
+        public Guest(int id, string username, string password, string name, string passId, bool paid, int eventID,
+            bool present, DateTime startDate, DateTime endDate, int locationID, DateTime regDate = new DateTime(),
             PermissionType permission = PermissionType.User, string surname = "", Country country = Country.Nederland, string city = "",
             string postal = "", string address = "", string telephone = "")
             : base(id, username, password, name, surname, country, city, postal, address, telephone, regDate, permission)
         {
             PassID = passId;
             Paid = paid;
-            Event = ev;
+            EventID = eventID;
             Present = present;
             StartDate = startDate;
             EndDate = endDate;
-            Location = location;
+            LocationID = locationID;
         }
     }
 }
