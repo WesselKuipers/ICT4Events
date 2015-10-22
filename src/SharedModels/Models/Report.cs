@@ -14,7 +14,7 @@ namespace SharedModels.Models
         public DateTime Date { get; set; }
         public bool Status { get; set; } // Is a status type enum actually necessary?
 
-        public Report(int guestID, int postID, string reason, DateTime date, bool status)
+        public Report(int guestID, int postID, string reason, DateTime date, bool status = false)
         {
             GuestID = guestID;
             PostID = postID;
