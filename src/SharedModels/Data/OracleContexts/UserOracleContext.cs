@@ -86,10 +86,23 @@ namespace SharedModels.Data.OracleContexts
             return Database.ExecuteNonQuery(query, parameters);
         }
 
+        public User AuthenticateUser(string username, string password)
+        {
+            var query = "SELECT * FROM useraccount WHERE username = :username AND password = :password AND ROWNUM <= 1";
+            var parameters = new List<OracleParameter>
+            {
+                new OracleParameter("username", username),
+                new OracleParameter("password", password),
+            };
+
+            return GetEntityFromRecord(Database.ExecuteReader(query, parameters).First());
+        }
+
         protected override User GetEntityFromRecord(List<string> record)
         {
             // Date format: 19-10-2015 01:57:21
-            return new User(Convert.ToInt32(record[0]), record[1], record[2], record[3], record[4], (Country)Convert.ToInt32(record[5]),
+
+            return new User(Convert.ToInt32(record[0]), record[1], record[2], record[3], record[4], (Country) Enum.Parse(typeof(Country), record[5]),
                 record[7], record[8], record[6], record[9],
                 DateTime.Parse(record[10]), (PermissionType) Convert.ToInt32(record[11]));
         }
