@@ -1,6 +1,6 @@
-﻿namespace ICT4Events.view.Accountsystem
+﻿namespace ICT4Events.Views.Accountsystem
 {
-    partial class AccountsystemForm
+    partial class AccountSystemForm
     {
         /// <summary>
         /// Required designer variable.

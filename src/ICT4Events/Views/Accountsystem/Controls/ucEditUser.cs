@@ -4,7 +4,7 @@ using SharedModels.Enums;
 using SharedModels.Logic;
 using SharedModels.Models;
 
-namespace ICT4Events.view.Accountsystem.views
+namespace ICT4Events.Views.Accountsystem.Controls
 {
     public partial class UcEditUser : UserControl
     {

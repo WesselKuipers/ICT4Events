@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using ICT4Events.view.Accountsystem;
+using ICT4Events.Views.Accountsystem;
 using SharedModels.Enums;
 using SharedModels.Models;
 
@@ -15,14 +15,16 @@ namespace ICT4Events
 {
     public partial class Form1 : Form
     {
-        public Form1()
+        private User _user;
+
+        public Form1(User user)
         {
             InitializeComponent();
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            new AccountsystemForm(
+            new AccountSystemForm(
                 new User(
                     1,
                     "test@test.nl",
@@ -38,6 +40,11 @@ namespace ICT4Events
                     PermissionType.Administrator
                 )
             ).ShowDialog();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

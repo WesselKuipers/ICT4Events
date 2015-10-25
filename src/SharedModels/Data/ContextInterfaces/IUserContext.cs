@@ -5,5 +5,6 @@ namespace SharedModels.Data.ContextInterfaces
 {
     public interface IUserContext : IRepositoryContext<User>
     {
+        User AuthenticateUser(string username, string password);
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace ICT4Events.view.Accountsystem.views
+﻿namespace ICT4Events.Views.Accountsystem.Controls
 {
     partial class UcEditUser
     {

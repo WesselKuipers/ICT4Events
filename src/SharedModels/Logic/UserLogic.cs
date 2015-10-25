@@ -1,5 +1,7 @@
 ﻿using System;
+using System.CodeDom;
 using System.Net.Mail;
+using System.Security.Authentication;
 using System.Text;
 using SharedModels.Models;
 using System.Security.Cryptography;
@@ -46,7 +48,7 @@ namespace SharedModels.Logic
         /// Gets a hashed password.
         /// </summary>
         /// <param name="password">password to hash</param>
-        public static string GetHashedPassword(string password)
+        public string GetHashedPassword(string password)
         {
             return GetHashString(password + Salt);
         }
@@ -61,6 +63,24 @@ namespace SharedModels.Logic
             var registeredUser = _context.Insert(user);
             SendConfirmationEmail(registeredUser);
             return registeredUser;
+        }
+
+        /// <summary>
+        /// Authenticates given username and password to check whether their credentials match with an account
+        /// </summary>
+        /// <param name="username">Given username (email)</param>
+        /// <param name="password">Given password</param>
+        /// <returns>User that matches given credentials</returns>
+        public User AuthenticateUser(string username, string password)
+        {
+            var user = _context.AuthenticateUser(username, password);
+
+            if (user != null)
+            {
+                return user;
+            }
+
+            throw new InvalidCredentialException("Uw inloggegevens komen niet overeen met een bestaand account.");
         }
 
         /// <summary>

@@ -1,16 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Windows.Forms;
-using ICT4Events.view.Accountsystem.views;
+using ICT4Events.Views.Accountsystem.Controls;
 using SharedModels.Models;
 
-namespace ICT4Events.view.Accountsystem
+namespace ICT4Events.Views.Accountsystem
 {
-    public partial class AccountsystemForm : Form
+    public partial class AccountSystemForm : Form
     {
         private readonly User _user;
 
-        public AccountsystemForm(User user)
+        public AccountSystemForm(User user)
         {
             InitializeComponent();
             _user = user;

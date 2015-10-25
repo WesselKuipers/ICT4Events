@@ -71,19 +71,31 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="view\Accountsystem\AccountsystemForm.cs">
+    <Compile Include="Views\LoginForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="view\Accountsystem\AccountsystemForm.Designer.cs">
-      <DependentUpon>AccountsystemForm.cs</DependentUpon>
+    <Compile Include="Views\LoginForm.Designer.cs">
+      <DependentUpon>LoginForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="view\Accountsystem\views\ucEditUser.cs">
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Views\Accountsystem\AccountSystemForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Accountsystem\AccountSystemForm.Designer.cs">
+      <DependentUpon>AccountSystemForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Accountsystem\Controls\ucEditUser.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="view\Accountsystem\views\ucEditUser.Designer.cs">
+    <Compile Include="Views\Accountsystem\Controls\ucEditUser.Designer.cs">
       <DependentUpon>ucEditUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Reservation System\ReservationSystemForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Reservation System\ReservationSystemForm.Designer.cs">
+      <DependentUpon>ReservationSystemForm.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
@@ -98,11 +110,14 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="view\Accountsystem\AccountsystemForm.resx">
-      <DependentUpon>AccountsystemForm.cs</DependentUpon>
+    <EmbeddedResource Include="Views\Accountsystem\AccountSystemForm.resx">
+      <DependentUpon>AccountSystemForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="view\Accountsystem\views\ucEditUser.resx">
+    <EmbeddedResource Include="Views\Accountsystem\Controls\ucEditUser.resx">
       <DependentUpon>ucEditUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\LoginForm.resx">
+      <DependentUpon>LoginForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -122,6 +137,9 @@
       <Project>{315d421a-3904-4926-8492-1b0316c435d3}</Project>
       <Name>SharedModels</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Views\Reservation System\Controls\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
