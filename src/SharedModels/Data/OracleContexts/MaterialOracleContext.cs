@@ -137,6 +137,8 @@ namespace SharedModels.Data.OracleContexts
 
         protected override Material GetEntityFromRecord(List<string> record)
         {
+            if (record == null) return null;
+
             var material = new Material(Convert.ToInt32(record[0]), record[3], Convert.ToInt32(record[1]),
                 Convert.ToInt32(record[2]));
 

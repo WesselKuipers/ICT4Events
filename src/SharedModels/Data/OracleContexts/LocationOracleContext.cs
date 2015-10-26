@@ -87,6 +87,8 @@ namespace SharedModels.Data.OracleContexts
 
         protected override Location GetEntityFromRecord(List<string> record)
         {
+            if (record == null) return null;
+
             return new Location(Convert.ToInt32(record[0]), Convert.ToInt32(record[1]), record[2], Convert.ToInt32(record[3]),
                 Convert.ToDecimal(record[4]), new Point(Convert.ToInt32(record[5]), Convert.ToInt32(record[6])));
         }

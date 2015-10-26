@@ -69,7 +69,7 @@ namespace SharedModels.Data.OracleContexts
 
         protected override MaterialType GetEntityFromRecord(List<string> record)
         {
-            return new MaterialType(Convert.ToInt32(record[0]), record[1]);
+            return record == null ? null : new MaterialType(Convert.ToInt32(record[0]), record[1]);
         }
     }
 }

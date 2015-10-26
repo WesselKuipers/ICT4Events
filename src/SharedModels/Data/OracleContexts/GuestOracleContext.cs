@@ -10,7 +10,7 @@ using SharedModels.Models;
 
 namespace SharedModels.Data.OracleContexts
 {
-    class GuestOracleContext : EntityOracleContext<Guest>, IGuestContext
+    public class GuestOracleContext : EntityOracleContext<Guest>, IGuestContext
     {
         public List<Guest> GetAll()
         {
@@ -82,7 +82,7 @@ namespace SharedModels.Data.OracleContexts
             return Database.ExecuteNonQuery(query, parameters);
         }
 
-        public List<Guest> GetByEvent(Event ev)
+        public List<Guest> GetAllByEvent(Event ev)
         {
             var query =
                 "SELECT u.*, g.locationid, g.passid, g.paid, g.datestart, g.dateend FROM guest g INNER JOIN useraccount u ON g.userid = u.userid WHERE eventid = :eventid";
@@ -95,8 +95,34 @@ namespace SharedModels.Data.OracleContexts
             return res.Select(GetEntityFromRecord).ToList();
         }
 
+        public Guest GetGuestByEvent(Event ev, int userID)
+        {
+            var query =
+                "SELECT u.*, g.locationid, g.passid, g.paid, g.datestart, g.dateend FROM guest g INNER JOIN useraccount u ON g.userid = u.userid WHERE eventid = :eventid AND g.userid = :userid";
+            var parameters = new List<OracleParameter>
+            {
+                new OracleParameter("eventid", ev.ID),
+                new OracleParameter("userid", userID)
+            };
+
+            return GetEntityFromRecord(Database.ExecuteReader(query, parameters).FirstOrDefault());
+        }
+
+        public int GetGuestCountByEvent(Event ev)
+        {
+            var query = "SELECT COUNT(*) FROM guest WHERE eventid = :eventid";
+            var parameters = new List<OracleParameter>
+            {
+                new OracleParameter("eventid", ev.ID)
+            };
+
+            return Convert.ToInt32(Database.ExecuteScalar(query, parameters));
+        }
+
         protected override Guest GetEntityFromRecord(List<string> record)
         {
+            if (record == null) return null;
+            
             // userid username password firstname surname country address city postal phonenumber regdate permissionlevel eventid locationid passid paid present datestart dateend
             // 0      1        2        3         4       5       6       7    8      9           10      11              12      13         14     15   16      17        18    
             return new Guest(Convert.ToInt32(record[0]), record[1], record[2], record[3], record[14],

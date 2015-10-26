@@ -90,6 +90,8 @@ namespace SharedModels.Data.OracleContexts
 
         protected override Media GetEntityFromRecord(List<string> record)
         {
+            if (record == null) return null;
+
             return new Media(Convert.ToInt32(record[0]), Convert.ToInt32(record[1]), Convert.ToInt32(record[2]),
                 (MediaType) Convert.ToInt32(record[3]), record[4], record[5], record[6]);
         }
