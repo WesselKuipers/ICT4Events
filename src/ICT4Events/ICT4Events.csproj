@@ -81,6 +81,18 @@
     <Compile Include="Views\Accountsystem\Controls\ucDeleteUser.Designer.cs">
       <DependentUpon>ucDeleteUser.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\Accountsystem\Controls\ucManagePermissions.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\Accountsystem\Controls\ucManagePermissions.Designer.cs">
+      <DependentUpon>ucManagePermissions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Accountsystem\RegisterUserForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Accountsystem\RegisterUserForm.Designer.cs">
+      <DependentUpon>RegisterUserForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\LoginForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -141,6 +153,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Accountsystem\Controls\ucEditUser.resx">
       <DependentUpon>ucEditUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Accountsystem\Controls\ucManagePermissions.resx">
+      <DependentUpon>ucManagePermissions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Accountsystem\RegisterUserForm.resx">
+      <DependentUpon>RegisterUserForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>

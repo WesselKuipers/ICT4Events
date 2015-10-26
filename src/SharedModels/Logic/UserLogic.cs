@@ -34,15 +34,14 @@ namespace SharedModels.Logic
 
         // TODO: Move this method to UI logic? Or: Pass user object
         /// <summary>
-        /// Sets the password for a user if the 2 given passwords match.
+        /// Hashes the password for a user if the 2 given passwords match.
         /// </summary>
-        /// <param name="user">user to set password for</param>
         /// <param name="password">password given by user</param>
         /// <param name="passwordAgain">password again given by user</param>
-        public void SetPassword(User user, string password, string passwordAgain)
+        public string CheckAndHashPassword(string password, string passwordAgain)
         {
             if (string.Equals(password, passwordAgain))
-                user.Password = GetHashString(password + Salt);
+                return GetHashString(password + Salt);
             else
                 throw new PasswordsDontMatchException();
         }
