@@ -17,15 +17,20 @@ namespace SharedModels.Logic
             _context = context;
         }
 
+        public Guest GetGuestByEvent(Event ev, int userID)
+        {
+            return _context.GetGuestByEvent(ev, userID);
+        }
+
         public int GetGuestCountByEvent(Event ev)
         {
             return _context.GetGuestCountByEvent(ev);
         }
 
-        public Guest GetGuestByEvent(Event ev, int userID)
+        public int GetGuestsByLocation(Location location)
         {
-            return _context.GetGuestByEvent(ev, userID);
-        }
+            return _context.GetGuestCountByLocation(location);
+        } 
 
         public bool UpdateGuest(Guest guest)
         {

@@ -17,8 +17,11 @@ namespace ICT4Events.Views.Reservation_System
     public partial class ReservationSystemForm : Form
     {
         private User _user;
+
         private EventLogic _eventRepo;
         private GuestLogic _guestRepo;
+        private LocationLogic _locationRepo;
+
         private List<Event> _events;
         private Guest _guest;
 
@@ -28,6 +31,7 @@ namespace ICT4Events.Views.Reservation_System
             _user = user;
             _eventRepo = new EventLogic(new EventOracleContext());
             _guestRepo = new GuestLogic(new GuestOracleContext());
+            _locationRepo = new LocationLogic(new LocationOracleContext());
 
             _events = _eventRepo.GetAllEvents();
 
@@ -67,6 +71,11 @@ namespace ICT4Events.Views.Reservation_System
             // TODO: Make sure this actually gets saved here
             picEventMap.ImageLocation = $"{Properties.Settings.Default.FTPAddress}/{ev.ID}/{ev.MapPath}";
 
+            RefreshStatus();
+        }
+
+        public void RefreshStatus()
+        {
             if (_guest != null)
             {
                 lblGuestStatus.Text = "Ingeschreven, " + (_guest.Paid ? "betaald" : "niet betaald");
@@ -87,17 +96,24 @@ namespace ICT4Events.Views.Reservation_System
 
         private void btnRegisterForEvent_Click(object sender, EventArgs e)
         {
+            var guestRegistrationForm = new GuestRegistrationForm(_user, (Event) cmbEvents.SelectedItem);
 
+            if (guestRegistrationForm.ShowDialog() != DialogResult.OK) return;
+            _guest = guestRegistrationForm.Guest;
+            RefreshStatus();
         }
 
         private void btnPayForEvent_Click(object sender, EventArgs e)
         {
-            var totalAmount = 0;
-            if (new GuestPaymentForm(totalAmount).ShowDialog() == DialogResult.OK)
-            {
-                _guest.Paid = true;
-                _guestRepo.UpdateGuest(_guest);
-            }
+            var location = _locationRepo.GetLocationByID(_guest.LocationID);
+
+            var totalAmount = location.Price;
+
+            if (new GuestPaymentForm(totalAmount).ShowDialog() != DialogResult.OK) return;
+
+            _guest.Paid = true;
+            _guestRepo.UpdateGuest(_guest);
+            RefreshStatus();
         }
     }
 }

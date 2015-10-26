@@ -107,6 +107,7 @@
     <Compile Include="Views\Reservation System\Forms\GuestRegistrationForm.Designer.cs">
       <DependentUpon>GuestRegistrationForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\Reservation System\Forms\InvalidEventRegistrationException.cs" />
     <Compile Include="Views\Reservation System\ReservationSystemForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -137,6 +138,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Reservation System\Forms\GuestPaymentForm.resx">
       <DependentUpon>GuestPaymentForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Reservation System\Forms\GuestRegistrationForm.resx">
+      <DependentUpon>GuestRegistrationForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Reservation System\ReservationSystemForm.resx">
       <DependentUpon>ReservationSystemForm.cs</DependentUpon>

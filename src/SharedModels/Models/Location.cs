@@ -21,5 +21,9 @@ namespace SharedModels.Models
             Coordinates = coords;
         }
 
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }

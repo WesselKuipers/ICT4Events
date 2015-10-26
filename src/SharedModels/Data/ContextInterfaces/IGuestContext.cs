@@ -8,5 +8,6 @@ namespace SharedModels.Data.ContextInterfaces
         List<Guest> GetAllByEvent(Event ev);
         Guest GetGuestByEvent(Event ev, int userID);
         int GetGuestCountByEvent(Event ev);
+        int GetGuestCountByLocation(Location location);
     }
 }

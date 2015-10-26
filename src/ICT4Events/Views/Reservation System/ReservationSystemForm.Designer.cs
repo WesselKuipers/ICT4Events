@@ -159,9 +159,9 @@
             this.picEventMap.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.picEventMap.Location = new System.Drawing.Point(355, 97);
+            this.picEventMap.Location = new System.Drawing.Point(355, 123);
             this.picEventMap.Name = "picEventMap";
-            this.picEventMap.Size = new System.Drawing.Size(255, 184);
+            this.picEventMap.Size = new System.Drawing.Size(255, 158);
             this.picEventMap.TabIndex = 12;
             this.picEventMap.TabStop = false;
             // 

@@ -48,11 +48,13 @@ namespace ICT4Events.Views
             if (string.IsNullOrWhiteSpace(txtUsername.Text))
             {
                 MessageBox.Show("Gebruikersnaam is niet ingevuld!");
+                return;
             }
 
             if (string.IsNullOrWhiteSpace(txtPassword.Text))
             {
                 MessageBox.Show("Wachtwoord is niet ingevuld!");
+                return;
             }
 
             try

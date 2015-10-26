@@ -119,6 +119,17 @@ namespace SharedModels.Data.OracleContexts
             return Convert.ToInt32(Database.ExecuteScalar(query, parameters));
         }
 
+        public int GetGuestCountByLocation(Location location)
+        {
+            var query = "SELECT COUNT(*) FROM guest WHERE locationid = :locationid";
+            var parameters = new List<OracleParameter>
+            {
+                new OracleParameter("locationid", location.ID)
+            };
+
+            return Convert.ToInt32(Database.ExecuteScalar(query, parameters));
+        }
+
         protected override Guest GetEntityFromRecord(List<string> record)
         {
             if (record == null) return null;
