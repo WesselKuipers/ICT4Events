@@ -77,6 +77,8 @@ namespace SharedModels.Data.OracleContexts
 
         protected override Event GetEntityFromRecord(List<string> record)
         {
+            if (record == null) return null;
+
             return new Event(Convert.ToInt32(record[0]), record[1], DateTime.Parse(record[2]), DateTime.Parse(record[3]),
                 record[4], record[5], Convert.ToInt32(record[6]));
         }

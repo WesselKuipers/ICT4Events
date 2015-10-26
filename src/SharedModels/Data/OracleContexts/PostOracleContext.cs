@@ -113,6 +113,8 @@ namespace SharedModels.Data.OracleContexts
 
         private Reply GetReplyEntityFromRecord(List<string> record)
         {
+            if (record == null) return null;
+
             return new Reply(Convert.ToInt32(record[0]), Convert.ToInt32(record[1]), Convert.ToInt32(record[2]),
                     Convert.ToInt32(record[3]), Convert.ToInt32(record[4]), DateTime.Parse(record[5]),
                     Convert.ToBoolean(record[6]), record[7]);
