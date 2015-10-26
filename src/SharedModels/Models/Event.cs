@@ -22,5 +22,10 @@ namespace SharedModels.Models
             MapPath = mapPath;
             MaxCapacity = maxCap;
         }
+
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }

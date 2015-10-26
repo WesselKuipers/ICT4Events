@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using ICT4Events.Views.Accountsystem;
+using ICT4Events.Views.Reservation_System;
 using SharedModels.Enums;
 using SharedModels.Models;
 
@@ -20,6 +21,7 @@ namespace ICT4Events
         public Form1(User user)
         {
             InitializeComponent();
+            _user = user;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -44,7 +46,7 @@ namespace ICT4Events
 
         private void button2_Click(object sender, EventArgs e)
         {
-
+            new ReservationSystemForm(_user).ShowDialog();
         }
     }
 }

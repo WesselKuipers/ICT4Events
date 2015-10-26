@@ -70,6 +70,8 @@
     <Compile Include="Enums\Country.cs" />
     <Compile Include="Enums\MediaType.cs" />
     <Compile Include="Exceptions\PasswordsDontMatchException.cs" />
+    <Compile Include="Logic\EventLogic.cs" />
+    <Compile Include="Logic\GuestLogic.cs" />
     <Compile Include="Logic\LogicCollection.cs" />
     <Compile Include="Models\Event.cs" />
     <Compile Include="Models\Guest.cs" />
