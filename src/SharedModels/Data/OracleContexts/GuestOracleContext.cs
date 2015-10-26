@@ -15,7 +15,7 @@ namespace SharedModels.Data.OracleContexts
         public List<Guest> GetAll()
         {
             var query =
-                "SELECT u.*, g.locationid, g.passid, g.paid, g.datestart, g.dateend FROM guest g INNER JOIN useraccount u ON g.userid = u.userid";
+                "SELECT u.*, g.eventid, g.locationid, g.passid, g.paid, g.present, g.datestart, g.dateend FROM guest g INNER JOIN useraccount u ON g.userid = u.userid";
 
             var res = Database.ExecuteReader(query);
             return res.Select(GetEntityFromRecord).ToList();
@@ -24,7 +24,7 @@ namespace SharedModels.Data.OracleContexts
         public Guest GetById(object id)
         {
             var query =
-                "SELECT u.*, g.locationid, g.passid, g.paid, g.datestart, g.dateend FROM guest g INNER JOIN useraccount u ON g.userid = u.userid WHERE u.userid = :userid";
+                "SELECT u.*, g.eventid, g.locationid, g.passid, g.paid, g.present, g.datestart, g.dateend FROM guest g INNER JOIN useraccount u ON g.userid = u.userid WHERE u.userid = :userid";
             var parameters = new List<OracleParameter>
             {
                 new OracleParameter("userid", (int) id)
@@ -85,7 +85,7 @@ namespace SharedModels.Data.OracleContexts
         public List<Guest> GetAllByEvent(Event ev)
         {
             var query =
-                "SELECT u.*, g.locationid, g.passid, g.paid, g.datestart, g.dateend FROM guest g INNER JOIN useraccount u ON g.userid = u.userid WHERE eventid = :eventid";
+                "SELECT u.*, g.eventid, g.locationid, g.passid, g.paid, g.present, g.datestart, g.dateend FROM guest g INNER JOIN useraccount u ON g.userid = u.userid WHERE eventid = :eventid";
             var parameters = new List<OracleParameter>
             {
                 new OracleParameter("eventid", ev.ID)
@@ -98,7 +98,7 @@ namespace SharedModels.Data.OracleContexts
         public Guest GetGuestByEvent(Event ev, int userID)
         {
             var query =
-                "SELECT u.*, g.locationid, g.passid, g.paid, g.datestart, g.dateend FROM guest g INNER JOIN useraccount u ON g.userid = u.userid WHERE eventid = :eventid AND g.userid = :userid";
+                "SELECT u.*, g.eventid, g.locationid, g.passid, g.paid, g.present, g.datestart, g.dateend FROM guest g INNER JOIN useraccount u ON g.userid = u.userid WHERE eventid = :eventid AND g.userid = :userid";
             var parameters = new List<OracleParameter>
             {
                 new OracleParameter("eventid", ev.ID),
@@ -122,11 +122,11 @@ namespace SharedModels.Data.OracleContexts
         protected override Guest GetEntityFromRecord(List<string> record)
         {
             if (record == null) return null;
-            
+
             // userid username password firstname surname country address city postal phonenumber regdate permissionlevel eventid locationid passid paid present datestart dateend
             // 0      1        2        3         4       5       6       7    8      9           10      11              12      13         14     15   16      17        18    
             return new Guest(Convert.ToInt32(record[0]), record[1], record[2], record[3], record[14],
-                Convert.ToBoolean(record[15]), Convert.ToInt32(record[12]), Convert.ToBoolean(record[16]),
+                Convert.ToBoolean(Convert.ToInt32(record[15])), Convert.ToInt32(record[12]), Convert.ToBoolean(Convert.ToInt32(record[16])),
                 DateTime.Parse(record[17]), DateTime.Parse(record[18]), Convert.ToInt32(record[13]),
                 DateTime.Parse(record[10]), (PermissionType) Convert.ToInt32(record[11]), record[4],
                 (Country) Enum.Parse(typeof (Country), record[5]), record[7], record[8], record[6], record[9]);
