@@ -26,5 +26,10 @@ namespace SharedModels.Logic
         {
             return _context.GetGuestByEvent(ev, userID);
         }
+
+        public bool UpdateGuest(Guest guest)
+        {
+            return _context.Update(guest);
+        }
     }
 }

@@ -59,10 +59,10 @@ namespace SharedModels.Data.OracleContexts
             var parameters = new List<OracleParameter>
             {
                 new OracleParameter("locationid", entity.LocationID),
-                new OracleParameter("passid", entity.LocationID),
-                new OracleParameter("paid", entity.LocationID),
-                new OracleParameter("datestart", entity.LocationID),
-                new OracleParameter("dateend", entity.LocationID),
+                new OracleParameter("passid", entity.PassID),
+                new OracleParameter("paid", Convert.ToInt32(entity.Paid)),
+                new OracleParameter("datestart", entity.StartDate),
+                new OracleParameter("dateend", entity.EndDate),
                 new OracleParameter("eventid", entity.EventID),
                 new OracleParameter("userid", entity.ID)
             };

@@ -37,9 +37,11 @@
             this.label4 = new System.Windows.Forms.Label();
             this.lblEventCapacity = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
+            this.lblGuestStatus = new System.Windows.Forms.Label();
             this.btnRegisterForEvent = new System.Windows.Forms.Button();
             this.btnPayForEvent = new System.Windows.Forms.Button();
+            this.picEventMap = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.picEventMap)).BeginInit();
             this.SuspendLayout();
             // 
             // calEventDate
@@ -123,14 +125,14 @@
             this.label5.TabIndex = 8;
             this.label5.Text = "Status:";
             // 
-            // label6
+            // lblGuestStatus
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(244, 97);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(105, 13);
-            this.label6.TabIndex = 9;
-            this.label6.Text = "<Niet ingeschreven>";
+            this.lblGuestStatus.AutoSize = true;
+            this.lblGuestStatus.Location = new System.Drawing.Point(244, 97);
+            this.lblGuestStatus.Name = "lblGuestStatus";
+            this.lblGuestStatus.Size = new System.Drawing.Size(105, 13);
+            this.lblGuestStatus.TabIndex = 9;
+            this.lblGuestStatus.Text = "<Niet ingeschreven>";
             // 
             // btnRegisterForEvent
             // 
@@ -140,6 +142,7 @@
             this.btnRegisterForEvent.TabIndex = 10;
             this.btnRegisterForEvent.Text = "Inschrijven";
             this.btnRegisterForEvent.UseVisualStyleBackColor = true;
+            this.btnRegisterForEvent.Click += new System.EventHandler(this.btnRegisterForEvent_Click);
             // 
             // btnPayForEvent
             // 
@@ -149,15 +152,28 @@
             this.btnPayForEvent.TabIndex = 11;
             this.btnPayForEvent.Text = "Betalen";
             this.btnPayForEvent.UseVisualStyleBackColor = true;
+            this.btnPayForEvent.Click += new System.EventHandler(this.btnPayForEvent_Click);
+            // 
+            // picEventMap
+            // 
+            this.picEventMap.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.picEventMap.Location = new System.Drawing.Point(355, 97);
+            this.picEventMap.Name = "picEventMap";
+            this.picEventMap.Size = new System.Drawing.Size(255, 184);
+            this.picEventMap.TabIndex = 12;
+            this.picEventMap.TabStop = false;
             // 
             // ReservationSystemForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(622, 294);
+            this.Controls.Add(this.picEventMap);
             this.Controls.Add(this.btnPayForEvent);
             this.Controls.Add(this.btnRegisterForEvent);
-            this.Controls.Add(this.label6);
+            this.Controls.Add(this.lblGuestStatus);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.lblEventCapacity);
             this.Controls.Add(this.label4);
@@ -169,6 +185,7 @@
             this.Controls.Add(this.calEventDate);
             this.Name = "ReservationSystemForm";
             this.Text = "ReservationSystemForm";
+            ((System.ComponentModel.ISupportInitialize)(this.picEventMap)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -185,8 +202,9 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label lblEventCapacity;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label lblGuestStatus;
         private System.Windows.Forms.Button btnRegisterForEvent;
         private System.Windows.Forms.Button btnPayForEvent;
+        private System.Windows.Forms.PictureBox picEventMap;
     }
 }

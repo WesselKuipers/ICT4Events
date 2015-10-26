@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using ICT4Events.Views.Reservation_System.Forms;
 using SharedModels.Data.OracleContexts;
 using SharedModels.Logic;
 using SharedModels.Models;
@@ -19,6 +20,7 @@ namespace ICT4Events.Views.Reservation_System
         private EventLogic _eventRepo;
         private GuestLogic _guestRepo;
         private List<Event> _events;
+        private Guest _guest;
 
         public ReservationSystemForm(User user)
         {
@@ -41,7 +43,7 @@ namespace ICT4Events.Views.Reservation_System
         private void UpdateEventInformation()
         {
             var ev = (Event) cmbEvents.SelectedItem;
-            var guest = _guestRepo.GetGuestByEvent(ev, _user.ID);
+            _guest = _guestRepo.GetGuestByEvent(ev, _user.ID);
 
             lblEventName.Text = ev.Name;
 
@@ -61,6 +63,41 @@ namespace ICT4Events.Views.Reservation_System
             calEventDate.BoldedDates = eventDays.ToArray();
             calEventDate.SetSelectionRange(ev.StartDate, ev.EndDate);
             calEventDate.MaxSelectionCount = (int) (ev.EndDate.Subtract(ev.StartDate).TotalDays) + 1;
+
+            // TODO: Make sure this actually gets saved here
+            picEventMap.ImageLocation = $"{Properties.Settings.Default.FTPAddress}/{ev.ID}/{ev.MapPath}";
+
+            if (_guest != null)
+            {
+                lblGuestStatus.Text = "Ingeschreven, " + (_guest.Paid ? "betaald" : "niet betaald");
+                lblGuestStatus.ForeColor = _guest.Paid ? Color.Green : Color.Red;
+
+                btnPayForEvent.Enabled = !_guest.Paid;
+                btnRegisterForEvent.Enabled = false;
+            }
+            else
+            {
+                lblGuestStatus.Text = "Niet ingeschreven";
+                lblGuestStatus.ForeColor = Color.Black;
+
+                btnPayForEvent.Enabled = false;
+                btnRegisterForEvent.Enabled = true;
+            }
+        }
+
+        private void btnRegisterForEvent_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnPayForEvent_Click(object sender, EventArgs e)
+        {
+            var totalAmount = 0;
+            if (new GuestPaymentForm(totalAmount).ShowDialog() == DialogResult.OK)
+            {
+                _guest.Paid = true;
+                _guestRepo.UpdateGuest(_guest);
+            }
         }
     }
 }

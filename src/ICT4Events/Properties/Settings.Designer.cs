@@ -22,5 +22,47 @@ namespace ICT4Events.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("smtp.gmail.com")]
+        public string SMTPAddress {
+            get {
+                return ((string)(this["SMTPAddress"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("// Invullen")]
+        public string FTPAddress {
+            get {
+                return ((string)(this["FTPAddress"]));
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("dino")]
+        public string FTPUsername {
+            get {
+                return ((string)(this["FTPUsername"]));
+            }
+            set {
+                this["FTPUsername"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("welkom1234!")]
+        public string FTPPassword {
+            get {
+                return ((string)(this["FTPPassword"]));
+            }
+            set {
+                this["FTPPassword"] = value;
+            }
+        }
     }
 }
