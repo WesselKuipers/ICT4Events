@@ -1,5 +1,6 @@
 ﻿using System;
 using System.CodeDom;
+using System.Collections.Generic;
 using System.Net.Mail;
 using System.Security.Authentication;
 using System.Text;
@@ -18,6 +19,8 @@ namespace SharedModels.Logic
 
         private readonly IUserContext _context;
         private static readonly string Salt = GetHashString("saltyString");
+
+        public List<User> AllUsers => _context.GetAll();
 
         public UserLogic()
         {
@@ -99,8 +102,7 @@ namespace SharedModels.Logic
                     "Your new account for ICT4Events was successfully created!\r\n\r\n" + 
                     "Have a nice day!"
             };
-
-            // TODO: Find out what our smtp host is
+            
             var smtp = new SmtpClient("smtp.gmail.com", 587);
 
             try

@@ -58,5 +58,11 @@ namespace SharedModels.Models
                 @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z",
                 RegexOptions.IgnoreCase);
         }
+
+        public override string ToString()
+        {
+            return ID + " | " + Name + " " + Surname + " | " + Username + " | " + City + ", " + Country + " | " +
+                   Telephone;
+        }
     }
 }

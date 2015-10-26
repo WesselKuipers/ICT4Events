@@ -1,14 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using ICT4Events.Views.Accountsystem;
-using SharedModels.Enums;
 using SharedModels.Models;
 
 namespace ICT4Events
@@ -20,29 +12,20 @@ namespace ICT4Events
         public Form1(User user)
         {
             InitializeComponent();
+            _user = user;
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            new AccountSystemForm(
-                new User(
-                    1,
-                    "test@test.nl",
-                    "test1",
-                    "test2",
-                    "test3",
-                    Country.Luxemburg,
-                    "test4",
-                    "1234AB",
-                    "test 23",
-                    "0612345678",
-                    DateTime.Now,
-                    PermissionType.Administrator
-                )
-            ).ShowDialog();
+            new AccountSystemForm(_user).ShowDialog();
         }
 
         private void button2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
         {
 
         }
