@@ -70,6 +70,7 @@
     <Compile Include="Debug\Logger.cs" />
     <Compile Include="Enums\Country.cs" />
     <Compile Include="Enums\MediaType.cs" />
+    <Compile Include="Exceptions\MailWasNotSentException.cs" />
     <Compile Include="Exceptions\InvalidEventRegistrationException.cs" />
     <Compile Include="Exceptions\PasswordsDontMatchException.cs" />
     <Compile Include="Logic\EventLogic.cs" />

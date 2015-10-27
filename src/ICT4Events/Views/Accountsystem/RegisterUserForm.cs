@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using SharedModels.Enums;
+using SharedModels.Exceptions;
 using SharedModels.Logic;
 using SharedModels.Models;
 
@@ -35,26 +36,34 @@ namespace ICT4Events.Views.Accountsystem
         {
             if (AreNeededFieldsFilled())
             {
-                var newUser = _logic.RegisterUser(
-                    new User(
-                        0,
-                        txtEmail.Text,
-                        _logic.CheckAndHashPassword(txtPass1.Text, txtPass2.Text),
-                        txtName.Text,
-                        txtSurname.Text,
-                        (Country) cbCountry.SelectedItem,
-                        txtCity.Text,
-                        txtPostal.Text,
-                        txtAddress.Text,
-                        txtPhone.Text
-                    )
-                );
-
-                if (newUser != null)
+                try
                 {
-                    MessageBox.Show("Succesvol geregistreerd!");
-                    Close();
+                    var newUser = _logic.RegisterUser(
+                        new User(
+                            0,
+                            txtEmail.Text,
+                            _logic.CheckAndHashPassword(txtPass1.Text, txtPass2.Text),
+                            txtName.Text,
+                            txtSurname.Text,
+                            (Country) cbCountry.SelectedItem,
+                            txtCity.Text,
+                            txtPostal.Text,
+                            txtAddress.Text,
+                            txtPhone.Text
+                            )
+                        );
+
+                    if (newUser != null)
+                    {
+                        MessageBox.Show("Succesvol geregistreerd!");
+                        Close();
+                    }
                 }
+                catch (MailWasNotSentException x)
+                {
+                    MessageBox.Show(x.Message);
+                }
+
             }
             else
             {
