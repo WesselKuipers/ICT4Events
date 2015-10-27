@@ -14,11 +14,7 @@ namespace SharedModels.Data
     {
         //private static readonly string _connectionString = "User Id=dbi333426;Password=d5igdqmqdY;Data Source=fhictora01.fhict.local/fhictora"; // Oracle DB on Athena
         //private static readonly string _connectionString = "User Id=ICT4Events;Password=wessel;Data Source=127.0.0.1"; // Oracle XE connection
-<<<<<<< HEAD
-        private static readonly string _connectionString = "User Id=ICT4Events;Password=ICT4Events;Data Source=//192.168.20.221:1521/xe"; // OracleVmware
-=======
         private static readonly string _connectionString = "User Id=ICT4Events;Password=ICT4Events;Data Source=//192.168.20.221:1521/xe"; // Oracle DB on InfraLab
->>>>>>> 8a96c554bc93b860d8dcb9c5f34ac4709185076f
 
         private static OracleConnection _connection;
 
