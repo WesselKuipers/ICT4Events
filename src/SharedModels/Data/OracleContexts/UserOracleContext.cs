@@ -27,7 +27,7 @@ namespace SharedModels.Data.OracleContexts
             var query = "SELECT * FROM useraccount WHERE userid = :userid";
             var parameters = new List<OracleParameter>
             {
-                new OracleParameter("userid", (int) id)
+                new OracleParameter("userid", Convert.ToInt32(id))
             };
 
             return GetEntityFromRecord(Database.ExecuteReader(query, parameters).First());
@@ -43,12 +43,12 @@ namespace SharedModels.Data.OracleContexts
                 new OracleParameter("password", user.Password),
                 new OracleParameter("firstname", user.Name),
                 new OracleParameter("surname", user.Surname),
-                new OracleParameter("country", user.Country),
+                new OracleParameter("country", user.Country.ToString()),
                 new OracleParameter("address", user.Address),
                 new OracleParameter("city", user.City),
                 new OracleParameter("postal", user.Postal),
                 new OracleParameter("phonenumber", user.Telephone),
-                new OracleParameter("permissionlevel", (int)user.Permission),
+                new OracleParameter("permissionlevel", Convert.ToInt32(user.Permission)),
                 new OracleParameter("lastID", OracleDbType.Decimal) {Direction = ParameterDirection.ReturnValue}
             };
 
@@ -96,6 +96,17 @@ namespace SharedModels.Data.OracleContexts
             };
 
             return GetEntityFromRecord(Database.ExecuteReader(query, parameters).First());
+        }
+
+        public User GetByUsername(string username)
+        {
+            var query = "SELECT * FROM useraccount WHERE username = :username";
+            var parameters = new List<OracleParameter>
+            {
+                new OracleParameter("username", username)
+            };
+
+            return GetEntityFromRecord(Database.ExecuteReader(query, parameters).FirstOrDefault());
         }
 
         protected override User GetEntityFromRecord(List<string> record)

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
+using ICT4Events.Views;
 using ICT4Events.Views.Accountsystem;
 using ICT4Events.Views.Reservation_System;
 using SharedModels.Models;
@@ -28,7 +30,12 @@ namespace ICT4Events
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
+		
+		}
+		
+        private void btnLogOut_Click(object sender, EventArgs e)
+        {
+            System.Windows.Forms.Application.Restart();
         }
     }
 }

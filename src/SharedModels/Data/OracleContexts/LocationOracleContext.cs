@@ -24,7 +24,7 @@ namespace SharedModels.Data.OracleContexts
             var query = "SELECT * FROM location WHERE locationid = :locationid";
             var parameters = new List<OracleParameter>
             {
-                new OracleParameter("locationid", (int) id)
+                new OracleParameter("locationid", Convert.ToInt32(id))
             };
 
             return GetEntityFromRecord(Database.ExecuteReader(query, parameters).First());

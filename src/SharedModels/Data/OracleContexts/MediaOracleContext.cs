@@ -26,7 +26,7 @@ namespace SharedModels.Data.OracleContexts
             var query = "SELECT * FROM media WHERE mediaid = :mediaid ORDER BY mediaid";
             var parameters = new List<OracleParameter>
             {
-                new OracleParameter("mediaid", (int) id)
+                new OracleParameter("mediaid", Convert.ToInt32(id))
             };
 
             return GetEntityFromRecord(Database.ExecuteReader(query, parameters).First());

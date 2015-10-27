@@ -26,7 +26,7 @@ namespace SharedModels.Data.OracleContexts
             var query = "SELECT * FROM materialtype WHERE materialtypeid = :materialtypeid ORDER BY materialtypeid";
             var parameters = new List<OracleParameter>
             {
-                new OracleParameter("materialtypeid", (int) id)
+                new OracleParameter("materialtypeid", Convert.ToInt32(id))
             };
 
             return GetEntityFromRecord(Database.ExecuteReader(query, parameters).First());

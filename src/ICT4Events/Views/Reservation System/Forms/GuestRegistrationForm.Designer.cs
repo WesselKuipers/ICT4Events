@@ -41,8 +41,8 @@
             this.calEventDate = new System.Windows.Forms.MonthCalendar();
             this.label4 = new System.Windows.Forms.Label();
             this.tblAdditionalGuests = new System.Windows.Forms.TableLayoutPanel();
-            this.label5 = new System.Windows.Forms.Label();
             this.txtAdditionalGuest2 = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
@@ -126,8 +126,9 @@
             // 
             // label10
             // 
+            this.label10.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(3, 0);
+            this.label10.Location = new System.Drawing.Point(12, 8);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(32, 13);
             this.label10.TabIndex = 22;
@@ -188,15 +189,6 @@
             this.tblAdditionalGuests.Size = new System.Drawing.Size(246, 152);
             this.tblAdditionalGuests.TabIndex = 26;
             // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(3, 30);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(32, 13);
-            this.label5.TabIndex = 24;
-            this.label5.Text = "Email";
-            // 
             // txtAdditionalGuest2
             // 
             this.txtAdditionalGuest2.Location = new System.Drawing.Point(50, 33);
@@ -204,10 +196,21 @@
             this.txtAdditionalGuest2.Size = new System.Drawing.Size(193, 20);
             this.txtAdditionalGuest2.TabIndex = 25;
             // 
+            // label5
+            // 
+            this.label5.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(12, 38);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(32, 13);
+            this.label5.TabIndex = 24;
+            this.label5.Text = "Email";
+            // 
             // label7
             // 
+            this.label7.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(3, 60);
+            this.label7.Location = new System.Drawing.Point(12, 68);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(32, 13);
             this.label7.TabIndex = 24;
@@ -215,8 +218,9 @@
             // 
             // label8
             // 
+            this.label8.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(3, 90);
+            this.label8.Location = new System.Drawing.Point(12, 98);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(32, 13);
             this.label8.TabIndex = 24;
@@ -224,8 +228,9 @@
             // 
             // label6
             // 
+            this.label6.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(3, 120);
+            this.label6.Location = new System.Drawing.Point(12, 129);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(32, 13);
             this.label6.TabIndex = 24;

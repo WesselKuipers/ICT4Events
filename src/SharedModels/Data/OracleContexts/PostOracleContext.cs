@@ -25,7 +25,7 @@ namespace SharedModels.Data.OracleContexts
             var query = "SELECT * FROM post WHERE postid = :postid ORDER BY postid";
             var parameters = new List<OracleParameter>
             {
-                new OracleParameter("postid", (int) id)
+                new OracleParameter("postid", Convert.ToInt32(id))
             };
 
             return GetEntityFromRecord(Database.ExecuteReader(query, parameters).First());

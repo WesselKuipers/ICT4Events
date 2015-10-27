@@ -52,7 +52,7 @@ namespace SharedModels.Models
         /// </summary>
         /// <param name="email">Email string to check</param>
         /// <returns>Returns true if specified string is a correctly formatted email address, returns false if not</returns>
-        private static bool IsValidEmail(string email)
+        public static bool IsValidEmail(string email)
         {
             return Regex.IsMatch(email,
                 @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z",
