@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Security.Authentication;
 using System.Windows.Forms;
+using ICT4Events.Views.Accountsystem;
 using SharedModels.Data.OracleContexts;
 using SharedModels.Logic;
 using SharedModels.Models;
@@ -72,5 +73,10 @@ namespace ICT4Events.Views
             }
         }
 
+        private void linkRegister_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            var registerForm = new RegisterUserForm();
+            registerForm.ShowDialog();
+        }
     }
 }

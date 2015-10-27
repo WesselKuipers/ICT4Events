@@ -1,5 +1,6 @@
 ﻿using System;
 using System.CodeDom;
+using System.Collections.Generic;
 using System.Net.Mail;
 using System.Security.Authentication;
 using System.Text;
@@ -19,6 +20,8 @@ namespace SharedModels.Logic
         private readonly IUserContext _context;
         private static readonly string Salt = GetHashString("saltyString");
 
+        public List<User> AllUsers => _context.GetAll();
+
         public UserLogic()
         {
             _context = new UserOracleContext();
@@ -29,17 +32,32 @@ namespace SharedModels.Logic
             _context = context;
         }
 
+        /// <summary>
+        /// Sets a new password for a user
+        /// </summary>
+        /// <param name="user">User to change password of</param>
+        /// <param name="oldPass">Current password of given user</param>
+        /// <param name="newPass">New password</param>
+        /// <param name="newPassAgain">New password again for security check</param>
+        /// <returns>true if password was changed succesfully, false if something went wrong or given oldPass is incorrect</returns>
+        public bool SetNewPassword(User user, string oldPass, string newPass, string newPassAgain)
+        {
+            if (user.Password != GetHashedPassword(oldPass)) return false;
+
+            user.Password = CheckAndHashPassword(newPass, newPassAgain);
+            return UpdateUser(user);
+        }
+
         // TODO: Move this method to UI logic? Or: Pass user object
         /// <summary>
-        /// Sets the password for a user if the 2 given passwords match.
+        /// Hashes the password for a user if the 2 given passwords match.
         /// </summary>
-        /// <param name="user">user to set password for</param>
         /// <param name="password">password given by user</param>
         /// <param name="passwordAgain">password again given by user</param>
-        public void SetPassword(User user, string password, string passwordAgain)
+        public string CheckAndHashPassword(string password, string passwordAgain)
         {
             if (string.Equals(password, passwordAgain))
-                user.Password = GetHashString(password + Salt);
+                return GetHashString(password + Salt);
             else
                 throw new PasswordsDontMatchException();
         }
@@ -114,8 +132,7 @@ namespace SharedModels.Logic
                         : "") +
                     "\r\n\r\nHave a nice day!"
             };
-
-            // TODO: Find out what our smtp host is
+            
             var smtp = new SmtpClient("smtp.gmail.com", 587);
 
             try
