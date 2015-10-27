@@ -24,19 +24,6 @@ namespace ICT4Events.Views.Accountsystem.Controls
             {
                 lbUsers.Items.Add(user);
             }
-
-            /*try
-            {
-                var henk = new User(0, "henk@employee.nl", _logic.GetHashedPassword("admin"), "Henk", "Employee",
-                    permission: PermissionType.Employee);
-                var test = _logic.RegisterUser(henk);
-                lbUsers.Items.Add(test);
-            }
-            catch (Exception x)
-            {
-                MessageBox.Show(x.Message);
-            }*/
-
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
@@ -48,7 +35,17 @@ namespace ICT4Events.Views.Accountsystem.Controls
                     "Zeker weten?",
                     MessageBoxButtons.YesNo);
 
-                if(reply == DialogResult.Yes) _logic.DeleteUser(lbUsers.SelectedItem as User);
+                if (reply == DialogResult.Yes)
+                {
+                    if (_logic.DeleteUser(lbUsers.SelectedItem as User))
+                    {
+                        lbUsers.Items.Remove(lbUsers.SelectedItem);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Er is iets misgegaan, account is niet verwijderd");
+                    }
+                }
             }
             else
             {

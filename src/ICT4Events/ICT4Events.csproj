@@ -75,6 +75,12 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\Accountsystem\Controls\ucChangePassword.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\Accountsystem\Controls\ucChangePassword.Designer.cs">
+      <DependentUpon>ucChangePassword.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\Accountsystem\Controls\ucDeleteUser.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -147,6 +153,9 @@
     </Compile>
     <EmbeddedResource Include="Views\Accountsystem\AccountSystemForm.resx">
       <DependentUpon>AccountSystemForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Accountsystem\Controls\ucChangePassword.resx">
+      <DependentUpon>ucChangePassword.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Accountsystem\Controls\ucDeleteUser.resx">
       <DependentUpon>ucDeleteUser.cs</DependentUpon>

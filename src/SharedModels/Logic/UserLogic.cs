@@ -32,6 +32,22 @@ namespace SharedModels.Logic
             _context = context;
         }
 
+        /// <summary>
+        /// Sets a new password for a user
+        /// </summary>
+        /// <param name="user">User to change password of</param>
+        /// <param name="oldPass">Current password of given user</param>
+        /// <param name="newPass">New password</param>
+        /// <param name="newPassAgain">New password again for security check</param>
+        /// <returns>true if password was changed succesfully, false if something went wrong or given oldPass is incorrect</returns>
+        public bool SetNewPassword(User user, string oldPass, string newPass, string newPassAgain)
+        {
+            if (user.Password != GetHashedPassword(oldPass)) return false;
+
+            user.Password = CheckAndHashPassword(newPass, newPassAgain);
+            return UpdateUser(user);
+        }
+
         // TODO: Move this method to UI logic? Or: Pass user object
         /// <summary>
         /// Hashes the password for a user if the 2 given passwords match.

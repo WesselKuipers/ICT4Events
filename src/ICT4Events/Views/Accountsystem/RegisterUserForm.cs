@@ -35,7 +35,7 @@ namespace ICT4Events.Views.Accountsystem
         {
             if (AreNeededFieldsFilled())
             {
-                _logic.RegisterUser(
+                var newUser = _logic.RegisterUser(
                     new User(
                         0,
                         txtEmail.Text,
@@ -49,6 +49,12 @@ namespace ICT4Events.Views.Accountsystem
                         txtPhone.Text
                     )
                 );
+
+                if (newUser != null)
+                {
+                    MessageBox.Show("Succesvol geregistreerd!");
+                    Close();
+                }
             }
             else
             {

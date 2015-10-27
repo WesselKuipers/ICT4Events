@@ -18,39 +18,25 @@ namespace ICT4Events.Views.Accountsystem
 
         private void Accountsystem_Load(object sender, EventArgs e)
         {
-            // default views
-
-            // Edit user tab
+            // Edit user tab (default tab of tab control)
             tabEditUser.Controls.Add(new UcEditUser(_user));
 
             // Edit Password tab
-            // TODO
+            var changePassTab = new TabPage("Wijzig wachtwoord");
+            tcAccountsystem.TabPages.Add(changePassTab);
+            changePassTab.Controls.Add(new UcChangePassword(_user));
 
-            // check for permission type and show appropriate tabs
-            switch (_user.Permission)
+            // Only admins can see certain tabs
+            if (_user.Permission == PermissionType.Administrator)
             {
-                case PermissionType.User:
-                    // show all default views
-                    break;
+                var managePermissionsTab = new TabPage("Beheer Permissions");
+                tcAccountsystem.TabPages.Add(managePermissionsTab);
+                managePermissionsTab.Controls.Add(new UcManagePermissions(_user));
 
-                case PermissionType.Employee:
-                    // show employee tabs
-                    break;
-
-                case PermissionType.Administrator:
-                    // Manage Permissions tab
-                    var managePermissionsTab = new TabPage("Beheer Permissions");
-                    tcAccountsystem.TabPages.Add(managePermissionsTab);
-                    managePermissionsTab.Controls.Add(new UcManagePermissions(_user));
-
-                    // Delete user tab
-                    var deleteUserTab = new TabPage("Verwijder Accounts");
-                    tcAccountsystem.TabPages.Add(deleteUserTab);
-                    deleteUserTab.Controls.Add(new UcDeleteUser());
-
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
+                // Delete user tab
+                var deleteUserTab = new TabPage("Verwijder Accounts");
+                tcAccountsystem.TabPages.Add(deleteUserTab);
+                deleteUserTab.Controls.Add(new UcDeleteUser());
             }
         }
     }
