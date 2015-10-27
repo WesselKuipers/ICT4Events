@@ -14,6 +14,7 @@ using SharedModels.Models;
 
 namespace ICT4Events.Views.Reservation_System
 {
+    // TODO: Move code to logic class
     public partial class ReservationSystemForm : Form
     {
         private User _user;
@@ -107,12 +108,20 @@ namespace ICT4Events.Views.Reservation_System
         {
             var location = _locationRepo.GetLocationByID(_guest.LocationID);
 
-            var totalAmount = location.Price;
+            var group = _guestRepo.GetGuestsByGroup((Event) cmbEvents.SelectedItem, _guest.LeaderID);
+
+            var totalAmount = location.Price * group.Count;
 
             if (new GuestPaymentForm(totalAmount).ShowDialog() != DialogResult.OK) return;
 
+            foreach (var g in group)
+            {
+                g.Paid = true;
+                _guestRepo.UpdateGuest(g);
+            }
+
             _guest.Paid = true;
-            _guestRepo.UpdateGuest(_guest);
+            
             RefreshStatus();
         }
     }

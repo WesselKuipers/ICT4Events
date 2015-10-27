@@ -21,5 +21,10 @@ namespace SharedModels.Logic
         {
             return _context.GetAll();
         }
+
+        public Event GetByID(int id)
+        {
+            return _context.GetById(id);
+        }
     }
 }

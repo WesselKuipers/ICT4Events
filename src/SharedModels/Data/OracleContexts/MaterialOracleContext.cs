@@ -27,7 +27,7 @@ namespace SharedModels.Data.OracleContexts
                 "SELECT m.*, r.userid, r.datestart, r.dateend FROM material m LEFT OUTER JOIN reservation r ON m.materialid = r.materialid WHERE m.materialid = :materialid";
             var parameters = new List<OracleParameter>
             {
-                new OracleParameter("materialid", (int) id)
+                new OracleParameter("materialid", Convert.ToInt32(id))
             };
 
             return GetEntityFromRecord(Database.ExecuteReader(query, parameters).First());

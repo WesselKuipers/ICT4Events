@@ -58,10 +58,12 @@ namespace SharedModels.Logic
         /// </summary>
         /// <param name="user">User created in user interface</param>
         /// <returns>a new user object with correct user id</returns>
-        public User RegisterUser(User user)
+        public User RegisterUser(User user, bool generated = false, string password = "")
         {
             var registeredUser = _context.Insert(user);
-            SendConfirmationEmail(registeredUser);
+            
+            // TODO: Make emails work
+            //SendConfirmationEmail(registeredUser, generated, password);
             return registeredUser;
         }
 
@@ -84,11 +86,21 @@ namespace SharedModels.Logic
         }
 
         /// <summary>
+        /// Retrieves a user object based on username
+        /// </summary>
+        /// <param name="username">Username to match on</param>
+        /// <returns>User associated with given username or null if nothing was found</returns>
+        public User GetByUsername(string username)
+        {
+            return _context.GetByUsername(username);
+        }
+
+        /// <summary>
         /// Sends a confirmation email to given user
         /// </summary>
         /// <param name="user">user to send confirmation email to</param>
         /// <returns>true if mail was successfully send, throws exception if sending mail fails</returns>
-        private static bool SendConfirmationEmail(User user)
+        private static bool SendConfirmationEmail(User user, bool generated = false, string password = "")
         {
             // TODO: to should be user.Username
             var message = new MailMessage("ict4events.s21a@gmail.com", "goos.bekerom@gmail.com")
@@ -96,8 +108,11 @@ namespace SharedModels.Logic
                 Subject = "Confirmation of your new user account for ICT4Events",
                 Body =
                     "Hello " + user.Name + ",\r\n\r\n" +
-                    "Your new account for ICT4Events was successfully created!\r\n\r\n" + 
-                    "Have a nice day!"
+                    "Your new account for ICT4Events was successfully created!" +
+                    ((generated && !string.IsNullOrWhiteSpace(password))
+                        ? $"Your generated password is {password}.\r\nYou can change your password after logging in."
+                        : "") +
+                    "\r\n\r\nHave a nice day!"
             };
 
             // TODO: Find out what our smtp host is

@@ -20,8 +20,6 @@ namespace ICT4Events.Views.Reservation_System.Forms
         private Location _location;
         private int _locationGuestCount;
 
-        private List<TextBox> _additionalGuests;
-
         public Guest Guest;
 
         public GuestRegistrationForm(User user, Event ev)
@@ -29,8 +27,6 @@ namespace ICT4Events.Views.Reservation_System.Forms
             InitializeComponent();
             _user = user;
             _event = ev;
-
-            _additionalGuests = new List<TextBox> {txtAdditionalGuest1};
 
             cmbLocations.DataSource = LogicCollection.LocationLogic.GetLocationsByEvent(ev);
 
@@ -45,29 +41,63 @@ namespace ICT4Events.Views.Reservation_System.Forms
         {
             if (_locationGuestCount + 1 > _location.Capacity)
             {
-                throw new InvalidEventRegistrationException("De capaciteit van deze locatie is overschreden.");
+                throw new InvalidEventRegistrationException("De capaciteit van deze locatie is overschreden. Selecteer een andere locatie.");
             }
 
-            // TODO: Registrating new guest to event
-            // TODO: Adding multiple guests
+            var additionalGuestUsernames = new List<string>();
+            foreach (var txt in tblAdditionalGuests.Controls.OfType<TextBox>().Where(txt => !string.IsNullOrWhiteSpace(txt.Text)))
+            {
+                if (User.IsValidEmail(txt.Text))
+                {
+                    additionalGuestUsernames.Add(txt.Text);
+                }
+                else
+                {
+                    MessageBox.Show(
+                        $"Invalide emailadres gevonden in lijst van extra personen\r\nEmailadres: {txt.Text}");
+                    return;
+                }
+            }
+
+            if (_locationGuestCount + additionalGuestUsernames.Count + 1 > _location.Capacity)
+            {
+                throw new InvalidEventRegistrationException("De capaciteit van deze locatie is overschreden. Maak uw groep kleiner of selecteer een andere locatie.");
+            }
+
+            var additionalGuests = LogicCollection.GuestLogic.RegisterUsersForEvent(additionalGuestUsernames, _event,
+                _location, calEventDate.SelectionStart, calEventDate.SelectionEnd, _user.ID);
+
+            var guest = LogicCollection.GuestLogic.RegisterUserForEvent(_user, _event, _location,
+                calEventDate.SelectionStart, calEventDate.SelectionEnd);
+
+            Guest = guest;
+
+            if (MessageBox.Show("Wilt u nu betalen?", "Betalingsverzoek", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                var totalAmount = _location.Price * 1 + additionalGuests.Count;
+
+                if (new GuestPaymentForm(totalAmount).ShowDialog() == DialogResult.OK)
+                {
+                    Guest.Paid = true;
+                    LogicCollection.GuestLogic.UpdateGuest(Guest);
+                    foreach (var g in additionalGuests)
+                    {
+                        g.Paid = true;
+                        LogicCollection.GuestLogic.UpdateGuest(g);
+                    }
+                }
+            }
+
+            DialogResult = DialogResult.OK;
+            Close();
         }
 
         private void cmbLocations_SelectedIndexChanged(object sender, EventArgs e)
         {
             _location = (Location) cmbLocations.SelectedItem;
 
-            _locationGuestCount = LogicCollection.GuestLogic.GetGuestsByLocation(_location);
+            _locationGuestCount = LogicCollection.GuestLogic.GetGuestCountByLocation(_location);
             lblLocationCapacity.Text = $"{_locationGuestCount} / {_location.Capacity}";
-        }
-
-        private void lblNewGuest_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            var txtAdditionalGuest = new TextBox();
-
-            tblAdditionalGuests.Controls.Add(new Label{ Text = "Email" });
-            tblAdditionalGuests.Controls.Add(txtAdditionalGuest);
-
-            _additionalGuests.Add(txtAdditionalGuest);
         }
     }
 }

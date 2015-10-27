@@ -23,7 +23,7 @@ namespace SharedModels.Data.OracleContexts
             var query = "SELECT * FROM event WHERE eventid = :eventid";
             var parameters = new List<OracleParameter>
             {
-                new OracleParameter("eventid", (int) id)
+                new OracleParameter("eventid", Convert.ToInt32(id))
             };
 
             return GetEntityFromRecord(Database.ExecuteReader(query, parameters).First());

@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
+using ICT4Events.Views;
 using ICT4Events.Views.Accountsystem;
 using ICT4Events.Views.Reservation_System;
 using SharedModels.Enums;
@@ -49,6 +50,11 @@ namespace ICT4Events
         private void button2_Click(object sender, EventArgs e)
         {
             new ReservationSystemForm(_user).ShowDialog();
+        }
+
+        private void btnLogOut_Click(object sender, EventArgs e)
+        {
+            System.Windows.Forms.Application.Restart();
         }
     }
 }

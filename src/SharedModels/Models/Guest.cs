@@ -12,11 +12,13 @@ namespace SharedModels.Models
         public DateTime StartDate { get; }
         public DateTime EndDate { get; }
         public int LocationID { get; set; }
+        public int LeaderID { get; set; }
 
         public Guest(int id, string username, string password, string name, string passId, bool paid, int eventID,
             bool present, DateTime startDate, DateTime endDate, int locationID, DateTime regDate = new DateTime(),
-            PermissionType permission = PermissionType.User, string surname = "", Country country = Country.Nederland, string city = "",
-            string postal = "", string address = "", string telephone = "")
+            PermissionType permission = PermissionType.User, string surname = "", Country country = Country.Nederland,
+            string city = "",
+            string postal = "", string address = "", string telephone = "", int leaderID = 0)
             : base(id, username, password, name, surname, country, city, postal, address, telephone, regDate, permission)
         {
             PassID = passId;
@@ -26,6 +28,7 @@ namespace SharedModels.Models
             StartDate = startDate;
             EndDate = endDate;
             LocationID = locationID;
+            LeaderID = leaderID == 0 ? id : leaderID;
         }
     }
 }
