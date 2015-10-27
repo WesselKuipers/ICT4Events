@@ -1,6 +1,6 @@
 ﻿using System;
-using System.CodeDom;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Mail;
 using System.Security.Authentication;
 using System.Text;
@@ -79,9 +79,16 @@ namespace SharedModels.Logic
         public User RegisterUser(User user, bool generated = false, string password = "")
         {
             var registeredUser = _context.Insert(user);
+
+            try
+            {
+                SendConfirmationEmail(registeredUser, generated, password);
+            }
+            catch
+            {
+                throw new MailWasNotSentException();
+            }
             
-            // TODO: Make emails work
-            //SendConfirmationEmail(registeredUser, generated, password);
             return registeredUser;
         }
 
@@ -120,29 +127,43 @@ namespace SharedModels.Logic
         /// <returns>true if mail was successfully send, throws exception if sending mail fails</returns>
         private static bool SendConfirmationEmail(User user, bool generated = false, string password = "")
         {
-            // TODO: to should be user.Username
-            var message = new MailMessage("ict4events.s21a@gmail.com", "goos.bekerom@gmail.com")
-            {
-                Subject = "Confirmation of your new user account for ICT4Events",
-                Body =
-                    "Hello " + user.Name + ",\r\n\r\n" +
-                    "Your new account for ICT4Events was successfully created!" +
-                    ((generated && !string.IsNullOrWhiteSpace(password))
-                        ? $"Your generated password is {password}.\r\nYou can change your password after logging in."
-                        : "") +
-                    "\r\n\r\nHave a nice day!"
-            };
-            
-            var smtp = new SmtpClient("smtp.gmail.com", 587);
+            var fromAddress = new MailAddress("ict4events.s21a@gmail.com", "ICT4Events");
+            var toAddress = new MailAddress(user.Username, user.Name);
+            const string fromPassword = "ICT4event!";
+            const string subject = "Confirmation of your new user account for ICT4Events";
+            var body = 
+                "Hello " + user.Name + ",\r\n\r\n" +
+                "Your new account for ICT4Events was successfully created!" +
+                ((generated && !string.IsNullOrWhiteSpace(password))
+                    ? $"\r\nYour generated password is {password}.\r\nYou can change your password after logging in."
+                    : "") +
+                "\r\n\r\nHave a nice day!";
 
-            try
+            var smtp = new SmtpClient
             {
-                smtp.Send(message);
-                return true;
-            }
-            catch (SmtpException e)
+                Host = "smtp.gmail.com",
+                Port = 587,
+                EnableSsl = true,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                UseDefaultCredentials = false,
+                Credentials = new NetworkCredential(fromAddress.Address, fromPassword)
+            };
+
+            using (var message = new MailMessage(fromAddress, toAddress)
             {
-                throw new Exception(e.Message);
+                Subject = subject,
+                Body = body
+            })
+            {
+                try
+                {
+                    smtp.Send(message);
+                    return true;
+                }
+                catch (SmtpException e)
+                {
+                    throw new Exception(e.Message);
+                }
             }
         }
 
