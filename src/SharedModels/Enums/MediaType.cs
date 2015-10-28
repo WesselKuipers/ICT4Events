@@ -8,8 +8,8 @@ namespace SharedModels.Enums
 {
     public enum MediaType
     {
-        Image,
-        Video,
-        Audio
+        Image = 1,
+        Video = 2,
+        Audio = 3
     }
 }

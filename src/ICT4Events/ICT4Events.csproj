@@ -138,6 +138,24 @@
     <Compile Include="Views\Reservation System\ReservationSystemForm.Designer.cs">
       <DependentUpon>ReservationSystemForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\SocialSystem\Controls\MakePost.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\SocialSystem\Controls\MakePost.Designer.cs">
+      <DependentUpon>MakePost.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SocialSystem\Controls\TimeLine.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\SocialSystem\Controls\TimeLine.designer.cs">
+      <DependentUpon>TimeLine.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SocialSystem\Forms\SocialMediaSystemForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\SocialSystem\Forms\SocialMediaSystemForm.designer.cs">
+      <DependentUpon>SocialMediaSystemForm.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -181,6 +199,16 @@
     <EmbeddedResource Include="Views\Reservation System\ReservationSystemForm.resx">
       <DependentUpon>ReservationSystemForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Views\SocialSystem\Controls\MakePost.resx">
+      <DependentUpon>MakePost.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\SocialSystem\Controls\TimeLine.resx">
+      <DependentUpon>TimeLine.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\SocialSystem\Forms\SocialMediaSystemForm.resx">
+      <DependentUpon>SocialMediaSystemForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="ClassDiagram1.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

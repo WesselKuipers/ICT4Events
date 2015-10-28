@@ -31,6 +31,7 @@
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.btnLogOut = new System.Windows.Forms.Button();
+            this.btSocial = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button1
@@ -63,11 +64,22 @@
             this.btnLogOut.UseVisualStyleBackColor = true;
             this.btnLogOut.Click += new System.EventHandler(this.btnLogOut_Click);
             // 
+            // btSocial
+            // 
+            this.btSocial.Location = new System.Drawing.Point(37, 72);
+            this.btSocial.Name = "btSocial";
+            this.btSocial.Size = new System.Drawing.Size(187, 23);
+            this.btSocial.TabIndex = 3;
+            this.btSocial.Text = "socialMediaSysteem";
+            this.btSocial.UseVisualStyleBackColor = true;
+            this.btSocial.Click += new System.EventHandler(this.btSocial_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 262);
+            this.Controls.Add(this.btSocial);
             this.Controls.Add(this.btnLogOut);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
@@ -83,6 +95,7 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button btnLogOut;
+        private System.Windows.Forms.Button btSocial;
     }
 }
 

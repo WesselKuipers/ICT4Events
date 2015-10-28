@@ -66,7 +66,9 @@ namespace SharedModels.Data
                         var record = new string[queryResult.FieldCount];
                         for (var i = 0; i < queryResult.FieldCount; i++)
                         {
-                            record[i] = queryResult.GetValue(i).ToString();
+                            var val = queryResult.GetValue(i).ToString();
+                            record[i] = !string.IsNullOrEmpty(val) ? val : "0";
+                            //record[i] = queryResult.GetValue(i).ToString();
                         }
 
                         result.Add(record.ToList());
