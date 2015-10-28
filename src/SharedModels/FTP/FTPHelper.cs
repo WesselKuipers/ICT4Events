@@ -53,8 +53,7 @@ namespace SharedModels.FTP
                 request.Credentials = DefaultCredentials;
                 try
                 {
-                    request.UploadFileAsync(new Uri($"ftp://{ServerAddress}/{outfilepath}"),
-                        "STOR", infilepath);
+                    request.UploadFileAsync(new Uri($"ftp://{ServerAddress}/{outfilepath}"), "STOR", infilepath);
                     return true;
                 }
                 catch (WebException ex)

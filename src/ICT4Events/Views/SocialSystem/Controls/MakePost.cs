@@ -1,17 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
 using System.IO;
 using System.Linq;
-using System.Net;
-using System.Security;
-using System.Text;
-using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using SharedModels.Data.OracleContexts;
 using SharedModels.Enums;
+using SharedModels.FTP;
 using SharedModels.Models;
 
 namespace ICT4Events.Views.SocialSystem.Controls
@@ -32,6 +26,7 @@ namespace ICT4Events.Views.SocialSystem.Controls
             _event = ev;
             _logicMedia = new MediaOracleContext();
             _logicPost = new PostOracleContext();
+
         }
 
         /// <summary>
@@ -58,74 +53,100 @@ namespace ICT4Events.Views.SocialSystem.Controls
         /// <param name="e"></param>
         private void btBestandUploaden_Click(object sender, EventArgs e)
         {
+
             if (string.IsNullOrEmpty(_filepath))
             {
                 MessageBox.Show(@"Geen bestand geselecteerd!");
             }
             else
             {
-                // TODO: User map need to add to FTP server
-                //if (!File.Exists("ftp: //upload:welkom1234!@192.168.20.221/"+_user.ID))
-                //{
-                //FtpWebRequest request = (FtpWebRequest) WebRequest.Create("ftp://upload:welkom1234!@192.168.20.221/"+_user.ID);
-                    //request.Method = WebRequestMethods.Ftp.MakeDirectory;
-                //}
+                // Set file variables
+                string ftpFileName = Path.GetFileName(_filepath);
+                string ftpFileExtension = Path.GetExtension(_filepath);
+                string ftpFileNameWithoutExtension = Path.GetFileNameWithoutExtension(_filepath);
 
-                WebClient client = new WebClient();
-                client.UploadFileAsync(new Uri(new Uri("ftp://upload:welkom1234!@192.168.20.221/"), Path.GetFileName(_filepath)), _filepath);
-
-                //string ftpFilepath = _user.ID+"/"+Path.GetFileName(_filepath);
-                string ftpFilepath = Path.GetFileName(_filepath);
-
-                string[] imageEx = {".jpg", ".jpeg", ".jpe", ".jfif", ".png"};
-                string[] audioEx = {".wav", ".mp3"};
-                string[] videoEx = {".mp4"};
-
-                MediaType type = MediaType.Image;
-                if (imageEx.Contains(Path.GetExtension(_filepath)))
+                if (!File.Exists(FtpHelper.ServerAddress + "/" + _event.ID))
                 {
-                    type = MediaType.Image;
-                }else if (audioEx.Contains(Path.GetExtension(_filepath)))
-                {
-                    type = MediaType.Audio;
-                }
-                else if(videoEx.Contains(Path.GetExtension(_filepath)))
-                {
-                    type = MediaType.Video;
+                    FtpHelper.CreateDirectory(_event.ID.ToString());
+                    if (!File.Exists(FtpHelper.ServerAddress + "/" + _event.ID + "/" + _user.ID))
+                    {
+                        FtpHelper.CreateDirectory(_event.ID + "/" + _user.ID);
+                    }
                 }
 
-                MessageBox.Show(@"Uw bestand is succesvol upgeload", @"Message", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
-                Media media = new Media(0, _user.ID, _event.ID, type, Path.GetFileNameWithoutExtension(_filepath), Path.GetExtension(_filepath), ftpFilepath);
-                _uploadedFile = _logicMedia.Insert(media);
+                if (FtpHelper.UploadFile(_filepath, _event.ID + "/" + _user.ID + "/" + ftpFileName))
+                {
+                    string[] imageEx = { ".jpg", ".jpeg", ".jpe", ".jfif", ".png" };
+                    string[] audioEx = { ".wav", ".mp3" };
+                    string[] videoEx = { ".mp4" };
+
+                    MediaType type = MediaType.Image;
+                    if (imageEx.Contains(ftpFileExtension))
+                    {
+                        type = MediaType.Image;
+                    }
+                    else if (audioEx.Contains(ftpFileExtension))
+                    {
+                        type = MediaType.Audio;
+                    }
+                    else if (videoEx.Contains(ftpFileExtension))
+                    {
+                        type = MediaType.Video;
+                    }
+
+                    MessageBox.Show(@"Uw bestand is succesvol upgeload", @"Message", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+                    Media media = new Media(0, _user.ID, _event.ID, type, ftpFileNameWithoutExtension, ftpFileExtension, ftpFileName);
+                    _uploadedFile = _logicMedia.Insert(media);
+                }
             }
         }
 
         /// <summary>
         /// MAKING AND ADDING POST TO DATABASE
-        /// TODO: POSTHASH UIT BERICHT FILTEREN EN OPSLAAN IN DATABASE
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void btPostAanmaken_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(tbBerichtPost.Text)) MessageBox.Show(@"Ga je echt niets vertellen? Kom op joh.");
-            if(!string.IsNullOrEmpty(_filepath) && (_uploadedFile == null)) MessageBox.Show(@"Je moet je bestand nog uploaden");
-
-            if (string.IsNullOrEmpty(_filepath))
+            if (string.IsNullOrEmpty(tbBerichtPost.Text))
             {
-                Post p = new Post(0, _user.ID, _event.ID, 0, DateTime.Now , true, tbBerichtPost.Text);
-                _logicPost.Insert(p);
+                MessageBox.Show(@"Ga je echt niets vertellen? Kom op joh.");
             }
             else
             {
-                if (_uploadedFile != null)
+                if (!string.IsNullOrEmpty(_filepath) && (_uploadedFile == null))
                 {
-                    Post p = new Post(0, _user.ID, _event.ID, _uploadedFile.ID, DateTime.Now, true, tbBerichtPost.Text);
-                    _logicPost.Insert(p);
+                    MessageBox.Show(@"Eerst uploaden voor het posten.");
+                }
+                else
+                {
+                    Post addedPost;
+                    if (string.IsNullOrEmpty(_filepath))
+                    {
+                        Post p = new Post(0, _user.ID, _event.ID, 0, DateTime.Now, true, tbBerichtPost.Text);
+                        addedPost = _logicPost.Insert(p);
+                    }
+                    else
+                    {
+                        if (_uploadedFile != null)
+                        {
+                            Post p = new Post(0, _user.ID, _event.ID, _uploadedFile.ID, DateTime.Now, true, tbBerichtPost.Text);
+                            addedPost = _logicPost.Insert(p);
+                        }
+                    }
+
+                    // Filter tags out of message
+                    // TODO: POSTTAG ORACLECONTEXT moet toegevoegd worden om posttags om te slaan.
+                    var regex = new Regex(@"(?<=#)\w+");
+                    var matches = regex.Matches(tbBerichtPost.Text);
+                    foreach (Match m in matches)
+                    {
+                        m.ToString().Trim('#');
+                    }
+
+                    MessageBox.Show(@"Je bericht is gepubliceerd op je tijdlijn");
                 }
             }
-
-            MessageBox.Show(@"Je bericht is gepubliceerd op je tijdlijn");
         }
     }
 }

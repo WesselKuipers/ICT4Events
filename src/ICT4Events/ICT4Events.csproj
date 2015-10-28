@@ -143,6 +143,12 @@
     <Compile Include="Views\SocialSystem\Controls\MakePost.Designer.cs">
       <DependentUpon>MakePost.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\SocialSystem\Controls\PostFeed.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\SocialSystem\Controls\PostFeed.Designer.cs">
+      <DependentUpon>PostFeed.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\SocialSystem\Controls\TimeLine.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -200,6 +206,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\SocialSystem\Controls\MakePost.resx">
       <DependentUpon>MakePost.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\SocialSystem\Controls\PostFeed.resx">
+      <DependentUpon>PostFeed.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\SocialSystem\Controls\TimeLine.resx">
       <DependentUpon>TimeLine.cs</DependentUpon>

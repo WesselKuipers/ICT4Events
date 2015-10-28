@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using SharedModels.Models;
 using SharedModels.Logic;
+using SharedModels.Models;
 
 namespace ICT4Events.Views.SocialSystem.Controls
 {
@@ -22,9 +22,18 @@ namespace ICT4Events.Views.SocialSystem.Controls
         private void TimeLine_Load(object sender, EventArgs e)
         {
             List<Post> allPost = _logic.GetAllByEvent(_event);
-            foreach (Post p in allPost)
+            int i = 0;
+            foreach (Reply p in allPost)
             {
-                textBox1.Text = textBox1.Text + p.Content + "\n";
+                if (p.MainPostID == 0)
+                {
+                    if (i <= 5)
+                    {
+                        tableLayoutPanel1.RowCount += 1;
+                        tableLayoutPanel1.Controls.Add(new PostFeed(p), 0, i);
+                        i++;
+                    }
+                }
             }
         }
     }
