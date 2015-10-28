@@ -13,6 +13,7 @@ namespace SharedModels.Models
         public int GuestID { get; }
         public int EventID { get; }
         public int MediaID { get; set; }
+        public List<int> Likes { get; set; } 
         public DateTime Date { get; set; }
         public bool Visible { get; set; }
         public string Content { get; set; }

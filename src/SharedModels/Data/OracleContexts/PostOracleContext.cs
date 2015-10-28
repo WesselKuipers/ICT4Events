@@ -98,6 +98,46 @@ namespace SharedModels.Data.OracleContexts
             return res.Select(GetReplyEntityFromRecord).ToList();
         }
 
+        public List<int> GetAllLikes(Post post)
+        {
+            var query = "SELECT userid FROM likes WHERE postid = :postid";
+            var parameters = new List<OracleParameter>
+            {
+                new OracleParameter("postid", post.ID)
+            };
+
+            var res = Database.ExecuteReader(query, parameters);
+
+            if (!res.Any()) return null;
+
+            var result = res.Select(r => Convert.ToInt32(r[0])).ToList();
+            return result;
+        }
+
+        public bool AddLikeToPost(Post post, Guest guest)
+        {
+            var query = "INSERT INTO likes (postid, userid) VALUES (:postid, :userid)";
+            var parameters = new List<OracleParameter>
+            {
+                new OracleParameter("postid", post.ID),
+                new OracleParameter("userid", guest.ID)
+            };
+
+            return Database.ExecuteNonQuery(query, parameters);
+        }
+
+        public bool RemoveLikeFromPost(Post post, Guest guest)
+        {
+            var query = "DELETE FROM likes WHERE postid = :postid AND userid = :userid)";
+            var parameters = new List<OracleParameter>
+            {
+                new OracleParameter("postid", post.ID),
+                new OracleParameter("userid", guest.ID)
+            };
+
+            return Database.ExecuteNonQuery(query, parameters);
+        }
+
         protected override Post GetEntityFromRecord(List<string> record)
         {
             //postid userid eventid mediaid mainpostid postdate visible content
@@ -108,17 +148,27 @@ namespace SharedModels.Data.OracleContexts
                 return GetReplyEntityFromRecord(record);
             }
 
-            return new Post(Convert.ToInt32(record[0]), Convert.ToInt32(record[1]), Convert.ToInt32(record[2]),
-                Convert.ToInt32(record[3]), DateTime.Parse(record[5]), Convert.ToBoolean(Convert.ToInt32(record[6])), record[7]);
+            var result = new Post(Convert.ToInt32(record[0]), Convert.ToInt32(record[1]), Convert.ToInt32(record[2]),
+                Convert.ToInt32(record[3]), DateTime.Parse(record[5]), Convert.ToBoolean(Convert.ToInt32(record[6])),
+                record[7]);
+
+            result.Likes = GetAllLikes(result);
+
+            return result;
         }
 
         private Reply GetReplyEntityFromRecord(List<string> record)
         {
             if (record == null) return null;
 
-            return new Reply(Convert.ToInt32(record[0]), Convert.ToInt32(record[1]), Convert.ToInt32(record[2]),
+
+            var result = new Reply(Convert.ToInt32(record[0]), Convert.ToInt32(record[1]), Convert.ToInt32(record[2]),
                     Convert.ToInt32(record[3]), Convert.ToInt32(record[4]), DateTime.Parse(record[5]),
                     Convert.ToBoolean(Convert.ToInt32(record[6])), record[7]);
+
+            result.Likes = GetAllLikes(result);
+
+            return result;
         }
     }
 }

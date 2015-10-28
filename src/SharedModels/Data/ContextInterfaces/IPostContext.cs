@@ -11,5 +11,8 @@ namespace SharedModels.Data.ContextInterfaces
     {
         List<Post> GetAllByEvent(Event ev);
         List<Reply> GetRepliesByPost(Post post);
+        List<int> GetAllLikes(Post post);
+        bool AddLikeToPost(Post post, Guest guest);
+        bool RemoveLikeFromPost(Post post, Guest guest);
     }
 }
