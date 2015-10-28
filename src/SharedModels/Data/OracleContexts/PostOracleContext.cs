@@ -108,14 +108,6 @@ namespace SharedModels.Data.OracleContexts
                 return GetReplyEntityFromRecord(record);
             }
 
-            for (int i = 0; i < record.Count; i++)
-            {
-                if (string.IsNullOrEmpty((record[i])))
-                {
-                    record[i] = "0";
-                }
-            }
-
             return new Post(Convert.ToInt32(record[0]), Convert.ToInt32(record[1]), Convert.ToInt32(record[2]),
                 Convert.ToInt32(record[3]), DateTime.Parse(record[5]), Convert.ToBoolean(Convert.ToInt32(record[6])), record[7]);
         }
@@ -123,13 +115,7 @@ namespace SharedModels.Data.OracleContexts
         private Reply GetReplyEntityFromRecord(List<string> record)
         {
             if (record == null) return null;
-            for (int i = 0; i < record.Count; i++)
-            {
-                if (string.IsNullOrEmpty((record[i])))
-                {
-                    record[i] = "0";
-                }
-            }
+
             return new Reply(Convert.ToInt32(record[0]), Convert.ToInt32(record[1]), Convert.ToInt32(record[2]),
                     Convert.ToInt32(record[3]), Convert.ToInt32(record[4]), DateTime.Parse(record[5]),
                     Convert.ToBoolean(Convert.ToInt32(record[6])), record[7]);

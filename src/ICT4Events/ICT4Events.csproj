@@ -208,7 +208,6 @@
     <EmbeddedResource Include="Views\SocialSystem\Forms\SocialMediaSystemForm.resx">
       <DependentUpon>SocialMediaSystemForm.cs</DependentUpon>
     </EmbeddedResource>
-    <None Include="ClassDiagram1.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
