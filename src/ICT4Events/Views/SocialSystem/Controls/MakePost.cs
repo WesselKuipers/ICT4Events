@@ -1,15 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
 using System.IO;
 using System.Linq;
-using System.Net;
-using System.Security;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using SharedModels.Data.OracleContexts;
 using SharedModels.Enums;
@@ -111,7 +103,6 @@ namespace ICT4Events.Views.SocialSystem.Controls
 
         /// <summary>
         /// MAKING AND ADDING POST TO DATABASE
-        /// TODO: POSTHASH UIT BERICHT FILTEREN EN OPSLAAN IN DATABASE
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -129,23 +120,28 @@ namespace ICT4Events.Views.SocialSystem.Controls
                 }
                 else
                 {
-                    // Filter tags out of message
-                    var regex = new Regex(@"(?<=#)\w+");
-                    var matches = regex.Matches(tbBerichtPost.Text);
-
+                    Post addedPost;
                     if (string.IsNullOrEmpty(_filepath))
                     {
                         Post p = new Post(0, _user.ID, _event.ID, 0, DateTime.Now, true, tbBerichtPost.Text);
-                        _logicPost.Insert(p);
+                        addedPost = _logicPost.Insert(p);
                     }
                     else
                     {
                         if (_uploadedFile != null)
                         {
-                            Post p = new Post(0, _user.ID, _event.ID, _uploadedFile.ID, DateTime.Now, true,
-                                tbBerichtPost.Text);
-                            _logicPost.Insert(p);
+                            Post p = new Post(0, _user.ID, _event.ID, _uploadedFile.ID, DateTime.Now, true, tbBerichtPost.Text);
+                            addedPost = _logicPost.Insert(p);
                         }
+                    }
+
+                    // Filter tags out of message
+                    // TODO: POSTTAG ORACLECONTEXT moet toegevoegd worden om posttags om te slaan.
+                    var regex = new Regex(@"(?<=#)\w+");
+                    var matches = regex.Matches(tbBerichtPost.Text);
+                    foreach (Match m in matches)
+                    {
+                        m.ToString().Trim('#');
                     }
 
                     MessageBox.Show(@"Je bericht is gepubliceerd op je tijdlijn");
