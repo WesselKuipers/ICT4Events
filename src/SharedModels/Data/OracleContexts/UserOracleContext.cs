@@ -57,7 +57,6 @@ namespace SharedModels.Data.OracleContexts
             return GetById(Convert.ToInt32(newID));
         }
 
-        // BUG: This doesn't work in the local XE DB?
         public bool Update(User user)
         {
             const string query = "UPDATE useraccount SET firstname = :firstname, surname = :surname, country = :country, address = :address, city = :city, postal = :postal, phonenumber = :phonenumber, permissionlevel = :permissionlevel WHERE userid = :userid";

@@ -50,17 +50,17 @@ namespace SharedModels.Data
 
             try
             {
-                using (var con = new OracleCommand(query, Connection))
+                using (var command = new OracleCommand(query, Connection) {BindByName = true})
                 {
                     if (args != null)
                     {
                         foreach (var arg in args)
                         {
-                            con.Parameters.Add(arg);
+                            command.Parameters.Add(arg);
                         }
                     }
 
-                    var queryResult = con.ExecuteReader();
+                    var queryResult = command.ExecuteReader();
                     while (queryResult.Read())
                     {
                         var record = new string[queryResult.FieldCount];
@@ -94,17 +94,17 @@ namespace SharedModels.Data
 
             try
             {
-                using (var con = new OracleCommand(query, Connection))
+                using (var command = new OracleCommand(query, Connection) {BindByName = true})
                 {
                     if (args != null)
                     {
                         foreach (var arg in args)
                         {
-                            con.Parameters.Add(arg);
+                            command.Parameters.Add(arg);
                         }
                     }
 
-                    var queryResult = con.ExecuteReader();
+                    var queryResult = command.ExecuteReader();
 
                     while (queryResult.Read())
                     {
@@ -136,17 +136,17 @@ namespace SharedModels.Data
             var result = -1;
             try
             {
-                using (var con = new OracleCommand(query, Connection))
+                using (var command = new OracleCommand(query, Connection) {BindByName = true})
                 {
                     if (args != null)
                     {
                         foreach (var arg in args)
                         {
-                           con.Parameters.Add(arg);
+                            command.Parameters.Add(arg);
                         }
                     }
 
-                    result = con.ExecuteNonQuery();
+                    result = command.ExecuteNonQuery();
                 }
             }
             catch (OracleException e)
@@ -171,7 +171,7 @@ namespace SharedModels.Data
 
             try
             {
-                using (var con = new OracleCommand(query, Connection))
+                using (var command = new OracleCommand(query, Connection) {BindByName = true})
                 {
                     if (args != null)
                     {
@@ -181,11 +181,11 @@ namespace SharedModels.Data
                             {
                                 returnParameter = arg;
                             }
-                            con.Parameters.Add(arg);
+                            command.Parameters.Add(arg);
                         }
                     }
 
-                    result = con.ExecuteNonQuery();
+                    result = command.ExecuteNonQuery();
 
                     if (returnParameter != null)
                     {
@@ -212,17 +212,17 @@ namespace SharedModels.Data
 
             try
             {
-                using (var con = new OracleCommand(query, Connection))
+                using (var command = new OracleCommand(query, Connection) {BindByName = true})
                 {
                     if (args != null)
                     {
                         foreach (var arg in args)
                         {
-                            con.Parameters.Add(arg);
+                            command.Parameters.Add(arg);
                         }
                     }
 
-                    result = con.ExecuteScalar();
+                    result = command.ExecuteScalar();
                 }
             }
             catch (OracleException e)
