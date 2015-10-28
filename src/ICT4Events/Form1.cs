@@ -5,6 +5,8 @@ using ICT4Events.Views;
 using ICT4Events.Views.Accountsystem;
 using ICT4Events.Views.Reservation_System;
 using ICT4Events.Views.SocialSystem.Forms;
+using SharedModels.Data.OracleContexts;
+using SharedModels.Logic;
 using SharedModels.Models;
 
 namespace ICT4Events
@@ -13,12 +15,16 @@ namespace ICT4Events
     {
         private readonly User _user;
         private readonly Event _ev;
+        private readonly Guest _guest;
+        private readonly GuestOracleContext _logicGuest;
 
         public Form1(User user)
         {
-            _ev = new Event(1, "ICT4Events", new DateTime(2015,10, 09), new DateTime(2015, 10, 15), "IdontKnowYet", "IdontKnowYet", 100);
             InitializeComponent();
+            _logicGuest = new GuestOracleContext();
+            _ev = new Event(1, "ICT4Events", new DateTime(2015, 10, 09), new DateTime(2015, 10, 15), "IdontKnowYet", "IdontKnowYet", 100);
             _user = user;
+            _guest = _logicGuest.GetById(user.ID);
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -43,7 +49,7 @@ namespace ICT4Events
 
         private void btSocial_Click(object sender, EventArgs e)
         {
-            new SocialMediaSystemForm(_user, _ev).ShowDialog();
+            new SocialMediaSystemForm(_guest, _ev).ShowDialog();
         }
     }
 }
