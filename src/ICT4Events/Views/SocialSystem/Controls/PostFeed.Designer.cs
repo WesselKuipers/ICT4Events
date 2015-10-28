@@ -28,25 +28,16 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.lbReaction = new System.Windows.Forms.Label();
             this.pbMediaMessage = new System.Windows.Forms.PictureBox();
-            this.lblPostMessage = new System.Windows.Forms.Label();
+            this.lbReport1 = new System.Windows.Forms.Label();
             this.lblAuteurNaam = new System.Windows.Forms.Label();
             this.lblDatum = new System.Windows.Forms.Label();
-            this.lbPostBekijken = new System.Windows.Forms.Label();
-            this.lbLike = new System.Windows.Forms.Label();
-            this.lbReport = new System.Windows.Forms.Label();
+            this.lblDownloadMedia = new System.Windows.Forms.LinkLabel();
+            this.lbReaction = new System.Windows.Forms.LinkLabel();
+            this.lbLike = new System.Windows.Forms.LinkLabel();
+            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             ((System.ComponentModel.ISupportInitialize)(this.pbMediaMessage)).BeginInit();
             this.SuspendLayout();
-            // 
-            // lbReaction
-            // 
-            this.lbReaction.AutoSize = true;
-            this.lbReaction.Location = new System.Drawing.Point(420, 103);
-            this.lbReaction.Name = "lbReaction";
-            this.lbReaction.Size = new System.Drawing.Size(54, 13);
-            this.lbReaction.TabIndex = 0;
-            this.lbReaction.Text = "Reageren";
             // 
             // pbMediaMessage
             // 
@@ -57,14 +48,14 @@
             this.pbMediaMessage.TabStop = false;
             this.pbMediaMessage.Tag = "";
             // 
-            // lblPostMessage
+            // lbReport1
             // 
-            this.lblPostMessage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblPostMessage.Location = new System.Drawing.Point(37, 16);
-            this.lblPostMessage.Name = "lblPostMessage";
-            this.lblPostMessage.Size = new System.Drawing.Size(454, 87);
-            this.lblPostMessage.TabIndex = 4;
-            this.lblPostMessage.Text = "Inhoud van het bericht met mogelijkheid voor meerdere regels. bla bla bla";
+            this.lbReport1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lbReport1.Location = new System.Drawing.Point(37, 16);
+            this.lbReport1.Name = "lbReport1";
+            this.lbReport1.Size = new System.Drawing.Size(454, 87);
+            this.lbReport1.TabIndex = 4;
+            this.lbReport1.Text = "Inhoud van het bericht met mogelijkheid voor meerdere regels. bla bla bla";
             // 
             // lblAuteurNaam
             // 
@@ -81,49 +72,63 @@
             this.lblDatum.AutoSize = true;
             this.lblDatum.Location = new System.Drawing.Point(34, 103);
             this.lblDatum.Name = "lblDatum";
-            this.lblDatum.Size = new System.Drawing.Size(35, 13);
+            this.lblDatum.Size = new System.Drawing.Size(73, 13);
             this.lblDatum.TabIndex = 6;
-            this.lblDatum.Text = "label1";
+            this.lblDatum.Text = "Geplaatst op: ";
             // 
-            // lbPostBekijken
+            // lblDownloadMedia
             // 
-            this.lbPostBekijken.AutoSize = true;
-            this.lbPostBekijken.Location = new System.Drawing.Point(274, 103);
-            this.lbPostBekijken.Name = "lbPostBekijken";
-            this.lbPostBekijken.Size = new System.Drawing.Size(72, 13);
-            this.lbPostBekijken.TabIndex = 7;
-            this.lbPostBekijken.Text = "Post Bekijken";
+            this.lblDownloadMedia.AutoSize = true;
+            this.lblDownloadMedia.Location = new System.Drawing.Point(584, 106);
+            this.lblDownloadMedia.Name = "lblDownloadMedia";
+            this.lblDownloadMedia.Size = new System.Drawing.Size(67, 13);
+            this.lblDownloadMedia.TabIndex = 10;
+            this.lblDownloadMedia.TabStop = true;
+            this.lblDownloadMedia.Text = "Downloaden";
+            this.lblDownloadMedia.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lblDownloadMedia_LinkClicked);
+            // 
+            // lbReaction
+            // 
+            this.lbReaction.AutoSize = true;
+            this.lbReaction.Location = new System.Drawing.Point(437, 106);
+            this.lbReaction.Name = "lbReaction";
+            this.lbReaction.Size = new System.Drawing.Size(54, 13);
+            this.lbReaction.TabIndex = 11;
+            this.lbReaction.TabStop = true;
+            this.lbReaction.Text = "Reageren";
             // 
             // lbLike
             // 
             this.lbLike.AutoSize = true;
-            this.lbLike.Location = new System.Drawing.Point(352, 103);
+            this.lbLike.Location = new System.Drawing.Point(369, 106);
             this.lbLike.Name = "lbLike";
             this.lbLike.Size = new System.Drawing.Size(62, 13);
-            this.lbLike.TabIndex = 8;
+            this.lbLike.TabIndex = 12;
+            this.lbLike.TabStop = true;
             this.lbLike.Text = "Vind ik leuk";
             // 
-            // lbReport
+            // linkLabel1
             // 
-            this.lbReport.AutoSize = true;
-            this.lbReport.Location = new System.Drawing.Point(202, 103);
-            this.lbReport.Name = "lbReport";
-            this.lbReport.Size = new System.Drawing.Size(66, 13);
-            this.lbReport.TabIndex = 9;
-            this.lbReport.Text = "Rapporteren";
+            this.linkLabel1.AutoSize = true;
+            this.linkLabel1.Location = new System.Drawing.Point(297, 106);
+            this.linkLabel1.Name = "linkLabel1";
+            this.linkLabel1.Size = new System.Drawing.Size(66, 13);
+            this.linkLabel1.TabIndex = 13;
+            this.linkLabel1.TabStop = true;
+            this.linkLabel1.Text = "Rapporteren";
             // 
             // PostFeed
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.lbReport);
+            this.Controls.Add(this.linkLabel1);
             this.Controls.Add(this.lbLike);
-            this.Controls.Add(this.lbPostBekijken);
+            this.Controls.Add(this.lbReaction);
+            this.Controls.Add(this.lblDownloadMedia);
             this.Controls.Add(this.lblDatum);
             this.Controls.Add(this.pbMediaMessage);
             this.Controls.Add(this.lblAuteurNaam);
-            this.Controls.Add(this.lbReaction);
-            this.Controls.Add(this.lblPostMessage);
+            this.Controls.Add(this.lbReport1);
             this.Name = "PostFeed";
             this.Size = new System.Drawing.Size(670, 130);
             this.Load += new System.EventHandler(this.PostFeed_Load);
@@ -134,14 +139,13 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.Label lbReaction;
         private System.Windows.Forms.PictureBox pbMediaMessage;
-        private System.Windows.Forms.Label lblPostMessage;
+        private System.Windows.Forms.Label lbReport1;
         private System.Windows.Forms.Label lblAuteurNaam;
         private System.Windows.Forms.Label lblDatum;
-        private System.Windows.Forms.Label lbPostBekijken;
-        private System.Windows.Forms.Label lbLike;
-        private System.Windows.Forms.Label lbReport;
+        private System.Windows.Forms.LinkLabel lblDownloadMedia;
+        private System.Windows.Forms.LinkLabel lbReaction;
+        private System.Windows.Forms.LinkLabel lbLike;
+        private System.Windows.Forms.LinkLabel linkLabel1;
     }
 }

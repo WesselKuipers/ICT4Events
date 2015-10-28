@@ -27,24 +27,57 @@ namespace ICT4Events.Views.SocialSystem.Controls
 
         private void PostFeed_Load(object sender, EventArgs e)
         {
-            lblPostMessage.Text = _post.Content;
+            lbReport1.Text = _post.Content;
             lblAuteurNaam.Text = _user.Name +@" "+ _user.Surname;
             lblDatum.Text = @"Geplaatst op "+_post.Date.ToString("dd/MM/yyyy");
 
             if (_post.MediaID != 0)
             {
-                string dirFileDown = Path.GetDirectoryName(Application.ExecutablePath) + @"\downloaded_files\";
-
                 _media = _logicMeida.GetById(_post.MediaID);
-                Directory.CreateDirectory(dirFileDown);
+                string dirDownloadedFiles = Path.GetDirectoryName(Application.ExecutablePath) + @"\downloaded_files\";
+                string ftpPath = @"/" + _post.EventID + @"/" + _post.GuestID + @"/" + _media.Path;
+                string localFilePath = dirDownloadedFiles + _media.Path;
 
-                FtpHelper.DownloadFile(@"/" + _post.EventID + @"/" + _post.GuestID + @"/" + _media.Path, dirFileDown + _media.Path);
-                string p1 = new Uri(dirFileDown + _media.Path).AbsolutePath;
-                string p2 = new Uri(dirFileDown + _media.Path).LocalPath;
-                pbMediaMessage.ImageLocation = new Uri(dirFileDown + _media.Path).LocalPath;
-                pbMediaMessage.SizeMode = PictureBoxSizeMode.StretchImage;
-           }
+                if (!File.Exists(dirDownloadedFiles)) Directory.CreateDirectory(dirDownloadedFiles);
 
+                if (!File.Exists(localFilePath))
+                {
+                    // TODO: Betere manier om bestand op te halen?
+                    if (FtpHelper.DownloadFile(ftpPath, localFilePath))
+                    {
+                        pbMediaMessage.ImageLocation = @localFilePath;
+                        pbMediaMessage.SizeMode = PictureBoxSizeMode.StretchImage;
+                    }
+                }
+                else
+                {
+                    pbMediaMessage.ImageLocation = @localFilePath;
+                    pbMediaMessage.SizeMode = PictureBoxSizeMode.StretchImage;
+                }
+
+            }
+            else
+            {
+                pbMediaMessage.Visible = false;
+                lblDownloadMedia.Visible = false;
+            }
+
+        }
+
+        private void lblDownloadMedia_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            if (_post.MediaID != 0)
+            {
+                _media = _logicMeida.GetById(_post.MediaID);
+                string dirDownloadedFiles = Path.GetDirectoryName(Application.ExecutablePath) + @"\downloaded_files\";
+                string localFilePath = new Uri(dirDownloadedFiles + _media.Path).AbsolutePath;
+                SaveFileDialog saveMedia = new SaveFileDialog();
+                saveMedia.FileName = _media.Name;
+                if (saveMedia.ShowDialog() == DialogResult.OK)
+                {
+                    // ToDo: Bestand laten downloaden.
+                }
+            }
         }
     }
 }
