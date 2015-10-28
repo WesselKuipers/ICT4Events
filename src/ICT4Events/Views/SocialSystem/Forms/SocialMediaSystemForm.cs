@@ -7,9 +7,9 @@ namespace ICT4Events.Views.SocialSystem.Forms
 {
     public partial class SocialMediaSystemForm : Form
     {
-        private readonly User _user;
+        private readonly Guest _user;
         private readonly Event _event;
-        public SocialMediaSystemForm(User user, Event ev)
+        public SocialMediaSystemForm(Guest user, Event ev)
         {
             InitializeComponent();
             _user = user;

@@ -12,14 +12,14 @@ namespace ICT4Events.Views.SocialSystem.Controls
 {
     public partial class MakePost : UserControl
     {
-        private readonly User _user;
+        private readonly Guest _user;
         private readonly Event _event;
         private readonly MediaOracleContext _logicMedia;
         private readonly PostOracleContext _logicPost;
         private string _filepath;
         private Media _uploadedFile;
 
-        public MakePost(User user, Event ev)
+        public MakePost(Guest user, Event ev)
         {
             InitializeComponent();
             _user = user;
