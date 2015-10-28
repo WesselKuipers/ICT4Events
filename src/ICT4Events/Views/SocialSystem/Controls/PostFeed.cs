@@ -1,9 +1,10 @@
 ﻿using System;
-using System.Globalization;
 using System.IO;
 using System.Windows.Forms;
+using ICT4Events.Views.SocialSystem.Forms;
 using SharedModels.Data.OracleContexts;
 using SharedModels.FTP;
+using SharedModels.Logic;
 using SharedModels.Models;
 
 namespace ICT4Events.Views.SocialSystem.Controls
@@ -11,18 +12,24 @@ namespace ICT4Events.Views.SocialSystem.Controls
     public partial class PostFeed : UserControl
     {
         private readonly Post _post;
+        private readonly Event _event;
         private readonly User _user;
         private Media _media;
         private readonly UserOracleContext _logicUser;
         private readonly MediaOracleContext _logicMeida;
+        private readonly PostLogic _logicPost;
+        private readonly GuestLogic _logicGuest;
 
-        public PostFeed(Post post)
+        public PostFeed(Post post, Event ev)
         {
             InitializeComponent();
             _post = post;
+            _event = ev;
             _logicUser = new UserOracleContext();
             _user = _logicUser.GetById(_post.GuestID);
             _logicMeida = new MediaOracleContext();
+            _logicPost = new PostLogic();
+            _logicGuest = new GuestLogic(new GuestOracleContext());
         }
 
         private void PostFeed_Load(object sender, EventArgs e)
@@ -77,6 +84,19 @@ namespace ICT4Events.Views.SocialSystem.Controls
                 {
                     // ToDo: Bestand laten downloaden.
                 }
+            }
+        }
+
+        private void lbReport_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            var reportForm = new ReportPostForm();
+            var result = reportForm.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                // try to add report to database and show appropriate message
+                MessageBox.Show(_logicPost.Report(_logicGuest.GetGuestByEvent(_event, _user.ID), _post, reportForm.ReasonReturnValue)
+                    ? "Rapport succesvol verzonden. Bedankt voor u feedback!"
+                    : "Er is iets fout gegaan met het doorvoeren van dit rapport, onze excuses hiervoor.");
             }
         }
     }

@@ -35,7 +35,7 @@
             this.lblDownloadMedia = new System.Windows.Forms.LinkLabel();
             this.lbReaction = new System.Windows.Forms.LinkLabel();
             this.lbLike = new System.Windows.Forms.LinkLabel();
-            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
+            this.lbReport = new System.Windows.Forms.LinkLabel();
             ((System.ComponentModel.ISupportInitialize)(this.pbMediaMessage)).BeginInit();
             this.SuspendLayout();
             // 
@@ -107,21 +107,22 @@
             this.lbLike.TabStop = true;
             this.lbLike.Text = "Vind ik leuk";
             // 
-            // linkLabel1
+            // lbReport
             // 
-            this.linkLabel1.AutoSize = true;
-            this.linkLabel1.Location = new System.Drawing.Point(297, 106);
-            this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Size = new System.Drawing.Size(66, 13);
-            this.linkLabel1.TabIndex = 13;
-            this.linkLabel1.TabStop = true;
-            this.linkLabel1.Text = "Rapporteren";
+            this.lbReport.AutoSize = true;
+            this.lbReport.Location = new System.Drawing.Point(297, 106);
+            this.lbReport.Name = "lbReport";
+            this.lbReport.Size = new System.Drawing.Size(66, 13);
+            this.lbReport.TabIndex = 13;
+            this.lbReport.TabStop = true;
+            this.lbReport.Text = "Rapporteren";
+            this.lbReport.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lbReport_LinkClicked);
             // 
             // PostFeed
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.linkLabel1);
+            this.Controls.Add(this.lbReport);
             this.Controls.Add(this.lbLike);
             this.Controls.Add(this.lbReaction);
             this.Controls.Add(this.lblDownloadMedia);
@@ -146,6 +147,6 @@
         private System.Windows.Forms.LinkLabel lblDownloadMedia;
         private System.Windows.Forms.LinkLabel lbReaction;
         private System.Windows.Forms.LinkLabel lbLike;
-        private System.Windows.Forms.LinkLabel linkLabel1;
+        private System.Windows.Forms.LinkLabel lbReport;
     }
 }
