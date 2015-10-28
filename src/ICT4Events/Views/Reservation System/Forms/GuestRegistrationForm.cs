@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using SharedModels.Exceptions;
 using SharedModels.Logic;
 using SharedModels.Models;
 

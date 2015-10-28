@@ -19,7 +19,7 @@ namespace ICT4Events.Views.Accountsystem.Controls
 
         private void ucDeleteUser_Load(object sender, EventArgs e)
         {
-            //add all users that are not administrators to the listbox
+            // add all users that are not administrators to the listbox
             foreach (var user in _logic.AllUsers.Where(user => user.Permission != PermissionType.Administrator))
             {
                 lbUsers.Items.Add(user);

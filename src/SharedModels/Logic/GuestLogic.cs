@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Web.Security;
 using SharedModels.Data.ContextInterfaces;
 using SharedModels.Enums;
+using SharedModels.FTP;
 using SharedModels.Models;
 
 namespace SharedModels.Logic
@@ -58,8 +59,11 @@ namespace SharedModels.Logic
             var guest = new Guest(user.ID, user.Username, user.Password, user.Name, "", false, ev.ID, false, start, end,
                 location.ID, user.RegistrationDate, user.Permission, user.Surname, user.Country, user.City, user.Postal,
                 user.Address, user.Telephone, leaderID);
+            
             // TODO: Make emails work
             //SendConfirmationEmail(user, ev, location, start, end);
+
+            FtpHelper.CreateDirectory($"{ev.ID}/{guest.ID}");
 
             return _context.Insert(guest);
         }

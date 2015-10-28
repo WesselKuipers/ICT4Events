@@ -19,9 +19,9 @@ namespace ICT4Events.Views.Accountsystem
 
         private void RegisterUserForm_Load(object sender, EventArgs e)
         {
-            foreach (var permtype in Enum.GetValues(typeof(Country)))
+            foreach (var country in Enum.GetValues(typeof(Country)))
             {
-                cbCountry.Items.Add(permtype);
+                cbCountry.Items.Add(country);
             }
 
             cbCountry.SelectedItem = Country.Nederland;
@@ -74,9 +74,10 @@ namespace ICT4Events.Views.Accountsystem
         private bool AreNeededFieldsFilled()
         {
             return 
-                !string.IsNullOrWhiteSpace(txtEmail.Text) ||
-                !string.IsNullOrWhiteSpace(txtName.Text) ||
-                !string.IsNullOrWhiteSpace(txtPass1.Text) ||
+                !string.IsNullOrWhiteSpace(txtEmail.Text) &&
+                User.IsValidEmail(txtEmail.Text)          &&
+                !string.IsNullOrWhiteSpace(txtName.Text)  &&
+                !string.IsNullOrWhiteSpace(txtPass1.Text) &&
                 !string.IsNullOrWhiteSpace(txtPass2.Text);
         }
     }

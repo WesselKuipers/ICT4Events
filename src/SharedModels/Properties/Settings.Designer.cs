@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ICT4Events.Properties {
+namespace SharedModels.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
@@ -25,10 +25,28 @@ namespace ICT4Events.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("smtp.gmail.com")]
-        public string SMTPAddress {
+        [global::System.Configuration.DefaultSettingValueAttribute("192.168.20.221")]
+        public string FTPAddress {
             get {
-                return ((string)(this["SMTPAddress"]));
+                return ((string)(this["FTPAddress"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("upload")]
+        public string FTPUser {
+            get {
+                return ((string)(this["FTPUser"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("welkom1234!")]
+        public string FTPPassword {
+            get {
+                return ((string)(this["FTPPassword"]));
             }
         }
     }

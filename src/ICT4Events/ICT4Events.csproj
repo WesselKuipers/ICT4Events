@@ -131,7 +131,6 @@
     <Compile Include="Views\Reservation System\Forms\GuestRegistrationForm.Designer.cs">
       <DependentUpon>GuestRegistrationForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\Reservation System\Forms\InvalidEventRegistrationException.cs" />
     <Compile Include="Views\Reservation System\ReservationSystemForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -228,6 +227,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Views\EventManagementSystem\" />
     <Folder Include="Views\Reservation System\Controls\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
