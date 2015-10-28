@@ -60,6 +60,7 @@
             this.txtUsername.Name = "txtUsername";
             this.txtUsername.Size = new System.Drawing.Size(140, 20);
             this.txtUsername.TabIndex = 7;
+            this.txtUsername.Text = "stefanovandeBovenkamp@teleworm.us";
             // 
             // label2
             // 
