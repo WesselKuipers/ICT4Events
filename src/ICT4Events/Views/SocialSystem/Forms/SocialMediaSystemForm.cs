@@ -27,13 +27,27 @@ namespace ICT4Events.Views.SocialSystem.Forms
         
         private void SocialMediaSystemForm_Load(object sender, EventArgs e)
         {
-            TimeLine timeLine = new TimeLine(_user, _event);
-            timeLine.Dock = DockStyle.Fill;
-            tbTimeLine.Controls.Add(timeLine);
+            if (_user != null)
+            {
+                TimeLine timeLine = new TimeLine(_user, _event);
+                timeLine.Dock = DockStyle.Fill;
+                tbTimeLine.Controls.Add(timeLine);
 
-            MakePost makePost = new MakePost(_user, _event);
-            makePost.Anchor = (AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top);
-            tbMakePost.Controls.Add(makePost);
+                MakePost makePost = new MakePost(_user, _event);
+                makePost.Anchor = (AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top);
+                tbMakePost.Controls.Add(makePost);
+            }
+            else
+            {
+                TimeLine timeLine = new TimeLine(_admin, _event);
+                timeLine.Dock = DockStyle.Fill;
+                tbTimeLine.Controls.Add(timeLine);
+
+                MakePost makePost = new MakePost(_admin, _event);
+                makePost.Anchor = (AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top);
+                tbMakePost.Controls.Add(makePost);
+
+            }
         }
     }
 }

@@ -9,12 +9,20 @@ namespace ICT4Events.Views.SocialSystem.Controls
     public partial class TimeLine : UserControl
     {
         private readonly Guest _user ;
+        private readonly User _admin;
         private readonly Event _event;
         private readonly PostLogic _logic;
         public TimeLine(Guest user, Event ev)
         {
             InitializeComponent();
             _user = user;
+            _event = ev;
+            _logic = new PostLogic();
+        }
+        public TimeLine(User user, Event ev)
+        {
+            InitializeComponent();
+            _admin = user;
             _event = ev;
             _logic = new PostLogic();
         }
@@ -30,14 +38,21 @@ namespace ICT4Events.Views.SocialSystem.Controls
         {
             List<Post> allPost = _logic.GetAllByEvent(_event);
             int i = 0;
-            foreach (Reply p in allPost)
+            foreach (Reply post in allPost)
             {
-                if (p.MainPostID == 0)
+                if (post.MainPostID == 0)
                 {
                     if (i <= 5)
                     {
                         tableLayoutPanel1.RowCount += 1;
-                        tableLayoutPanel1.Controls.Add(new PostFeed(p, _event, _user), 0, i);
+                        if (_user != null)
+                        {
+                            tableLayoutPanel1.Controls.Add(new PostFeed(post, _event, _user, false), 0, i);
+                        }
+                        else
+                        {
+                            tableLayoutPanel1.Controls.Add(new PostFeed(post, _event, _admin, false), 0, i);
+                        }
                         i++;
                     }
                 }

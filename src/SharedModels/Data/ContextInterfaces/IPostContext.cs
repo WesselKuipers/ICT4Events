@@ -16,6 +16,8 @@ namespace SharedModels.Data.ContextInterfaces
         List<int> GetAllLikes(Post post);
         bool AddLikeToPost(Post post, Guest guest);
         bool RemoveLikeFromPost(Post post, Guest guest);
+        bool AddLikeToPost(Post post, User admin);
+        bool RemoveLikeFromPost(Post post, User admin);
 
         List<Post> GetPostsByTag(string tag);
         List<string> GetTagsByPost(Post post);

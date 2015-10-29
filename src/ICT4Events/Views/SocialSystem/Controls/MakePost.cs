@@ -13,6 +13,7 @@ namespace ICT4Events.Views.SocialSystem.Controls
     public partial class MakePost : UserControl
     {
         private readonly Guest _user;
+        private readonly User _admin;
         private readonly Event _event;
         private readonly MediaOracleContext _logicMedia;
         private readonly PostOracleContext _logicPost;
@@ -23,6 +24,15 @@ namespace ICT4Events.Views.SocialSystem.Controls
         {
             InitializeComponent();
             _user = user;
+            _event = ev;
+            _logicMedia = new MediaOracleContext();
+            _logicPost = new PostOracleContext();
+
+        }
+        public MakePost(User admin, Event ev)
+        {
+            InitializeComponent();
+            _admin = admin;
             _event = ev;
             _logicMedia = new MediaOracleContext();
             _logicPost = new PostOracleContext();
@@ -70,38 +80,83 @@ namespace ICT4Events.Views.SocialSystem.Controls
                 string ftpFileExtension = Path.GetExtension(_filepath);
                 string ftpFileNameWithoutExtension = Path.GetFileNameWithoutExtension(_filepath);
 
-                if (!File.Exists(FtpHelper.ServerAddress + "/" + _event.ID))
+                if (_user != null)
                 {
-                    FtpHelper.CreateDirectory(_event.ID.ToString());
-                    if (!File.Exists(FtpHelper.ServerAddress + "/" + _event.ID + "/" + _user.ID))
+                    // user rights
+                    if (!File.Exists(FtpHelper.ServerAddress + "/" + _event.ID))
                     {
-                        FtpHelper.CreateDirectory(_event.ID + "/" + _user.ID);
+                        FtpHelper.CreateDirectory(_event.ID.ToString());
+                        if (!File.Exists(FtpHelper.ServerAddress + "/" + _event.ID + "/" + _user.ID))
+                        {
+                            FtpHelper.CreateDirectory(_event.ID + "/" + _user.ID);
+                        }
+                    }
+
+                    if (FtpHelper.UploadFile(_filepath, _event.ID + "/" + _user.ID + "/" + ftpFileName))
+                    {
+                        string[] imageEx = {".jpg", ".jpeg", ".jpe", ".jfif", ".png"};
+                        string[] audioEx = {".wav", ".mp3"};
+                        string[] videoEx = {".mp4"};
+
+                        MediaType type = MediaType.Image;
+                        if (imageEx.Contains(ftpFileExtension))
+                        {
+                            type = MediaType.Image;
+                        }
+                        else if (audioEx.Contains(ftpFileExtension))
+                        {
+                            type = MediaType.Audio;
+                        }
+                        else if (videoEx.Contains(ftpFileExtension))
+                        {
+                            type = MediaType.Video;
+                        }
+
+                        MessageBox.Show(@"Uw bestand is succesvol upgeload", @"Message", MessageBoxButtons.OK,
+                            MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+                        Media media = new Media(0, _user.ID, _event.ID, type, ftpFileNameWithoutExtension,
+                            ftpFileExtension, ftpFileName);
+                        _uploadedFile = _logicMedia.Insert(media);
                     }
                 }
-
-                if (FtpHelper.UploadFile(_filepath, _event.ID + "/" + _user.ID + "/" + ftpFileName))
+                else
                 {
-                    string[] imageEx = { ".jpg", ".jpeg", ".jpe", ".jfif", ".png" };
-                    string[] audioEx = { ".wav", ".mp3" };
-                    string[] videoEx = { ".mp4" };
-
-                    MediaType type = MediaType.Image;
-                    if (imageEx.Contains(ftpFileExtension))
+                    // admin rights
+                    if (!File.Exists(FtpHelper.ServerAddress + "/" + _event.ID))
                     {
-                        type = MediaType.Image;
-                    }
-                    else if (audioEx.Contains(ftpFileExtension))
-                    {
-                        type = MediaType.Audio;
-                    }
-                    else if (videoEx.Contains(ftpFileExtension))
-                    {
-                        type = MediaType.Video;
+                        FtpHelper.CreateDirectory(_event.ID.ToString());
+                        if (!File.Exists(FtpHelper.ServerAddress + "/" + _event.ID + "/" + _admin.ID))
+                        {
+                            FtpHelper.CreateDirectory(_event.ID + "/" + _admin.ID);
+                        }
                     }
 
-                    MessageBox.Show(@"Uw bestand is succesvol upgeload", @"Message", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
-                    Media media = new Media(0, _user.ID, _event.ID, type, ftpFileNameWithoutExtension, ftpFileExtension, ftpFileName);
-                    _uploadedFile = _logicMedia.Insert(media);
+                    if (FtpHelper.UploadFile(_filepath, _event.ID + "/" + _admin.ID + "/" + ftpFileName))
+                    {
+                        string[] imageEx = {".jpg", ".jpeg", ".jpe", ".jfif", ".png"};
+                        string[] audioEx = {".wav", ".mp3"};
+                        string[] videoEx = {".mp4"};
+
+                        MediaType type = MediaType.Image;
+                        if (imageEx.Contains(ftpFileExtension))
+                        {
+                            type = MediaType.Image;
+                        }
+                        else if (audioEx.Contains(ftpFileExtension))
+                        {
+                            type = MediaType.Audio;
+                        }
+                        else if (videoEx.Contains(ftpFileExtension))
+                        {
+                            type = MediaType.Video;
+                        }
+
+                        MessageBox.Show(@"Uw bestand is succesvol upgeload", @"Message", MessageBoxButtons.OK,
+                            MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+                        Media media = new Media(0, _admin.ID, _event.ID, type, ftpFileNameWithoutExtension,
+                            ftpFileExtension, ftpFileName);
+                        _uploadedFile = _logicMedia.Insert(media);
+                    }
                 }
             }
         }
@@ -128,15 +183,37 @@ namespace ICT4Events.Views.SocialSystem.Controls
                     Post addedPost = null;
                     if (string.IsNullOrEmpty(_filepath))
                     {
-                        Post p = new Post(0, _user.ID, _event.ID, 0, DateTime.Now, true, tbBerichtPost.Text);
-                        addedPost = _logicPost.Insert(p);
+                        if (_user != null)
+                        {
+                            // guest makes post with media
+                            Post p = new Post(0, _user.ID, _event.ID, 0, DateTime.Now, true, tbBerichtPost.Text);
+                            addedPost = _logicPost.Insert(p);
+                        }
+                        else
+                        {
+                            // Admin makes post with media
+                            Post p = new Post(0, _admin.ID, _event.ID, 0, DateTime.Now, true, tbBerichtPost.Text);
+                            addedPost = _logicPost.Insert(p);
+                        }
+                        
                     }
                     else
                     {
                         if (_uploadedFile != null)
                         {
-                            Post p = new Post(0, _user.ID, _event.ID, _uploadedFile.ID, DateTime.Now, true, tbBerichtPost.Text);
-                            addedPost = _logicPost.Insert(p);
+
+                            if (_user != null)
+                            {
+                                // Guest makes post with media
+                                Post p = new Post(0, _user.ID, _event.ID, _uploadedFile.ID, DateTime.Now, true, tbBerichtPost.Text);
+                                addedPost = _logicPost.Insert(p);
+                            }
+                            else
+                            {
+                                // Admin makes post with media
+                                Post p = new Post(0, _admin.ID, _event.ID, _uploadedFile.ID, DateTime.Now, true, tbBerichtPost.Text);
+                                addedPost = _logicPost.Insert(p);
+                            }
                         }
                     }
 
