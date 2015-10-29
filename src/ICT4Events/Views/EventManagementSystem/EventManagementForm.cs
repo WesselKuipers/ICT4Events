@@ -40,6 +40,10 @@ namespace ICT4Events.Views.EventManagementSystem
             eventEditControl.EventSuccessfullyModified += Event_Successfully_Modified;
 
             tabEditEvent.Controls.Add(eventEditControl);
+
+            tabEditLocations.Controls.Clear();
+            var locationEditControl = new ucLocationEdit((Event) cmbEvents.SelectedItem);
+            tabEditLocations.Controls.Add(locationEditControl);
         }
 
         private void Event_Successfully_Modified(object sender, EventArgs e)

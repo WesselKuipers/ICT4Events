@@ -75,6 +75,12 @@
     <Compile Include="Views\EventManagementSystem\Controls\ucEventEdit.Designer.cs">
       <DependentUpon>ucEventEdit.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\EventManagementSystem\Controls\ucLocationEdit.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\EventManagementSystem\Controls\ucLocationEdit.Designer.cs">
+      <DependentUpon>ucLocationEdit.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\EventManagementSystem\EventManagementForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -199,6 +205,9 @@
     </Compile>
     <EmbeddedResource Include="Views\EventManagementSystem\Controls\ucEventEdit.resx">
       <DependentUpon>ucEventEdit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\EventManagementSystem\Controls\ucLocationEdit.resx">
+      <DependentUpon>ucLocationEdit.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\EventManagementSystem\EventManagementForm.resx">
       <DependentUpon>EventManagementForm.cs</DependentUpon>

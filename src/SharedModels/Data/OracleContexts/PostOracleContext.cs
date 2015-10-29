@@ -138,6 +138,55 @@ namespace SharedModels.Data.OracleContexts
             return Database.ExecuteNonQuery(query, parameters);
         }
 
+        public List<Post> GetPostsByTag(string tag)
+        {
+            var query = "SELECT p.* FROM post INNER JOIN posttags t ON p.postid = t.postid WHERE t.tagname = :tagname";
+            var parameters = new List<OracleParameter>
+            {
+                new OracleParameter("tagname", tag)
+            };
+
+            var res = Database.ExecuteReader(query, parameters);
+            return res.Select(GetEntityFromRecord).ToList();
+        }
+
+        public List<string> GetTagsByPost(Post post)
+        {
+            var query =
+                "SELECT t.tagname FROM posttags t INNER JOIN post ON t.postid = p.postid WHERE p.postid = :postid";
+            var parameters = new List<OracleParameter>
+            {
+                new OracleParameter("postid", post.ID)
+            };
+
+            var res = Database.ExecuteReader(query, parameters);
+            return res.Any() ? res.Select(t => t[0]).ToList() : null;
+        }
+
+        public bool AddTagToPost(Post post, string tag)
+        {
+            var query = "INSERT INTO posttags (postid, tagname) VALUES (:postid, :tagname)";
+            var parameters = new List<OracleParameter>
+            {
+                new OracleParameter("postid", post.ID),
+                new OracleParameter("tagname", tag)
+            };
+
+            return Database.ExecuteNonQuery(query, parameters);
+        }
+
+        public bool RemoveTagFromPost(Post post, string tag)
+        {
+            var query = "DELETE FROM posttags WHERE postid = :postid AND tagname = :tagname)";
+            var parameters = new List<OracleParameter>
+            {
+                new OracleParameter("postid", post.ID),
+                new OracleParameter("tagname", tag)
+            };
+
+            return Database.ExecuteNonQuery(query, parameters);
+        }
+
         protected override Post GetEntityFromRecord(List<string> record)
         {
             //postid userid eventid mediaid mainpostid postdate visible content

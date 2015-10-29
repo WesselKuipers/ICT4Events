@@ -33,18 +33,22 @@
             this.tabAddEvent = new System.Windows.Forms.TabPage();
             this.cmbEvents = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.tabEditLocations = new System.Windows.Forms.TabPage();
             this.tclEventManagement.SuspendLayout();
             this.SuspendLayout();
             // 
             // tclEventManagement
             // 
+            this.tclEventManagement.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tclEventManagement.Controls.Add(this.tabEditEvent);
             this.tclEventManagement.Controls.Add(this.tabAddEvent);
-            this.tclEventManagement.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.tclEventManagement.Controls.Add(this.tabEditLocations);
             this.tclEventManagement.Location = new System.Drawing.Point(0, 35);
             this.tclEventManagement.Name = "tclEventManagement";
             this.tclEventManagement.SelectedIndex = 0;
-            this.tclEventManagement.Size = new System.Drawing.Size(503, 226);
+            this.tclEventManagement.Size = new System.Drawing.Size(746, 423);
             this.tclEventManagement.TabIndex = 0;
             // 
             // tabEditEvent
@@ -52,7 +56,7 @@
             this.tabEditEvent.Location = new System.Drawing.Point(4, 22);
             this.tabEditEvent.Name = "tabEditEvent";
             this.tabEditEvent.Padding = new System.Windows.Forms.Padding(3);
-            this.tabEditEvent.Size = new System.Drawing.Size(495, 200);
+            this.tabEditEvent.Size = new System.Drawing.Size(738, 397);
             this.tabEditEvent.TabIndex = 0;
             this.tabEditEvent.Text = "Aanpassen";
             this.tabEditEvent.UseVisualStyleBackColor = true;
@@ -62,7 +66,7 @@
             this.tabAddEvent.Location = new System.Drawing.Point(4, 22);
             this.tabAddEvent.Name = "tabAddEvent";
             this.tabAddEvent.Padding = new System.Windows.Forms.Padding(3);
-            this.tabAddEvent.Size = new System.Drawing.Size(495, 200);
+            this.tabAddEvent.Size = new System.Drawing.Size(738, 397);
             this.tabAddEvent.TabIndex = 1;
             this.tabAddEvent.Text = "Aanmaken";
             this.tabAddEvent.UseVisualStyleBackColor = true;
@@ -86,16 +90,25 @@
             this.label1.TabIndex = 2;
             this.label1.Text = "Evenement:";
             // 
+            // tabEditLocations
+            // 
+            this.tabEditLocations.Location = new System.Drawing.Point(4, 22);
+            this.tabEditLocations.Name = "tabEditLocations";
+            this.tabEditLocations.Size = new System.Drawing.Size(738, 397);
+            this.tabEditLocations.TabIndex = 2;
+            this.tabEditLocations.Text = "Locaties bewerken";
+            this.tabEditLocations.UseVisualStyleBackColor = true;
+            // 
             // EventManagementForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(503, 261);
+            this.ClientSize = new System.Drawing.Size(746, 458);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.cmbEvents);
             this.Controls.Add(this.tclEventManagement);
             this.Name = "EventManagementForm";
-            this.Text = "EventManagementForm";
+            this.Text = "Eventbeheer";
             this.tclEventManagement.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -109,5 +122,6 @@
         private System.Windows.Forms.TabPage tabAddEvent;
         private System.Windows.Forms.ComboBox cmbEvents;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TabPage tabEditLocations;
     }
 }

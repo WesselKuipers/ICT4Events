@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using SharedModels.FTP;
 using SharedModels.Logic;
 using SharedModels.Models;
 
@@ -78,6 +79,10 @@ namespace ICT4Events.Views.EventManagementSystem.Controls
                         txtLocation.Text,
                         maxCap: (int) numCapacity.Value
                         ));
+
+                if (_ev == null) return;
+
+                FtpHelper.CreateDirectory(_ev.ID.ToString());
                 OnEventSuccessfullyModified();
             }
         }
