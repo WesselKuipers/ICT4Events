@@ -21,6 +21,13 @@ namespace ICT4Events.Views.SocialSystem.Controls
 
         private void TimeLine_Load(object sender, EventArgs e)
         {
+            LoadPosts();
+        }
+        /// <summary>
+        /// LOAD THE MAIN POSTS ON THE TIMELINE
+        /// </summary>
+        public void LoadPosts()
+        {
             List<Post> allPost = _logic.GetAllByEvent(_event);
             int i = 0;
             foreach (Reply p in allPost)

@@ -88,13 +88,14 @@ namespace ICT4Events
             Event ev;
             Guest guest;
 
-            var activeEvents = LogicCollection.EventLogic.GetAllEvents().Where(x => x.StartDate >= DateTime.Now && x.EndDate < DateTime.Now).ToList();
+            //var activeEvents = LogicCollection.EventLogic.GetAllEvents().Where(x => x.StartDate >= DateTime.Now && x.EndDate < DateTime.Now).ToList();
+            var activeEvents = LogicCollection.EventLogic.GetAllEvents();
             var guests = LogicCollection.GuestLogic.GetGuestsByUser(_user);
-            
 
             if (!activeEvents.Any() || !guests.Any())
             {
                 MessageBox.Show("Er zijn geen actieve evenementen gevonden");
+                return;
             };
 
             // If user is a guest in multiple active events..
@@ -106,7 +107,6 @@ namespace ICT4Events
                 if (form.ShowDialog() == DialogResult.OK)
                 {
                     ev = form.Event;
-                    
                 }
                 else
                 {
@@ -117,8 +117,7 @@ namespace ICT4Events
             {
                 ev = activeEvents.First();
             }
-
-            guest = guests.First(x => x.ID == ev.ID);
+            guest = guests.First(x => x.EventID == ev.ID);
             new SocialMediaSystemForm(guest, ev).ShowDialog();
         }
 
@@ -138,7 +137,7 @@ namespace ICT4Events
                 return;
             }
 
-            //new SocialMediaSystemForm(_user, ev).ShowDialog();
+            new SocialMediaSystemForm(_user, ev).ShowDialog();
         }
     }
 }
