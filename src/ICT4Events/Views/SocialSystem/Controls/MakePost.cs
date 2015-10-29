@@ -39,13 +39,18 @@ namespace ICT4Events.Views.SocialSystem.Controls
             OpenFileDialog uploadFile = new OpenFileDialog();
             uploadFile.Title = @"Media uploaden";
             uploadFile.Filter = @"Image files (*.jpg, *.jpeg, *.jpe, *.jfif, *.png) | *.jpg; *.jpeg; *.jpe; *.jfif; *.png | Audio files (*.wav, *.mp3) | *.wav; *.mp3 | Video files (*.mp4) | *.mp4 | All Files | *.* ";
+            string[] imageEx = { ".jpg", ".jpeg", ".jpe", ".jfif", ".png" };
 
             if (uploadFile.ShowDialog() != DialogResult.OK) return;
             _filepath = uploadFile.FileName;
             btUploaden.Text = _filepath;
-            pbPreview.ImageLocation = @_filepath;
-            pbPreview.SizeMode = PictureBoxSizeMode.StretchImage;
+            if (imageEx.Contains(Path.GetExtension(_filepath)))
+            {
+                pbPreview.ImageLocation = @_filepath;
+                pbPreview.SizeMode = PictureBoxSizeMode.StretchImage;
+            }
         }
+        
         /// <summary>
         /// UPLOAD TO FTP SERVER
         /// </summary>

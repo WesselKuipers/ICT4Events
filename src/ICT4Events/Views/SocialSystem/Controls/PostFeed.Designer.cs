@@ -102,6 +102,7 @@
             this.lbReaction.TabIndex = 11;
             this.lbReaction.TabStop = true;
             this.lbReaction.Text = "Reageren";
+            this.lbReaction.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lbReaction_LinkClicked);
             // 
             // lbLike
             // 

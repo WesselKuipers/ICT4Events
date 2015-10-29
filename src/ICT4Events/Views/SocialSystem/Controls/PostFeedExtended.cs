@@ -10,7 +10,7 @@ using SharedModels.Models;
 
 namespace ICT4Events.Views.SocialSystem.Controls
 {
-    public partial class PostFeed : UserControl
+    public partial class PostFeedExtended : UserControl
     {
         private readonly Post _post;
         private readonly Event _event;
@@ -19,15 +19,14 @@ namespace ICT4Events.Views.SocialSystem.Controls
         private Media _media;
         private readonly MediaOracleContext _logicMedia;
         private readonly PostLogic _logicPost;
-        private readonly GuestLogic _logicGuest;
         private readonly ReportOracleContext _logicReport;
 
-        public PostFeed(Post post, Event ev, Guest active)
+        public PostFeedExtended(Post post, Event ev, Guest active)
         {
             InitializeComponent();
             _logicMedia = new MediaOracleContext();
             _logicPost = new PostLogic();
-            _logicGuest = new GuestLogic(new GuestOracleContext());
+            var logicGuest = new GuestLogic(new GuestOracleContext());
             _logicReport = new ReportOracleContext();
 
             _post = post;
@@ -35,12 +34,27 @@ namespace ICT4Events.Views.SocialSystem.Controls
             // CURRENT "GUEST" SIGNED IN.
             _activeUser = active;
             // GUEST OF THE POST
-            _guest = _logicGuest.GetGuestByEvent(_event, _post.GuestID);
+            _guest = logicGuest.GetGuestByEvent(_event, _post.GuestID);
         }
 
-        private void PostFeed_Load(object sender, EventArgs e)
+        private void PostFeedExtended_Load(object sender, EventArgs e)
         {
             RefreshSocialSystem();
+
+            List<Reply> allReply = _logicPost.GetRepliesByPost(_post);
+            int i = 0;
+            foreach (Reply p in allReply)
+            {
+                if (p.MainPostID == _post.ID)
+                {
+                    if (i <= 5)
+                    {
+                        tbPanelReplies.RowCount += 1;
+                        tbPanelReplies.Controls.Add(new PostFeed(p, _event, _activeUser), 0, i);
+                        i++;
+                    }
+                }
+            }
         }
 
         private void lblDownloadMedia_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -64,18 +78,7 @@ namespace ICT4Events.Views.SocialSystem.Controls
 
         private void lbReport_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            var reportForm = new ReportPostForm();
-            var result = reportForm.ShowDialog();
-            var p1 = _event;
-            var p2 = _guest.ID;
-            if (result == DialogResult.OK)
-            {
-                //try to add report to database and show appropriate message
-                MessageBox.Show(_logicPost.Report(_logicGuest.GetGuestByEvent(_event, _activeUser.ID), _post, reportForm.ReasonReturnValue)
-                   ? "Rapport succesvol verzonden. Bedankt voor u feedback!"
-                   : "Er is iets fout gegaan met het doorvoeren van dit rapport, onze excuses hiervoor.");
-                RefreshSocialSystem();
-            }
+
         }
 
         private void lbLike_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -91,7 +94,7 @@ namespace ICT4Events.Views.SocialSystem.Controls
 
         private void lblDeletePost_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            if(_logicPost.DeletePost(_post))
+            if (_logicPost.DeletePost(_post))
                 MessageBox.Show(@"Post succesvol verwijderd");
             else
                 MessageBox.Show(@"Er is iets mis gegaan");
@@ -171,12 +174,31 @@ namespace ICT4Events.Views.SocialSystem.Controls
             #endregion 
         }
 
-        private void lbReaction_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void btReply_Click(object sender, EventArgs e)
         {
-            PostFeedExtended extended = new PostFeedExtended(_post, _event, _activeUser);
-            ExtendedForm expost = new ExtendedForm();
-            expost.Controls.Add(extended);
-            expost.ShowDialog();
+            if (!string.IsNullOrEmpty(tbReplyMessage.Text))
+            {
+                string mess = tbReplyMessage.Text;
+                AddReply(mess);
+            }
+            else
+            {
+                MessageBox.Show(@"Bericht is verplicht!");
+            }
+        }
+
+        /// <summary>
+        /// Reactie methode om een reactie toe te voegen
+        /// </summary>
+        /// <param name="message"></param>
+        private void AddReply(string message)
+        {
+            Reply r = new Reply(0, _activeUser.ID, _event.ID, 0, _post.ID, DateTime.Now, true, message);
+            if (_logicPost.InsertPost(r) != null)
+                MessageBox.Show(@"Uw reactie is succesvol toegevoegd");
+            else
+                MessageBox.Show(@"Er is iets misgegaan");
+            RefreshSocialSystem();
         }
     }
 }
