@@ -12,14 +12,14 @@ namespace ICT4Events.Views.SocialSystem.Controls
 {
     public partial class MakePost : UserControl
     {
-        private readonly User _user;
+        private readonly Guest _user;
         private readonly Event _event;
         private readonly MediaOracleContext _logicMedia;
         private readonly PostOracleContext _logicPost;
         private string _filepath;
         private Media _uploadedFile;
 
-        public MakePost(User user, Event ev)
+        public MakePost(Guest user, Event ev)
         {
             InitializeComponent();
             _user = user;
@@ -38,7 +38,7 @@ namespace ICT4Events.Views.SocialSystem.Controls
         {
             OpenFileDialog uploadFile = new OpenFileDialog();
             uploadFile.Title = @"Media uploaden";
-            uploadFile.Filter = @"Image files (*.jpg, *.jpeg, *.jpe, *.jfif, *.png) | *.jpg; *.jpeg; *.jpe; *.jfif; *.png | Audio files (*.wav, *mp3) | *.wav; *.mp3 | Video files (*.mp4) | *.mp4";
+            uploadFile.Filter = @"Image files (*.jpg, *.jpeg, *.jpe, *.jfif, *.png) | *.jpg; *.jpeg; *.jpe; *.jfif; *.png | Audio files (*.wav, *.mp3) | *.wav; *.mp3 | Video files (*.mp4) | *.mp4 | All Files | *.* ";
 
             if (uploadFile.ShowDialog() != DialogResult.OK) return;
             _filepath = uploadFile.FileName;

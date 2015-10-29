@@ -47,6 +47,11 @@ namespace SharedModels.Logic
             return _context.GetRepliesByPost(post);
         }
 
+        public List<int> GetAllLikes(Post post)
+        {
+            return _context.GetAllLikes(post);
+        }
+
         /// <summary>
         /// Adds a like to the a post
         /// </summary>
@@ -55,8 +60,7 @@ namespace SharedModels.Logic
         /// <returns>true if succesfull</returns>
         public bool Like(Guest guest, Post post)
         {
-            // TODO: check if we need a LikeOracleContext for this (insert and delete queries are enough)
-            return false;
+            return _context.AddLikeToPost(post, guest);
         }
 
         /// <summary>
@@ -67,8 +71,7 @@ namespace SharedModels.Logic
         /// <returns>true if succesfull</returns>
         public bool UnLike(Guest guest, Post post)
         {
-            // TODO
-            return false;
+            return _context.RemoveLikeFromPost(post, guest);
         }
 
         /// <summary>
