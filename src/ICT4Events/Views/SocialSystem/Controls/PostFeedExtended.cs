@@ -4,6 +4,7 @@ using System.IO;
 using System.Windows.Forms;
 using ICT4Events.Views.SocialSystem.Forms;
 using SharedModels.Data.OracleContexts;
+using SharedModels.Enums;
 using SharedModels.FTP;
 using SharedModels.Logic;
 using SharedModels.Models;
@@ -45,21 +46,7 @@ namespace ICT4Events.Views.SocialSystem.Controls
 
         private void lblDownloadMedia_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            if (_post.MediaID != 0)
-            {
-                _media = _logicMedia.GetById(_post.MediaID);
-                string dirDownloadedFiles = Path.GetDirectoryName(Application.ExecutablePath) + @"\downloaded_files\";
-                string localFilePath = dirDownloadedFiles + _media.Path;
-
-                FolderBrowserDialog saveMedia = new FolderBrowserDialog();
-
-                if (saveMedia.ShowDialog() == DialogResult.OK)
-                {
-                    string pathSelected = saveMedia.SelectedPath;
-                    File.Copy(localFilePath, pathSelected);
-                    MessageBox.Show(@"Bestand is succesvol gedownload");
-                }
-            }
+            DownloadMedia(_post);
         }
 
         private void lbReport_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -69,9 +56,10 @@ namespace ICT4Events.Views.SocialSystem.Controls
             if (result == DialogResult.OK)
             {
                 //try to add report to database and show appropriate message
-                MessageBox.Show(_logicPost.Report(_logicGuest.GetGuestByEvent(_event, _activeUser.ID), _post, reportForm.ReasonReturnValue)
-                   ? "Rapport succesvol verzonden. Bedankt voor u feedback!"
-                   : "Er is iets fout gegaan met het doorvoeren van dit rapport, onze excuses hiervoor.");
+                MessageBox.Show(_logicPost.Report(_logicGuest.GetGuestByEvent(_event, _activeUser.ID), _post,
+                    reportForm.ReasonReturnValue)
+                    ? "Rapport succesvol verzonden. Bedankt voor u feedback!"
+                    : "Er is iets fout gegaan met het doorvoeren van dit rapport, onze excuses hiervoor.");
                 RefreshSocialSystem();
             }
         }
@@ -81,6 +69,7 @@ namespace ICT4Events.Views.SocialSystem.Controls
             _logicPost.Like(_activeUser, _post);
             RefreshSocialSystem();
         }
+
         private void lblUnLike_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             _logicPost.UnLike(_activeUser, _post);
@@ -114,7 +103,7 @@ namespace ICT4Events.Views.SocialSystem.Controls
                     if (i <= allReply.Count)
                     {
                         tbPanelReplies.RowCount += 1;
-                        tbPanelReplies.Controls.Add(new ReplyPost(p, _event, _activeUser), 0, i);
+                        tbPanelReplies.Controls.Add(new PostFeed(p, _event, _activeUser, true), 0, i);
                         i++;
                     }
                 }
@@ -159,37 +148,10 @@ namespace ICT4Events.Views.SocialSystem.Controls
             lblDatum.Text = @"Geplaatst op " + _post.Date.ToString("dd/MM/yyyy");
 
             #region LoadMedia
-            // TODO: User local afsplitsen
-            if (_post.MediaID != 0)
-            {
-                _media = _logicMedia.GetById(_post.MediaID);
-                string dirDownloadedFiles = Path.GetDirectoryName(Application.ExecutablePath) + @"\downloaded_files\";
-                string ftpPath = @"/" + _post.EventID + @"/" + _post.GuestID + @"/" + _media.Path;
-                string localFilePath = dirDownloadedFiles + _media.Path;
 
-                if (!File.Exists(dirDownloadedFiles)) Directory.CreateDirectory(dirDownloadedFiles);
+            ShowMedia(_post);
 
-                if (!File.Exists(localFilePath))
-                {
-                    if (FtpHelper.DownloadFile(ftpPath, localFilePath))
-                    {
-                        pbMediaMessage.ImageLocation = @localFilePath;
-                        pbMediaMessage.SizeMode = PictureBoxSizeMode.StretchImage;
-                    }
-                }
-                else
-                {
-                    pbMediaMessage.ImageLocation = @localFilePath;
-                    pbMediaMessage.SizeMode = PictureBoxSizeMode.StretchImage;
-                }
-
-            }
-            else
-            {
-                pbMediaMessage.Visible = false;
-                lblDownloadMedia.Visible = false;
-            }
-            #endregion 
+            #endregion
         }
 
         private void btReply_Click(object sender, EventArgs e)
@@ -215,6 +177,58 @@ namespace ICT4Events.Views.SocialSystem.Controls
             if (_logicPost.InsertPost(r) == null)
                 MessageBox.Show(@"Er is iets misgegaan");
             RefreshSocialSystem();
+        }
+        /// <summary>
+        /// THIS METHOD IS CALLED TO SHOW THE IMAGE OR AUDIO OR VIDEO IMAGE
+        /// </summary>
+        /// <param name="post"></param>
+        private void ShowMedia(Post post)
+        {
+            if (post.MediaID != 0)
+            {
+                _media = _logicMedia.GetById(post.MediaID);
+                if (_media.Type == MediaType.Image)
+                {
+                    string ftpPath = @"/" + post.EventID + @"/" + post.GuestID + @"/" + _media.Path;
+                    pbMediaMessage.ImageLocation = FtpHelper.ServerHardLogin + @"/" + ftpPath;
+                    pbMediaMessage.SizeMode = PictureBoxSizeMode.StretchImage;
+                }
+                else if (_media.Type == MediaType.Audio)
+                {
+                    pbMediaMessage.ImageLocation = FtpHelper.ServerHardLogin + @"/mp3.jpg";
+                    pbMediaMessage.SizeMode = PictureBoxSizeMode.StretchImage;
+                }
+                else
+                {
+                    pbMediaMessage.ImageLocation = FtpHelper.ServerHardLogin + @"/mp4.png";
+                    pbMediaMessage.SizeMode = PictureBoxSizeMode.StretchImage;
+                }
+            }
+            else
+            {
+                pbMediaMessage.Visible = false;
+                lblDownloadMedia.Visible = false;
+            }
+        }
+        /// <summary>
+        /// THIS METHOD DOWNLOADS FROM THE FRP SERVER
+        /// </summary>
+        /// <param name="post"></param>
+        private void DownloadMedia(Post post)
+        {
+            if (post.MediaID != 0)
+            {
+                _media = _logicMedia.GetById(post.MediaID);
+
+                FolderBrowserDialog saveMedia = new FolderBrowserDialog();
+
+                if (saveMedia.ShowDialog() == DialogResult.OK)
+                {
+                    string pathSelected = saveMedia.SelectedPath;
+                    FtpHelper.DownloadFile(FtpHelper.ServerHardLogin + @"/" + @"/" + post.EventID + @"/" + post.GuestID + @"/" + _media.Path, pathSelected + "/" + _media.Path);
+                    MessageBox.Show(@"Bestand is succesvol gedownload");
+                }
+            }
         }
     }
 }

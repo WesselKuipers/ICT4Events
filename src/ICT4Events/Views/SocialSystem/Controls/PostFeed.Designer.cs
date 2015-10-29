@@ -96,7 +96,7 @@
             // lbReaction
             // 
             this.lbReaction.AutoSize = true;
-            this.lbReaction.Location = new System.Drawing.Point(437, 106);
+            this.lbReaction.Location = new System.Drawing.Point(277, 106);
             this.lbReaction.Name = "lbReaction";
             this.lbReaction.Size = new System.Drawing.Size(54, 13);
             this.lbReaction.TabIndex = 11;
@@ -107,7 +107,7 @@
             // lbLike
             // 
             this.lbLike.AutoSize = true;
-            this.lbLike.Location = new System.Drawing.Point(359, 106);
+            this.lbLike.Location = new System.Drawing.Point(419, 106);
             this.lbLike.Name = "lbLike";
             this.lbLike.Size = new System.Drawing.Size(62, 13);
             this.lbLike.TabIndex = 12;
@@ -118,7 +118,7 @@
             // lbReport
             // 
             this.lbReport.AutoSize = true;
-            this.lbReport.Location = new System.Drawing.Point(277, 106);
+            this.lbReport.Location = new System.Drawing.Point(337, 106);
             this.lbReport.Name = "lbReport";
             this.lbReport.Size = new System.Drawing.Size(66, 13);
             this.lbReport.TabIndex = 13;
@@ -129,7 +129,7 @@
             // lblUnLike
             // 
             this.lblUnLike.AutoSize = true;
-            this.lblUnLike.Location = new System.Drawing.Point(349, 106);
+            this.lblUnLike.Location = new System.Drawing.Point(409, 106);
             this.lblUnLike.Name = "lblUnLike";
             this.lblUnLike.Size = new System.Drawing.Size(82, 13);
             this.lblUnLike.TabIndex = 14;
@@ -149,7 +149,7 @@
             // lblDeletePost
             // 
             this.lblDeletePost.AutoSize = true;
-            this.lblDeletePost.Location = new System.Drawing.Point(277, 106);
+            this.lblDeletePost.Location = new System.Drawing.Point(337, 106);
             this.lblDeletePost.Name = "lblDeletePost";
             this.lblDeletePost.Size = new System.Drawing.Size(62, 13);
             this.lblDeletePost.TabIndex = 16;

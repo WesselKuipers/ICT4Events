@@ -37,7 +37,7 @@ namespace ICT4Events.Views.SocialSystem.Controls
                     if (i <= 5)
                     {
                         tableLayoutPanel1.RowCount += 1;
-                        tableLayoutPanel1.Controls.Add(new PostFeed(p, _event, _user), 0, i);
+                        tableLayoutPanel1.Controls.Add(new PostFeed(p, _event, _user, false), 0, i);
                         i++;
                     }
                 }
