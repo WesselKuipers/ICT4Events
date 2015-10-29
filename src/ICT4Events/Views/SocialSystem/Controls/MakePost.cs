@@ -125,7 +125,7 @@ namespace ICT4Events.Views.SocialSystem.Controls
                 }
                 else
                 {
-                    Post addedPost;
+                    Post addedPost = null;
                     if (string.IsNullOrEmpty(_filepath))
                     {
                         Post p = new Post(0, _user.ID, _event.ID, 0, DateTime.Now, true, tbBerichtPost.Text);
@@ -140,13 +140,11 @@ namespace ICT4Events.Views.SocialSystem.Controls
                         }
                     }
 
-                    // Filter tags out of message
-                    // TODO: POSTTAG ORACLECONTEXT moet toegevoegd worden om posttags om te slaan.
-                    var regex = new Regex(@"(?<=#)\w+");
-                    var matches = regex.Matches(tbBerichtPost.Text);
-                    foreach (Match m in matches)
+                    // TODO: Hashtags
+                    // List of tags
+                    foreach (string tag in addedPost.Tags)
                     {
-                        m.ToString().Trim('#');
+                        
                     }
 
                     MessageBox.Show(@"Je bericht is gepubliceerd op je tijdlijn");

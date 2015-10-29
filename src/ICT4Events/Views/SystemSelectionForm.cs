@@ -86,13 +86,18 @@ namespace ICT4Events
         private void OpenSocialMediaUser(object sender, EventArgs e)
         {
             Event ev;
+            Guest guest;
 
-            var activeEvents = LogicCollection.EventLogic.GetAllEvents().Where(x => x.StartDate >= DateTime.Now && x.EndDate < DateTime.Now).ToList();
+            //var activeEvents = LogicCollection.EventLogic.GetAllEvents().Where(x => x.StartDate >= DateTime.Now && x.EndDate < DateTime.Now).ToList();
+            var activeEvents = LogicCollection.EventLogic.GetAllEvents();
             var guests = LogicCollection.GuestLogic.GetGuestsByUser(_user);
 
             if (!activeEvents.Any() || !guests.Any())
             {
                 MessageBox.Show("Er zijn geen actieve evenementen gevonden");
+                return;
+
+                // Je mag er alleen bij als een event actief is eigenlijk
             };
 
             // If user is a guest in multiple active events..
@@ -114,8 +119,8 @@ namespace ICT4Events
             {
                 ev = activeEvents.First();
             }
-
-            new SocialMediaSystemForm(_user, ev).ShowDialog();
+            guest = guests.First(x => x.EventID == ev.ID);
+            new SocialMediaSystemForm(guest, ev).ShowDialog();
         }
 
         private void OpenSocialMediaEmployee(object sender, EventArgs e)
