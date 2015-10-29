@@ -87,6 +87,18 @@
     <Compile Include="Views\EventSelectionForm.Designer.cs">
       <DependentUpon>EventSelectionForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\SocialSystem\Controls\PostFeedExtended.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\SocialSystem\Controls\PostFeedExtended.Designer.cs">
+      <DependentUpon>PostFeedExtended.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SocialSystem\Forms\ExtendedForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\SocialSystem\Forms\ExtendedForm.Designer.cs">
+      <DependentUpon>ExtendedForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\SystemSelectionForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -193,6 +205,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\EventSelectionForm.resx">
       <DependentUpon>EventSelectionForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\SocialSystem\Controls\PostFeedExtended.resx">
+      <DependentUpon>PostFeedExtended.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\SocialSystem\Forms\ExtendedForm.resx">
+      <DependentUpon>ExtendedForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\SystemSelectionForm.resx">
       <DependentUpon>SystemSelectionForm.cs</DependentUpon>

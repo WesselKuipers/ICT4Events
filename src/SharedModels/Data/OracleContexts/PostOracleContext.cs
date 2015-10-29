@@ -128,7 +128,7 @@ namespace SharedModels.Data.OracleContexts
 
         public bool RemoveLikeFromPost(Post post, Guest guest)
         {
-            var query = "DELETE FROM likes WHERE postid = :postid AND userid = :userid)";
+            var query = "DELETE FROM likes WHERE postid = :postid AND userid = :userid";
             var parameters = new List<OracleParameter>
             {
                 new OracleParameter("postid", post.ID),

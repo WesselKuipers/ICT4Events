@@ -36,11 +36,16 @@
             this.lbReaction = new System.Windows.Forms.LinkLabel();
             this.lbLike = new System.Windows.Forms.LinkLabel();
             this.lbReport = new System.Windows.Forms.LinkLabel();
+            this.lblUnLike = new System.Windows.Forms.LinkLabel();
+            this.lblCountLikes = new System.Windows.Forms.Label();
+            this.lblDeletePost = new System.Windows.Forms.LinkLabel();
             ((System.ComponentModel.ISupportInitialize)(this.pbMediaMessage)).BeginInit();
             this.SuspendLayout();
             // 
             // pbMediaMessage
             // 
+            this.pbMediaMessage.BackColor = System.Drawing.Color.White;
+            this.pbMediaMessage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pbMediaMessage.Location = new System.Drawing.Point(497, 16);
             this.pbMediaMessage.Name = "pbMediaMessage";
             this.pbMediaMessage.Size = new System.Drawing.Size(154, 87);
@@ -50,6 +55,7 @@
             // 
             // lbReport1
             // 
+            this.lbReport1.BackColor = System.Drawing.Color.White;
             this.lbReport1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lbReport1.Location = new System.Drawing.Point(37, 16);
             this.lbReport1.Name = "lbReport1";
@@ -96,21 +102,23 @@
             this.lbReaction.TabIndex = 11;
             this.lbReaction.TabStop = true;
             this.lbReaction.Text = "Reageren";
+            this.lbReaction.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lbReaction_LinkClicked);
             // 
             // lbLike
             // 
             this.lbLike.AutoSize = true;
-            this.lbLike.Location = new System.Drawing.Point(369, 106);
+            this.lbLike.Location = new System.Drawing.Point(359, 106);
             this.lbLike.Name = "lbLike";
             this.lbLike.Size = new System.Drawing.Size(62, 13);
             this.lbLike.TabIndex = 12;
             this.lbLike.TabStop = true;
             this.lbLike.Text = "Vind ik leuk";
+            this.lbLike.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lbLike_LinkClicked);
             // 
             // lbReport
             // 
             this.lbReport.AutoSize = true;
-            this.lbReport.Location = new System.Drawing.Point(297, 106);
+            this.lbReport.Location = new System.Drawing.Point(277, 106);
             this.lbReport.Name = "lbReport";
             this.lbReport.Size = new System.Drawing.Size(66, 13);
             this.lbReport.TabIndex = 13;
@@ -118,10 +126,45 @@
             this.lbReport.Text = "Rapporteren";
             this.lbReport.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lbReport_LinkClicked);
             // 
+            // lblUnLike
+            // 
+            this.lblUnLike.AutoSize = true;
+            this.lblUnLike.Location = new System.Drawing.Point(349, 106);
+            this.lblUnLike.Name = "lblUnLike";
+            this.lblUnLike.Size = new System.Drawing.Size(82, 13);
+            this.lblUnLike.TabIndex = 14;
+            this.lblUnLike.TabStop = true;
+            this.lblUnLike.Text = "Vind ik niet leuk";
+            this.lblUnLike.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lblUnLike_LinkClicked);
+            // 
+            // lblCountLikes
+            // 
+            this.lblCountLikes.AutoSize = true;
+            this.lblCountLikes.Location = new System.Drawing.Point(360, 2);
+            this.lblCountLikes.Name = "lblCountLikes";
+            this.lblCountLikes.Size = new System.Drawing.Size(131, 13);
+            this.lblCountLikes.TabIndex = 15;
+            this.lblCountLikes.Text = "0 mens(en) vinden dit leuk";
+            // 
+            // lblDeletePost
+            // 
+            this.lblDeletePost.AutoSize = true;
+            this.lblDeletePost.Location = new System.Drawing.Point(277, 106);
+            this.lblDeletePost.Name = "lblDeletePost";
+            this.lblDeletePost.Size = new System.Drawing.Size(62, 13);
+            this.lblDeletePost.TabIndex = 16;
+            this.lblDeletePost.TabStop = true;
+            this.lblDeletePost.Text = "Verwijderen";
+            this.lblDeletePost.Visible = false;
+            this.lblDeletePost.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lblDeletePost_LinkClicked);
+            // 
             // PostFeed
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.lblDeletePost);
+            this.Controls.Add(this.lblCountLikes);
+            this.Controls.Add(this.lblUnLike);
             this.Controls.Add(this.lbReport);
             this.Controls.Add(this.lbLike);
             this.Controls.Add(this.lbReaction);
@@ -148,5 +191,8 @@
         private System.Windows.Forms.LinkLabel lbReaction;
         private System.Windows.Forms.LinkLabel lbLike;
         private System.Windows.Forms.LinkLabel lbReport;
+        private System.Windows.Forms.LinkLabel lblUnLike;
+        private System.Windows.Forms.Label lblCountLikes;
+        private System.Windows.Forms.LinkLabel lblDeletePost;
     }
 }
