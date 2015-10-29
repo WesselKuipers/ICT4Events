@@ -94,7 +94,7 @@ namespace SharedModels.Data.OracleContexts
                 new OracleParameter("password", password),
             };
 
-            return GetEntityFromRecord(Database.ExecuteReader(query, parameters).First());
+            return GetEntityFromRecord(Database.ExecuteReader(query, parameters).FirstOrDefault());
         }
 
         public User GetByUsername(string username)

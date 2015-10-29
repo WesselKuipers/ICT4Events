@@ -39,7 +39,12 @@ namespace SharedModels.Logic
         public List<Guest> GetGuestsByGroup(Event ev, int leaderID)
         {
             return _context.GetGuestsByGroup(ev, leaderID);
-        } 
+        }
+
+        public List<Guest> GetGuestsByUser(User user)
+        {
+            return _context.GetGuestsByUser(user);
+        }
 
         public int GetGuestCountByLocation(Location location)
         {

@@ -38,7 +38,7 @@ namespace ICT4Events.Views.SocialSystem.Controls
         {
             OpenFileDialog uploadFile = new OpenFileDialog();
             uploadFile.Title = @"Media uploaden";
-            uploadFile.Filter = @"Image files (*.jpg, *.jpeg, *.jpe, *.jfif, *.png) | *.jpg; *.jpeg; *.jpe; *.jfif; *.png | Audio files (*.wav, *mp3) | *.wav; *.mp3 | Video files (*.mp4) | *.mp4";
+            uploadFile.Filter = @"Image files (*.jpg, *.jpeg, *.jpe, *.jfif, *.png) | *.jpg; *.jpeg; *.jpe; *.jfif; *.png | Audio files (*.wav, *.mp3) | *.wav; *.mp3 | Video files (*.mp4) | *.mp4 | All Files | *.* ";
 
             if (uploadFile.ShowDialog() != DialogResult.OK) return;
             _filepath = uploadFile.FileName;

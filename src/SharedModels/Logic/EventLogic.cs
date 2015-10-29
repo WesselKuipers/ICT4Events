@@ -26,5 +26,15 @@ namespace SharedModels.Logic
         {
             return _context.GetById(id);
         }
+
+        public bool UpdateEvent(Event ev)
+        {
+            return _context.Update(ev);
+        }
+
+        public Event AddEvent(Event ev)
+        {
+            return _context.Insert(ev);
+        }
     }
 }

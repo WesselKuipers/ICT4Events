@@ -69,11 +69,29 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Form1.cs">
+    <Compile Include="Views\EventManagementSystem\Controls\ucEventEdit.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\EventManagementSystem\Controls\ucEventEdit.Designer.cs">
+      <DependentUpon>ucEventEdit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EventManagementSystem\EventManagementForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="Views\EventManagementSystem\EventManagementForm.Designer.cs">
+      <DependentUpon>EventManagementForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EventSelectionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\EventSelectionForm.Designer.cs">
+      <DependentUpon>EventSelectionForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SystemSelectionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\SystemSelectionForm.Designer.cs">
+      <DependentUpon>SystemSelectionForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\Accountsystem\Controls\ucChangePassword.cs">
       <SubType>UserControl</SubType>
@@ -167,8 +185,17 @@
     <Compile Include="Views\SocialSystem\Forms\SocialMediaSystemForm.designer.cs">
       <DependentUpon>SocialMediaSystemForm.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <EmbeddedResource Include="Views\EventManagementSystem\Controls\ucEventEdit.resx">
+      <DependentUpon>ucEventEdit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\EventManagementSystem\EventManagementForm.resx">
+      <DependentUpon>EventManagementForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\EventSelectionForm.resx">
+      <DependentUpon>EventSelectionForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\SystemSelectionForm.resx">
+      <DependentUpon>SystemSelectionForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -245,7 +272,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Views\EventManagementSystem\" />
     <Folder Include="Views\Reservation System\Controls\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
