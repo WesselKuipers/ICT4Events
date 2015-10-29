@@ -9,6 +9,7 @@ namespace ICT4Events.Views.SocialSystem.Forms
     {
         private readonly Guest _user;
         private readonly Event _event;
+        private readonly User _admin;
 
         public SocialMediaSystemForm(Guest user, Event ev)
         {
@@ -17,11 +18,21 @@ namespace ICT4Events.Views.SocialSystem.Forms
             _event = ev;
         }
 
+        public SocialMediaSystemForm(User admin, Event ev)
+        {
+            InitializeComponent();
+            _admin = admin;
+            _event = ev;
+        }
+        
         private void SocialMediaSystemForm_Load(object sender, EventArgs e)
         {
             TimeLine timeLine = new TimeLine(_user, _event);
+            timeLine.Dock = DockStyle.Fill;
             tbTimeLine.Controls.Add(timeLine);
+
             MakePost makePost = new MakePost(_user, _event);
+            makePost.Anchor = (AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top);
             tbMakePost.Controls.Add(makePost);
         }
     }
