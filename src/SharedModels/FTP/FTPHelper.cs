@@ -12,6 +12,7 @@ namespace SharedModels.FTP
     public static class FtpHelper
     {
         public static string ServerAddress => Properties.Settings.Default.FTPAddress;
+        public static string ServerHardLogin => "ftp://"+ Properties.Settings.Default.FTPUser + ":"+ Properties.Settings.Default.FTPPassword +"@"+ Properties.Settings.Default.FTPAddress;
         private static NetworkCredential DefaultCredentials => new NetworkCredential(Properties.Settings.Default.FTPUser, Properties.Settings.Default.FTPPassword);
 
         public static bool CreateDirectory(string path)

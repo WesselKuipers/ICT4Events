@@ -99,12 +99,6 @@
     <Compile Include="Views\SocialSystem\Controls\PostFeedExtended.Designer.cs">
       <DependentUpon>PostFeedExtended.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\SocialSystem\Controls\ReplyPost.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Views\SocialSystem\Controls\ReplyPost.Designer.cs">
-      <DependentUpon>ReplyPost.cs</DependentUpon>
-    </Compile>
     <Compile Include="Views\SocialSystem\Forms\ExtendedForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -223,9 +217,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\SocialSystem\Controls\PostFeedExtended.resx">
       <DependentUpon>PostFeedExtended.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\SocialSystem\Controls\ReplyPost.resx">
-      <DependentUpon>ReplyPost.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\SocialSystem\Forms\ExtendedForm.resx">
       <DependentUpon>ExtendedForm.cs</DependentUpon>

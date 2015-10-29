@@ -161,6 +161,29 @@ namespace SharedModels.Data.OracleContexts
 
             return Database.ExecuteNonQuery(query, parameters);
         }
+        public bool AddLikeToPost(Post post, User admin)
+        {
+            var query = "INSERT INTO likes (postid, userid) VALUES (:postid, :userid)";
+            var parameters = new List<OracleParameter>
+            {
+                new OracleParameter("postid", post.ID),
+                new OracleParameter("userid", admin.ID)
+            };
+
+            return Database.ExecuteNonQuery(query, parameters);
+        }
+
+        public bool RemoveLikeFromPost(Post post, User admin)
+        {
+            var query = "DELETE FROM likes WHERE postid = :postid AND userid = :userid";
+            var parameters = new List<OracleParameter>
+            {
+                new OracleParameter("postid", post.ID),
+                new OracleParameter("userid", admin.ID)
+            };
+
+            return Database.ExecuteNonQuery(query, parameters);
+        }
 
         public List<Post> GetPostsByTag(string tag)
         {

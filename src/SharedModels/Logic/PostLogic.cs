@@ -80,6 +80,28 @@ namespace SharedModels.Logic
         }
 
         /// <summary>
+        /// Adds a like to the a post
+        /// </summary>
+        /// <param name="admin">Guest that liked the post</param>
+        /// <param name="post">Post that got liked</param>
+        /// <returns>true if succesfull</returns>
+        public bool Like(User admin, Post post)
+        {
+            return _context.AddLikeToPost(post, admin);
+        }
+
+        /// <summary>
+        /// Removes a like from a post
+        /// </summary>
+        /// <param name="admin">Guest that unliked the post</param>
+        /// <param name="post">Post that got unliked</param>
+        /// <returns>true if succesfull</returns>
+        public bool UnLike(User admin, Post post)
+        {
+            return _context.RemoveLikeFromPost(post, admin);
+        }
+
+        /// <summary>
         /// Adds a report to a post
         /// </summary>
         /// <param name="guest">Guest that reported the post</param>
