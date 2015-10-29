@@ -112,7 +112,7 @@ namespace SharedModels.Data.OracleContexts
         public List<Guest> GetGuestsByUser(User user)
         {
             var query =
-                "SELECT u.*, g.eventid, g.locationid, g.passid, g.paid, g.present, g.datestart, g.dateend, g.leaderid FROM guest g INNER JOIN useraccount u ON g.userid = u.userid WHERE eventid = :eventid AND g.userid = :userid";
+                "SELECT u.*, g.eventid, g.locationid, g.passid, g.paid, g.present, g.datestart, g.dateend, g.leaderid FROM guest g INNER JOIN useraccount u ON g.userid = u.userid WHERE g.userid = :userid";
             var parameters = new List<OracleParameter>
             {
                 new OracleParameter("userid", user.ID)

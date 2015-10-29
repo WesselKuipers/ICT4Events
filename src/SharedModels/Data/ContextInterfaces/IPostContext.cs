@@ -9,6 +9,7 @@ namespace SharedModels.Data.ContextInterfaces
 {
     public interface IPostContext : IRepositoryContext<Post>
     {
+        Reply Insert(Reply entity);
         List<Post> GetAllByEvent(Event ev);
         List<Reply> GetRepliesByPost(Post post);
         List<int> GetAllLikes(Post post);

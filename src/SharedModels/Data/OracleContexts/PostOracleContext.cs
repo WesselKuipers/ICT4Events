@@ -29,7 +29,7 @@ namespace SharedModels.Data.OracleContexts
                 new OracleParameter("postid", Convert.ToInt32(id))
             };
 
-            return GetEntityFromRecord(Database.ExecuteReader(query, parameters).First());
+            return GetEntityFromRecord(Database.ExecuteReader(query, parameters).FirstOrDefault());
         }
 
         public Post Insert(Post entity)
@@ -40,15 +40,39 @@ namespace SharedModels.Data.OracleContexts
             {
                 new OracleParameter("userid", entity.GuestID),
                 new OracleParameter("eventid", entity.EventID),
-                new OracleParameter("mediaid", entity.MediaID),
                 new OracleParameter("postdate", entity.Date),
                 new OracleParameter("content", entity.Content),
+                entity.MediaID > 0
+                    ? new OracleParameter("mediaid", (entity.MediaID))
+                    : new OracleParameter("mediaid", (DBNull.Value)),
                 new OracleParameter("lastID", OracleDbType.Decimal) {Direction = ParameterDirection.ReturnValue}
             };
 
             string newID;
             if (!Database.ExecuteNonQuery(query, out newID, parameters)) return null;
             return GetById(Convert.ToInt32(newID));
+        }
+
+        public Reply Insert(Reply entity)
+        {
+            var query =
+    "INSERT INTO post (postid, userid, eventid, mediaid, mainpostid, postdate, content) VALUES (seq_post.nextval, :userid, :eventid, :mediaid, :mainpostid, :postdate, :content) RETURNING postid INTO :lastID";
+            var parameters = new List<OracleParameter>
+            {
+                new OracleParameter("userid", entity.GuestID),
+                new OracleParameter("eventid", entity.EventID),
+                new OracleParameter("mainpostid", entity.MainPostID),
+                new OracleParameter("postdate", entity.Date),
+                new OracleParameter("content", entity.Content),
+                entity.MediaID > 0
+                    ? new OracleParameter("mediaid", (entity.MediaID))
+                    : new OracleParameter("mediaid", (DBNull.Value)),
+                new OracleParameter("lastID", OracleDbType.Decimal) {Direction = ParameterDirection.ReturnValue}
+            };
+
+            string newID;
+            if (!Database.ExecuteNonQuery(query, out newID, parameters)) return null;
+            return (Reply) GetById(Convert.ToInt32(newID));
         }
 
         public bool Update(Post entity)

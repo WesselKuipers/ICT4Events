@@ -27,6 +27,11 @@ namespace SharedModels.Logic
             return _context.Insert(post);
         }
 
+        public Reply InsertPost(Reply reply)
+        {
+            return _context.Insert(reply);
+        }
+
         public bool UpdatePost(Post post)
         {
             return _context.Update(post);
