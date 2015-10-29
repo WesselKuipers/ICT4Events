@@ -15,15 +15,17 @@ namespace ICT4Events.Views.SocialSystem.Controls
     {
         private readonly Post _post;
         private readonly Event _event;
-        private readonly Guest _guest;
+        private readonly Guest _guestPost;
+        private readonly User _admin;
         private readonly Guest _activeUser;
         private Media _media;
         private readonly MediaOracleContext _logicMedia;
         private readonly PostLogic _logicPost;
         private readonly GuestLogic _logicGuest;
         private readonly ReportOracleContext _logicReport;
+        private PostFeedExtended extended;
 
-        public PostFeed(Post post, Event ev, Guest active, bool Reply)
+        public PostFeed(Post post, Event ev, Guest active, bool reply)
         {
             InitializeComponent();
             _logicMedia = new MediaOracleContext();
@@ -36,9 +38,29 @@ namespace ICT4Events.Views.SocialSystem.Controls
             // CURRENT "GUEST" SIGNED IN.
             _activeUser = active;
             // GUEST OF THE POST
-            _guest = _logicGuest.GetGuestByEvent(_event, _post.GuestID);
+            _guestPost = _logicGuest.GetGuestByEvent(_event, _post.GuestID);
 
-            if (Reply)
+            if (reply)
+            {
+                lbReaction.Visible = false;
+            }
+        }
+        public PostFeed(Post post, Event ev, User admin, bool reply)
+        {
+            InitializeComponent();
+            _logicMedia = new MediaOracleContext();
+            _logicPost = new PostLogic();
+            _logicGuest = new GuestLogic(new GuestOracleContext());
+            _logicReport = new ReportOracleContext();
+
+            _post = post;
+            _event = ev;
+            // CURRENT "ADMIN" SIGNED IN.
+            _admin = admin;
+            // GUEST OF THE POST
+            _guestPost = _logicGuest.GetGuestByEvent(_event, _post.GuestID);
+
+            if (reply)
             {
                 lbReaction.Visible = false;
             }
@@ -70,21 +92,28 @@ namespace ICT4Events.Views.SocialSystem.Controls
 
         private void lbLike_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            _logicPost.Like(_activeUser, _post);
+            if (_activeUser != null)
+                _logicPost.Like(_activeUser, _post);
+            else
+                _logicPost.Like(_admin, _post);
             RefreshSocialSystem();
         }
         private void lblUnLike_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            _logicPost.UnLike(_activeUser, _post);
+            if(_activeUser != null) 
+                _logicPost.UnLike(_activeUser, _post);
+            else
+                _logicPost.UnLike(_admin, _post);
             RefreshSocialSystem();
         }
 
         private void lblDeletePost_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             if(_logicPost.DeletePost(_post))
-                MessageBox.Show(@"Post succesvol verwijderd");
+                MessageBox.Show(@"Post of reactie succesvol verwijderd");
             else
                 MessageBox.Show(@"Er is iets mis gegaan");
+            //Controls.Remove(this.Name);
         }
 
         private void RefreshSocialSystem()
@@ -94,38 +123,65 @@ namespace ICT4Events.Views.SocialSystem.Controls
             lbLike.Visible = true;
             lblUnLike.Visible = false;
 
-            if (_post.GuestID == _activeUser.ID)
+            if (_activeUser != null)
             {
-                lbReport.Visible = false;
-                lblDeletePost.Visible = true;
-            }
-            if (reports != null)
-            {
-                foreach (Report r in reports)
+                // Guest rights
+                if (_post.GuestID == _activeUser.ID)
                 {
-                    if (r.GuestID == _activeUser.ID)
-                        lbReport.Enabled = false;
+                    lbReport.Visible = false;
+                    lblDeletePost.Visible = true;
                 }
-            }
-            if (likes != null)
-            {
-                foreach (int i in likes)
+                if (reports != null)
                 {
-                    if (i == _activeUser.ID)
+                    foreach (Report r in reports)
                     {
-                        lbLike.Visible = false;
-                        lblUnLike.Visible = true;
+                        if (r.GuestID == _activeUser.ID)
+                            lbReport.Enabled = false;
                     }
                 }
-                lblCountLikes.Text = likes.Count + @" mens(en) vinden dit leuk";
+                if (likes != null)
+                {
+                    foreach (int i in likes)
+                    {
+                        if (i == _activeUser.ID)
+                        {
+                            lbLike.Visible = false;
+                            lblUnLike.Visible = true;
+                        }
+                    }
+                    lblCountLikes.Text = likes.Count + @" mens(en) vinden dit leuk";
+                }
+                else
+                {
+                    lblCountLikes.Text = @"0 mens(en) vinden dit leuk";
+                }
             }
             else
             {
-                lblCountLikes.Text = @"0 mens(en) vinden dit leuk";
+                // Admin rights
+                lbReport.Visible = false;
+                lblDeletePost.Visible = true;
+
+                if (likes != null)
+                {
+                    foreach (int i in likes)
+                    {
+                        if (i == _admin.ID)
+                        {
+                            lbLike.Visible = false;
+                            lblUnLike.Visible = true;
+                        }
+                    }
+                    lblCountLikes.Text = likes.Count + @" mens(en) vinden dit leuk";
+                }
+                else
+                {
+                    lblCountLikes.Text = @"0 mens(en) vinden dit leuk";
+                }
             }
 
             lbReport1.Text = _post.Content;
-            lblAuteurNaam.Text = _guest.Name + @" " + _guest.Surname;
+            lblAuteurNaam.Text = _guestPost.Name + @" " + _guestPost.Surname;
             lblDatum.Text = @"Geplaatst op " + _post.Date.ToString("dd/MM/yyyy");
 
             #region LoadMedia
@@ -135,7 +191,15 @@ namespace ICT4Events.Views.SocialSystem.Controls
 
         private void lbReaction_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            PostFeedExtended extended = new PostFeedExtended(_post, _event, _activeUser);
+            if (_activeUser != null)
+            {
+                extended = new PostFeedExtended(_post, _event, _activeUser);
+            }
+            else
+            {
+                extended = new PostFeedExtended(_post, _event, _admin);
+            }
+
             ExtendedForm expost = new ExtendedForm();
             expost.Controls.Add(extended);
             expost.ShowDialog();
