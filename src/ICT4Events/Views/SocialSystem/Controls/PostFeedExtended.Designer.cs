@@ -38,6 +38,7 @@
             // 
             // tbPanelReplies
             // 
+            this.tbPanelReplies.AutoScroll = true;
             this.tbPanelReplies.AutoSize = true;
             this.tbPanelReplies.BackColor = System.Drawing.SystemColors.Control;
             this.tbPanelReplies.ColumnCount = 1;
@@ -99,7 +100,7 @@
             this.Controls.Add(this.tbPanelReplies);
             this.Controls.Add(this.groupBox1);
             this.Name = "PostFeedExtended";
-            this.Size = new System.Drawing.Size(679, 588);
+            this.Size = new System.Drawing.Size(679, 649);
             this.Load += new System.EventHandler(this.PostFeedExtended_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();

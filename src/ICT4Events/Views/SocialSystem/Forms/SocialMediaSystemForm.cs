@@ -37,13 +37,6 @@ namespace ICT4Events.Views.SocialSystem.Forms
                     Anchor = (AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top)
                 };
                 tbMakePost.Controls.Add(makePost);
-
-                var tbSearch = new TabPage("Zoek op tags");
-                var searchByTag = new SearchByTag(_user, _event) {Dock = DockStyle.Fill};
-                tabControl1.TabPages.Add(tbSearch);
-                tbSearch.Controls.Add(searchByTag);
-                
-
             }
             else
             {
@@ -56,7 +49,15 @@ namespace ICT4Events.Views.SocialSystem.Forms
                 };
                 tbMakePost.Controls.Add(makePost);
 
+                TabPage reports = new TabPage("Gerapporteerde Posts");
+                tbControlSMSF.TabPages.Add(reports);
+                reports.Controls.Add(new ReportSection(_admin));
             }
+
+            var tbSearch = new TabPage("Zoek op tags");
+            var searchByTag = new SearchByTag(_user, _event) { Dock = DockStyle.Fill };
+            tbControlSMSF.TabPages.Add(tbSearch);
+            tbSearch.Controls.Add(searchByTag);
         }
     }
 }

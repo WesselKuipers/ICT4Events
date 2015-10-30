@@ -75,7 +75,6 @@ namespace ICT4Events.Views.SocialSystem.Controls
         {
             DownloadMedia(_post);
         }
-
         private void lbReport_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             var reportForm = new ReportPostForm();
@@ -89,7 +88,6 @@ namespace ICT4Events.Views.SocialSystem.Controls
                 RefreshSocialSystem();
             }
         }
-
         private void lbLike_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             if (_activeUser != null)
@@ -106,7 +104,6 @@ namespace ICT4Events.Views.SocialSystem.Controls
                 _logicPost.UnLike(_admin, _post);
             RefreshSocialSystem();
         }
-
         private void lblDeletePost_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             if(_logicPost.DeletePost(_post))
@@ -115,7 +112,26 @@ namespace ICT4Events.Views.SocialSystem.Controls
                 MessageBox.Show(@"Er is iets mis gegaan");
             //Controls.Remove(this.Name);
         }
+        private void lbReaction_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            if (_activeUser != null)
+            {
+                // guest post reaction on post
+                extended = new PostFeedExtended(_post, _event, _activeUser);
+            }
+            else
+            {
+                // admin post reaction on post
+                extended = new PostFeedExtended(_post, _event, _admin);
+            }
 
+            ExtendedForm expost = new ExtendedForm();
+            expost.Controls.Add(extended);
+            expost.ShowDialog();
+        }
+        /// <summary>
+        /// Refresh everything on the user control
+        /// </summary>
         private void RefreshSocialSystem()
         {
             List<Report> reports = _logicReport.GetAllByPost(_post);
@@ -183,30 +199,10 @@ namespace ICT4Events.Views.SocialSystem.Controls
             lbReport1.Text = _post.Content;
             lblAuteurNaam.Text = _guestPost.Name + @" " + _guestPost.Surname;
             lblDatum.Text = @"Geplaatst op " + _post.Date.ToString("dd/MM/yyyy");
-
-            #region LoadMedia
             ShowMedia(_post);
-            #endregion
         }
-
-        private void lbReaction_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            if (_activeUser != null)
-            {
-                extended = new PostFeedExtended(_post, _event, _activeUser);
-            }
-            else
-            {
-                extended = new PostFeedExtended(_post, _event, _admin);
-            }
-
-            ExtendedForm expost = new ExtendedForm();
-            expost.Controls.Add(extended);
-            expost.ShowDialog();
-        }
-        
         /// <summary>
-        /// THIS METHOD IS CALLED TO SHOW THE IMAGE OR AUDIO OR VIDEO IMAGE
+        /// This method is use to load image from FTP server
         /// </summary>
         /// <param name="post"></param>
         private void ShowMedia(Post post)
@@ -214,30 +210,32 @@ namespace ICT4Events.Views.SocialSystem.Controls
             if (post.MediaID != 0)
             {
                 _media = _logicMedia.GetById(post.MediaID);
-                if (_media.Type == MediaType.Image)
+                if (_media.Type == MediaType.Image) // Image
                 {
                     string ftpPath = @"/" + post.EventID + @"/" + post.GuestID + @"/" + _media.Path;
                     pbMediaMessage.ImageLocation = FtpHelper.ServerHardLogin + @"/" + ftpPath;
-                    pbMediaMessage.SizeMode = PictureBoxSizeMode.StretchImage;
-                }else if (_media.Type == MediaType.Audio)
+                    pbMediaMessage.SizeMode = PictureBoxSizeMode.Zoom;
+                }else if (_media.Type == MediaType.Audio)   // Audio
                 {
                     pbMediaMessage.ImageLocation = FtpHelper.ServerHardLogin + @"/mp3.jpg";
-                    pbMediaMessage.SizeMode = PictureBoxSizeMode.StretchImage;
+                    pbMediaMessage.SizeMode = PictureBoxSizeMode.Zoom;
                 }
                 else
-                {
+                { 
+                    // MP4 (video)
                     pbMediaMessage.ImageLocation = FtpHelper.ServerHardLogin + @"/mp4.png";
-                    pbMediaMessage.SizeMode = PictureBoxSizeMode.StretchImage;
+                    pbMediaMessage.SizeMode = PictureBoxSizeMode.Zoom;
                 }
             }
             else
             {
+                // Without media show nothin
                 pbMediaMessage.Visible = false;
                 lblDownloadMedia.Visible = false;
             }
         }
         /// <summary>
-        /// THIS METHOD DOWNLOADS FROM THE FRP SERVER
+        /// This method downloads the file of the FTP server
         /// </summary>
         /// <param name="post"></param>
         private void DownloadMedia(Post post)

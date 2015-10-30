@@ -99,6 +99,12 @@
     <Compile Include="Views\SocialSystem\Controls\PostFeedExtended.Designer.cs">
       <DependentUpon>PostFeedExtended.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\SocialSystem\Controls\ReportSection.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\SocialSystem\Controls\ReportSection.Designer.cs">
+      <DependentUpon>ReportSection.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\SocialSystem\Controls\SearchByTag.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -223,6 +229,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\SocialSystem\Controls\PostFeedExtended.resx">
       <DependentUpon>PostFeedExtended.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\SocialSystem\Controls\ReportSection.resx">
+      <DependentUpon>ReportSection.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\SocialSystem\Controls\SearchByTag.resx">
       <DependentUpon>SearchByTag.cs</DependentUpon>

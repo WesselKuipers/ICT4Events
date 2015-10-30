@@ -45,6 +45,7 @@
             // pbMediaMessage
             // 
             this.pbMediaMessage.BackColor = System.Drawing.Color.White;
+            this.pbMediaMessage.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pbMediaMessage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pbMediaMessage.Location = new System.Drawing.Point(497, 16);
             this.pbMediaMessage.Name = "pbMediaMessage";

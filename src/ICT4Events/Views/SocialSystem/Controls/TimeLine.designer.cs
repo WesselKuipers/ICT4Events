@@ -48,9 +48,10 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScroll = true;
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "TimeLine";
-            this.Size = new System.Drawing.Size(679, 560);
+            this.Size = new System.Drawing.Size(702, 560);
             this.Load += new System.EventHandler(this.TimeLine_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

@@ -212,11 +212,25 @@ namespace SharedModels.Data.OracleContexts
 
         public bool AddTagToPost(Post post, string tag)
         {
+            tag = tag.Trim('#');
             var query = "INSERT INTO posttags (postid, tagname) VALUES (:postid, :tagname)";
             var parameters = new List<OracleParameter>
             {
                 new OracleParameter("postid", post.ID),
                 new OracleParameter("tagname", tag)
+            };
+
+            return Database.ExecuteNonQuery(query, parameters);
+        }
+
+        public bool AddTagToEvent(Event ev, string tag)
+        {
+            tag = tag.Trim('#');
+            var query = "INSERT INTO tag (tagname, eventid) VALUES (:tagname, :eventid)";
+            var parameters = new List<OracleParameter>
+            {
+                new OracleParameter("tagname", tag),
+                new OracleParameter("eventid", ev.ID)
             };
 
             return Database.ExecuteNonQuery(query, parameters);

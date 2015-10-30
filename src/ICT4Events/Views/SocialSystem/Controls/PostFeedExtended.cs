@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Windows.Documents;
 using System.Windows.Forms;
 using ICT4Events.Views.SocialSystem.Forms;
 using SharedModels.Data.OracleContexts;
@@ -19,11 +20,13 @@ namespace ICT4Events.Views.SocialSystem.Controls
         private readonly User _admin;
         private Media _media;
         private readonly PostLogic _logicPost;
+        private readonly ReportOracleContext _reportContext;
 
         public PostFeedExtended(Post post, Event ev, Guest active)
         {
             InitializeComponent();
             _logicPost = new PostLogic();
+            _reportContext = new ReportOracleContext();
 
             _post = post;
             _event = ev;
@@ -35,6 +38,7 @@ namespace ICT4Events.Views.SocialSystem.Controls
         {
             InitializeComponent();
             _logicPost = new PostLogic();
+            _reportContext = new ReportOracleContext();
 
             _post = post;
             _event = ev;
@@ -66,7 +70,7 @@ namespace ICT4Events.Views.SocialSystem.Controls
         }
 
         /// <summary>
-        /// Reactie methode om een reactie toe te voegen
+        /// Reaction method to add reaction to database
         /// </summary>
         /// <param name="message"></param>
         private void AddReply(string message)
@@ -86,24 +90,29 @@ namespace ICT4Events.Views.SocialSystem.Controls
             LoadReplies();
         }
 
-        public void LoadReplies()
+        private void LoadReplies()
         {
             List<Reply> allReply = _logicPost.GetRepliesByPost(_post);
-            tbPanelReplies.Controls.Clear();
-            tbPanelReplies.RowStyles.Clear();
+
             int i = 0;
-            foreach (Reply p in allReply)
+            foreach (var p in allReply)
             {
-                if (p.MainPostID == _post.ID)
-                {
-                    if (i <= allReply.Count)
-                    {
-                        tbPanelReplies.RowCount += 1;
-                        tbPanelReplies.Controls.Add(new PostFeed(p, _event, _activeUser, true), 0, i);
-                        i++;
-                    }
-                }
+                CheckReportStatus(p, _logicPost, _reportContext);
+
+                if (p.MainPostID != _post.ID) continue;
+                if (!p.Visible) continue;
+                if (i > allReply.Count) continue;
+                tbPanelReplies.RowCount += 1;
+                tbPanelReplies.Controls.Add(new PostFeed(p, _event, _activeUser, true), 0, i);
+                i++;
             }
+        }
+
+        private void CheckReportStatus(Post post, PostLogic postLogic, ReportOracleContext reportContext)
+        {
+            List<Report> allReports = reportContext.GetAllByPost(post);
+            if (allReports.Count >= 5) post.Visible = false;
+            postLogic.UpdatePost(post);
         }
 
     }
