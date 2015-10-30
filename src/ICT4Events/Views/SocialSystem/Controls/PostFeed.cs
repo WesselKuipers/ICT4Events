@@ -214,20 +214,21 @@ namespace ICT4Events.Views.SocialSystem.Controls
             if (post.MediaID != 0)
             {
                 _media = _logicMedia.GetById(post.MediaID);
-                if (_media.Type == MediaType.Image)
+                if (_media.Type == MediaType.Image) // Image
                 {
                     string ftpPath = @"/" + post.EventID + @"/" + post.GuestID + @"/" + _media.Path;
                     pbMediaMessage.ImageLocation = FtpHelper.ServerHardLogin + @"/" + ftpPath;
-                    pbMediaMessage.SizeMode = PictureBoxSizeMode.StretchImage;
-                }else if (_media.Type == MediaType.Audio)
+                    pbMediaMessage.SizeMode = PictureBoxSizeMode.Zoom;
+                }else if (_media.Type == MediaType.Audio)   // Audio
                 {
                     pbMediaMessage.ImageLocation = FtpHelper.ServerHardLogin + @"/mp3.jpg";
-                    pbMediaMessage.SizeMode = PictureBoxSizeMode.StretchImage;
+                    pbMediaMessage.SizeMode = PictureBoxSizeMode.Zoom;
                 }
                 else
-                {
+                { 
+                    // MP4 (video)
                     pbMediaMessage.ImageLocation = FtpHelper.ServerHardLogin + @"/mp4.png";
-                    pbMediaMessage.SizeMode = PictureBoxSizeMode.StretchImage;
+                    pbMediaMessage.SizeMode = PictureBoxSizeMode.Zoom;
                 }
             }
             else

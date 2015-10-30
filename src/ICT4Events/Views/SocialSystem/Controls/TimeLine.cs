@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using SharedModels.Data.OracleContexts;
 using SharedModels.Logic;
 using SharedModels.Models;
 
@@ -12,12 +13,14 @@ namespace ICT4Events.Views.SocialSystem.Controls
         private readonly User _admin;
         private readonly Event _event;
         private readonly PostLogic _logic;
+        private readonly ReportOracleContext _reportContext;
         public TimeLine(Guest user, Event ev)
         {
             InitializeComponent();
             _user = user;
             _event = ev;
             _logic = new PostLogic();
+            _reportContext = new ReportOracleContext();
         }
         public TimeLine(User user, Event ev)
         {
@@ -25,6 +28,7 @@ namespace ICT4Events.Views.SocialSystem.Controls
             _admin = user;
             _event = ev;
             _logic = new PostLogic();
+            _reportContext = new ReportOracleContext();
         }
 
         private void TimeLine_Load(object sender, EventArgs e)
@@ -40,23 +44,34 @@ namespace ICT4Events.Views.SocialSystem.Controls
             int i = 0;
             foreach (Reply post in allPost)
             {
+                CheckReportStatus(post, _logic, _reportContext);
                 if (post.MainPostID == 0)
                 {
-                    if (i <= 5)
+                    if (post.Visible)
                     {
-                        tableLayoutPanel1.RowCount += 1;
-                        if (_user != null)
+                        if (i <= 5)
                         {
-                            tableLayoutPanel1.Controls.Add(new PostFeed(post, _event, _user, false), 0, i);
+                            tableLayoutPanel1.RowCount += 1;
+                            if (_user != null)
+                            {
+                                tableLayoutPanel1.Controls.Add(new PostFeed(post, _event, _user, false), 0, i);
+                            }
+                            else
+                            {
+                                tableLayoutPanel1.Controls.Add(new PostFeed(post, _event, _admin, false), 0, i);
+                            }
+                            i++;
                         }
-                        else
-                        {
-                            tableLayoutPanel1.Controls.Add(new PostFeed(post, _event, _admin, false), 0, i);
-                        }
-                        i++;
                     }
                 }
             }
+        }
+
+        private void CheckReportStatus(Post post, PostLogic postLogic, ReportOracleContext reportContext)
+        {
+            List<Report> allReportsByPost = reportContext.GetAllByPost(post);
+            if (allReportsByPost.Count >= 5) post.Visible = false;
+            postLogic.UpdatePost(post);
         }
     }
 }

@@ -3,9 +3,11 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using SharedModels.Data.ContextInterfaces;
 using SharedModels.Data.OracleContexts;
 using SharedModels.Enums;
 using SharedModels.FTP;
+using SharedModels.Logic;
 using SharedModels.Models;
 
 namespace ICT4Events.Views.SocialSystem.Controls
@@ -15,32 +17,43 @@ namespace ICT4Events.Views.SocialSystem.Controls
         private readonly Guest _user;
         private readonly User _admin;
         private readonly Event _event;
-        private readonly MediaOracleContext _logicMedia;
-        private readonly PostOracleContext _logicPost;
+        private readonly IMediaContext _logicMedia;
+        private readonly PostLogic _logicPost;
         private string _filepath;
         private Media _uploadedFile;
 
+        /// <summary>
+        /// This is an guest
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="ev"></param>
         public MakePost(Guest user, Event ev)
         {
             InitializeComponent();
             _user = user;
             _event = ev;
             _logicMedia = new MediaOracleContext();
-            _logicPost = new PostOracleContext();
+            _logicPost = new PostLogic(new PostOracleContext());
 
         }
+        /// <summary>
+        /// this is an admin
+        /// </summary>
+        /// <param name="admin"></param>
+        /// <param name="ev"></param>
         public MakePost(User admin, Event ev)
         {
             InitializeComponent();
             _admin = admin;
             _event = ev;
             _logicMedia = new MediaOracleContext();
-            _logicPost = new PostOracleContext();
+            _logicPost = new PostLogic(new PostOracleContext());
 
         }
 
         /// <summary>
-        /// OPEN FILE DIALOG TO SELECT FILE
+        /// opens file dialog to select the file to upload
+        /// TODO: Filter is not working correctly
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -60,9 +73,8 @@ namespace ICT4Events.Views.SocialSystem.Controls
                 pbPreview.SizeMode = PictureBoxSizeMode.StretchImage;
             }
         }
-        
         /// <summary>
-        /// UPLOAD TO FTP SERVER
+        /// uploads the file to the ftp server
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -82,9 +94,10 @@ namespace ICT4Events.Views.SocialSystem.Controls
 
                 if (_user != null)
                 {
-                    // user rights
+                    // REMEMBER: BELOW IS A GUEST
                     if (!File.Exists(FtpHelper.ServerAddress + "/" + _event.ID))
                     {
+                        // Creates user & event map if not exsist on FTP server
                         FtpHelper.CreateDirectory(_event.ID.ToString());
                         if (!File.Exists(FtpHelper.ServerAddress + "/" + _event.ID + "/" + _user.ID))
                         {
@@ -94,36 +107,28 @@ namespace ICT4Events.Views.SocialSystem.Controls
 
                     if (FtpHelper.UploadFile(_filepath, _event.ID + "/" + _user.ID + "/" + ftpFileName))
                     {
-                        string[] imageEx = {".jpg", ".jpeg", ".jpe", ".jfif", ".png"};
-                        string[] audioEx = {".wav", ".mp3"};
-                        string[] videoEx = {".mp4"};
-
-                        MediaType type = MediaType.Image;
-                        if (imageEx.Contains(ftpFileExtension))
-                        {
-                            type = MediaType.Image;
-                        }
-                        else if (audioEx.Contains(ftpFileExtension))
-                        {
-                            type = MediaType.Audio;
-                        }
-                        else if (videoEx.Contains(ftpFileExtension))
-                        {
-                            type = MediaType.Video;
-                        }
-
-                        MessageBox.Show(@"Uw bestand is succesvol upgeload", @"Message", MessageBoxButtons.OK,
-                            MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+                        // Check file extension
+                        MediaType type = CheckExtension(ftpFileExtension);
+                        
+                        // Makes the object media
                         Media media = new Media(0, _user.ID, _event.ID, type, ftpFileNameWithoutExtension,
                             ftpFileExtension, ftpFileName);
                         _uploadedFile = _logicMedia.Insert(media);
+
+                        // Show errors
+                        if (_uploadedFile != null)
+                            MessageBox.Show(@"Uw bestand is succesvol upgeload", @"Message", MessageBoxButtons.OK,
+                                MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+                        else
+                            MessageBox.Show(@"Er is iets misgegaan");
                     }
                 }
                 else
                 {
-                    // admin rights
+                    // REMEMBER: BELOW IS A ADMIN
                     if (!File.Exists(FtpHelper.ServerAddress + "/" + _event.ID))
                     {
+                        // Creates user & event map if not exsist on FTP server
                         FtpHelper.CreateDirectory(_event.ID.ToString());
                         if (!File.Exists(FtpHelper.ServerAddress + "/" + _event.ID + "/" + _admin.ID))
                         {
@@ -133,47 +138,39 @@ namespace ICT4Events.Views.SocialSystem.Controls
 
                     if (FtpHelper.UploadFile(_filepath, _event.ID + "/" + _admin.ID + "/" + ftpFileName))
                     {
-                        string[] imageEx = {".jpg", ".jpeg", ".jpe", ".jfif", ".png"};
-                        string[] audioEx = {".wav", ".mp3"};
-                        string[] videoEx = {".mp4"};
+                        // Check file extension
+                        MediaType type = CheckExtension(ftpFileExtension);
 
-                        MediaType type = MediaType.Image;
-                        if (imageEx.Contains(ftpFileExtension))
-                        {
-                            type = MediaType.Image;
-                        }
-                        else if (audioEx.Contains(ftpFileExtension))
-                        {
-                            type = MediaType.Audio;
-                        }
-                        else if (videoEx.Contains(ftpFileExtension))
-                        {
-                            type = MediaType.Video;
-                        }
-
-                        MessageBox.Show(@"Uw bestand is succesvol upgeload", @"Message", MessageBoxButtons.OK,
-                            MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+                        // Makes the object media
                         Media media = new Media(0, _admin.ID, _event.ID, type, ftpFileNameWithoutExtension,
                             ftpFileExtension, ftpFileName);
                         _uploadedFile = _logicMedia.Insert(media);
+
+                        // Show errors
+                        if (_uploadedFile != null)
+                            MessageBox.Show(@"Uw bestand is succesvol upgeload", @"Message", MessageBoxButtons.OK,
+                                MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+                        else
+                            MessageBox.Show(@"Er is iets misgegaan");
                     }
                 }
             }
         }
-
         /// <summary>
-        /// MAKING AND ADDING POST TO DATABASE
+        /// Making post & adding post to database
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void btPostAanmaken_Click(object sender, EventArgs e)
         {
+            // Check if message is empty
             if (string.IsNullOrEmpty(tbBerichtPost.Text))
             {
                 MessageBox.Show(@"Ga je echt niets vertellen? Kom op joh.");
             }
             else
             {
+                // Check if chosen file is uploaded
                 if (!string.IsNullOrEmpty(_filepath) && (_uploadedFile == null))
                 {
                     MessageBox.Show(@"Eerst uploaden voor het posten.");
@@ -185,15 +182,15 @@ namespace ICT4Events.Views.SocialSystem.Controls
                     {
                         if (_user != null)
                         {
-                            // guest makes post with media
+                            // guest makes post without media
                             Post p = new Post(0, _user.ID, _event.ID, 0, DateTime.Now, true, tbBerichtPost.Text);
-                            addedPost = _logicPost.Insert(p);
+                            addedPost = _logicPost.InsertPost(p);
                         }
                         else
                         {
-                            // Admin makes post with media
+                            // Admin makes post without media
                             Post p = new Post(0, _admin.ID, _event.ID, 0, DateTime.Now, true, tbBerichtPost.Text);
-                            addedPost = _logicPost.Insert(p);
+                            addedPost = _logicPost.InsertPost(p);
                         }
                         
                     }
@@ -206,27 +203,63 @@ namespace ICT4Events.Views.SocialSystem.Controls
                             {
                                 // Guest makes post with media
                                 Post p = new Post(0, _user.ID, _event.ID, _uploadedFile.ID, DateTime.Now, true, tbBerichtPost.Text);
-                                addedPost = _logicPost.Insert(p);
+                                addedPost = _logicPost.InsertPost(p);
                             }
                             else
                             {
                                 // Admin makes post with media
                                 Post p = new Post(0, _admin.ID, _event.ID, _uploadedFile.ID, DateTime.Now, true, tbBerichtPost.Text);
-                                addedPost = _logicPost.Insert(p);
+                                addedPost = _logicPost.InsertPost(p);
                             }
                         }
                     }
 
-                    // TODO: Hashtags
                     // List of tags
-                    foreach (string tag in addedPost.Tags)
+                    if (addedPost != null)
                     {
-                        
+                        foreach (string tag in addedPost.Tags)
+                        {
+                            _logicPost.AddTagToEvent(_event, tag.ToLower());
+                            _logicPost.AddTagToPost(addedPost, tag.ToLower());
+                        }
                     }
+                    else
+                    {
+                        MessageBox.Show(@"Er is iets misgegaan bij het toevoegen");
+                        return;
+                    }
+
 
                     MessageBox.Show(@"Je bericht is gepubliceerd op je tijdlijn");
                 }
             }
+        }
+        /// <summary>
+        /// Checks the extension of the file and returns the mediatype
+        /// </summary>
+        /// <param name="ftpFileExtension"></param>
+        /// <returns></returns>
+        private MediaType CheckExtension(string ftpFileExtension)
+        {
+            string[] imageEx = { ".jpg", ".jpeg", ".jpe", ".jfif", ".png" };
+            string[] audioEx = { ".wav", ".mp3" };
+            string[] videoEx = { ".mp4" };
+
+            MediaType type = MediaType.Image;
+            if (imageEx.Contains(ftpFileExtension))
+            {
+                type = MediaType.Image;
+            }
+            else if (audioEx.Contains(ftpFileExtension))
+            {
+                type = MediaType.Audio;
+            }
+            else if (videoEx.Contains(ftpFileExtension))
+            {
+                type = MediaType.Video;
+            }
+
+            return type;
         }
     }
 }

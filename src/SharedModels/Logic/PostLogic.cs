@@ -122,6 +122,17 @@ namespace SharedModels.Logic
         public List<Post> GetPostsByTag(string tag)
         {
             return _context.GetPostsByTag(tag);
-        } 
+        }
+
+        public bool AddTagToPost(Post post, string tag)
+        {
+            return _context.AddTagToPost(post, tag);
+        }
+
+
+        public bool AddTagToEvent(Event ev, string tag)
+        {
+            return _context.AddTagToEvent(ev, tag);
+        }
     }
 }
