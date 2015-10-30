@@ -70,7 +70,7 @@ namespace ICT4Events.Views.SocialSystem.Controls
             if (imageEx.Contains(Path.GetExtension(_filepath)))
             {
                 pbPreview.ImageLocation = @_filepath;
-                pbPreview.SizeMode = PictureBoxSizeMode.StretchImage;
+                pbPreview.SizeMode = PictureBoxSizeMode.Zoom;
             }
         }
         /// <summary>

@@ -70,7 +70,7 @@ namespace ICT4Events.Views.SocialSystem.Controls
         }
 
         /// <summary>
-        /// Reactie methode om een reactie toe te voegen
+        /// Reaction method to add reaction to database
         /// </summary>
         /// <param name="message"></param>
         private void AddReply(string message)

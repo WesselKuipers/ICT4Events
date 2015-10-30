@@ -92,6 +92,7 @@
             this.pbPreview.Location = new System.Drawing.Point(272, 11);
             this.pbPreview.Name = "pbPreview";
             this.pbPreview.Size = new System.Drawing.Size(204, 116);
+            this.pbPreview.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pbPreview.TabIndex = 5;
             this.pbPreview.TabStop = false;
             // 
