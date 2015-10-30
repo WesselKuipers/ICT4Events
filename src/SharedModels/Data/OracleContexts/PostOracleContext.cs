@@ -187,7 +187,7 @@ namespace SharedModels.Data.OracleContexts
 
         public List<Post> GetPostsByTag(string tag)
         {
-            var query = "SELECT p.* FROM post INNER JOIN posttags t ON p.postid = t.postid WHERE t.tagname = :tagname";
+            var query = "SELECT p.* FROM post p INNER JOIN posttags t ON p.postid = t.postid WHERE t.tagname = :tagname";
             var parameters = new List<OracleParameter>
             {
                 new OracleParameter("tagname", tag)

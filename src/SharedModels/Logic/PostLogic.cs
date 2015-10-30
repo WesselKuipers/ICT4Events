@@ -113,5 +113,15 @@ namespace SharedModels.Logic
             var report = new Report(guest.ID, post.ID, reason, DateTime.Now);
             return (_reportContext.Insert(report) != null);
         }
+
+        /// <summary>
+        /// Gets all posts that have a given tag
+        /// </summary>
+        /// <param name="tag">tag to search for</param>
+        /// <returns>All posts that contain given tag</returns>
+        public List<Post> GetPostsByTag(string tag)
+        {
+            return _context.GetPostsByTag(tag);
+        } 
     }
 }

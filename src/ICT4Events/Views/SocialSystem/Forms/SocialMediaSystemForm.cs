@@ -29,22 +29,31 @@ namespace ICT4Events.Views.SocialSystem.Forms
         {
             if (_user != null)
             {
-                TimeLine timeLine = new TimeLine(_user, _event);
-                timeLine.Dock = DockStyle.Fill;
+                var timeLine = new TimeLine(_user, _event) {Dock = DockStyle.Fill};
                 tbTimeLine.Controls.Add(timeLine);
 
-                MakePost makePost = new MakePost(_user, _event);
-                makePost.Anchor = (AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top);
+                var makePost = new MakePost(_user, _event)
+                {
+                    Anchor = (AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top)
+                };
                 tbMakePost.Controls.Add(makePost);
+
+                var tbSearch = new TabPage("Zoek op tags");
+                var searchByTag = new SearchByTag(_user, _event) {Dock = DockStyle.Fill};
+                tabControl1.TabPages.Add(tbSearch);
+                tbSearch.Controls.Add(searchByTag);
+                
+
             }
             else
             {
-                TimeLine timeLine = new TimeLine(_admin, _event);
-                timeLine.Dock = DockStyle.Fill;
+                var timeLine = new TimeLine(_admin, _event) {Dock = DockStyle.Fill};
                 tbTimeLine.Controls.Add(timeLine);
 
-                MakePost makePost = new MakePost(_admin, _event);
-                makePost.Anchor = (AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top);
+                var makePost = new MakePost(_admin, _event)
+                {
+                    Anchor = (AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top)
+                };
                 tbMakePost.Controls.Add(makePost);
 
             }
