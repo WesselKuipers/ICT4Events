@@ -43,11 +43,11 @@
             this.tbPanelReplies.BackColor = System.Drawing.SystemColors.Control;
             this.tbPanelReplies.ColumnCount = 1;
             this.tbPanelReplies.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tbPanelReplies.Location = new System.Drawing.Point(16, 254);
+            this.tbPanelReplies.Location = new System.Drawing.Point(16, 290);
             this.tbPanelReplies.Name = "tbPanelReplies";
             this.tbPanelReplies.RowCount = 1;
             this.tbPanelReplies.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tbPanelReplies.Size = new System.Drawing.Size(643, 130);
+            this.tbPanelReplies.Size = new System.Drawing.Size(669, 123);
             this.tbPanelReplies.TabIndex = 28;
             // 
             // tbReplyMessage
@@ -62,7 +62,7 @@
             // 
             this.groupBox1.Controls.Add(this.btReply);
             this.groupBox1.Controls.Add(this.tbReplyMessage);
-            this.groupBox1.Location = new System.Drawing.Point(16, 132);
+            this.groupBox1.Location = new System.Drawing.Point(16, 154);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(643, 116);
             this.groupBox1.TabIndex = 30;
@@ -88,7 +88,7 @@
             this.tbPanelMainPost.Name = "tbPanelMainPost";
             this.tbPanelMainPost.RowCount = 1;
             this.tbPanelMainPost.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tbPanelMainPost.Size = new System.Drawing.Size(643, 123);
+            this.tbPanelMainPost.Size = new System.Drawing.Size(669, 123);
             this.tbPanelMainPost.TabIndex = 29;
             // 
             // PostFeedExtended
@@ -100,7 +100,7 @@
             this.Controls.Add(this.tbPanelReplies);
             this.Controls.Add(this.groupBox1);
             this.Name = "PostFeedExtended";
-            this.Size = new System.Drawing.Size(679, 649);
+            this.Size = new System.Drawing.Size(755, 665);
             this.Load += new System.EventHandler(this.PostFeedExtended_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();

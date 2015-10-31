@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using ICT4Events.Views.SocialSystem.Forms;
@@ -77,14 +78,21 @@ namespace ICT4Events.Views.SocialSystem.Controls
         }
         private void lbReport_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
+            if (CheckReportStatus(_post, _logicPost, _logicReport))
+            {
+                MessageBox.Show($"Bericht is verborgen. Je kunt geen rapport meer insturen.");
+                return;
+            }
+
             var reportForm = new ReportPostForm();
             var result = reportForm.ShowDialog();
             if (result == DialogResult.OK)
             {
                 //try to add report to database and show appropriate message
-                MessageBox.Show(_logicPost.Report(_logicGuest.GetGuestByEvent(_event, _activeUser.ID), _post, reportForm.ReasonReturnValue)
-                   ? "Rapport succesvol verzonden. Bedankt voor u feedback!"
-                   : "Er is iets fout gegaan met het doorvoeren van dit rapport, onze excuses hiervoor.");
+                MessageBox.Show(_logicPost.Report(_logicGuest.GetGuestByEvent(_event, _activeUser.ID), _post,
+                    reportForm.ReasonReturnValue)
+                    ? "Rapport succesvol verzonden. Bedankt voor u feedback!"
+                    : "Er is iets fout gegaan met het doorvoeren van dit rapport, onze excuses hiervoor.");
                 RefreshSocialSystem();
             }
         }
@@ -196,7 +204,7 @@ namespace ICT4Events.Views.SocialSystem.Controls
                 }
             }
 
-            lbReport1.Text = _post.Content;
+            tbMessage.Text = _post.Content;
             lblAuteurNaam.Text = _guestPost.Name + @" " + _guestPost.Surname;
             lblDatum.Text = @"Geplaatst op " + _post.Date.ToString("dd/MM/yyyy");
             ShowMedia(_post);
@@ -232,6 +240,12 @@ namespace ICT4Events.Views.SocialSystem.Controls
                 // Without media show nothin
                 pbMediaMessage.Visible = false;
                 lblDownloadMedia.Visible = false;
+                tbMessage.Width = 614;
+                lblUnLike.Location = new Point(569, lblUnLike.Location.Y);
+                lbLike.Location = new Point(584, lbLike.Location.Y);
+                lblDeletePost.Location = new Point(517, lblDeletePost.Location.Y);
+                lbReport.Location = new Point(517, lbReport.Location.Y);
+                lbReaction.Location = new Point(455, lbReaction.Location.Y);
             }
         }
         /// <summary>
@@ -253,6 +267,18 @@ namespace ICT4Events.Views.SocialSystem.Controls
                     MessageBox.Show(@"Bestand is succesvol gedownload");
                 }
             }
+        }
+        private bool CheckReportStatus(Post post, PostLogic postLogic, ReportOracleContext reportContext)
+        {
+            List<Report> allReportsByPost = reportContext.GetAllByPost(post);
+            if (allReportsByPost.Count >= 5)
+            {
+                post.Visible = false;
+                postLogic.UpdatePost(post);
+                return true;
+            }
+            return false;
+
         }
     }
 }
