@@ -51,7 +51,7 @@ namespace ICT4Events.Views.SocialSystem.Forms
 
                 TabPage reports = new TabPage("Gerapporteerde Posts");
                 tbControlSMSF.TabPages.Add(reports);
-                reports.Controls.Add(new ReportSection(_admin));
+                reports.Controls.Add(new ReportSection(_admin, _event));
             }
 
             var tbSearch = new TabPage("Zoek op tags");

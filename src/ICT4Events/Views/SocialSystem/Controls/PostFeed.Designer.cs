@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.pbMediaMessage = new System.Windows.Forms.PictureBox();
-            this.lbReport1 = new System.Windows.Forms.Label();
+            this.tbMessage = new System.Windows.Forms.Label();
             this.lblAuteurNaam = new System.Windows.Forms.Label();
             this.lblDatum = new System.Windows.Forms.Label();
             this.lblDownloadMedia = new System.Windows.Forms.LinkLabel();
@@ -54,15 +54,15 @@
             this.pbMediaMessage.TabStop = false;
             this.pbMediaMessage.Tag = "";
             // 
-            // lbReport1
+            // tbMessage
             // 
-            this.lbReport1.BackColor = System.Drawing.Color.White;
-            this.lbReport1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lbReport1.Location = new System.Drawing.Point(37, 16);
-            this.lbReport1.Name = "lbReport1";
-            this.lbReport1.Size = new System.Drawing.Size(454, 87);
-            this.lbReport1.TabIndex = 4;
-            this.lbReport1.Text = "Inhoud van het bericht met mogelijkheid voor meerdere regels. bla bla bla";
+            this.tbMessage.BackColor = System.Drawing.Color.White;
+            this.tbMessage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tbMessage.Location = new System.Drawing.Point(37, 16);
+            this.tbMessage.Name = "tbMessage";
+            this.tbMessage.Size = new System.Drawing.Size(454, 87);
+            this.tbMessage.TabIndex = 4;
+            this.tbMessage.Text = "Inhoud van het bericht met mogelijkheid voor meerdere regels. bla bla bla";
             // 
             // lblAuteurNaam
             // 
@@ -141,7 +141,7 @@
             // lblCountLikes
             // 
             this.lblCountLikes.AutoSize = true;
-            this.lblCountLikes.Location = new System.Drawing.Point(360, 2);
+            this.lblCountLikes.Location = new System.Drawing.Point(520, 2);
             this.lblCountLikes.Name = "lblCountLikes";
             this.lblCountLikes.Size = new System.Drawing.Size(131, 13);
             this.lblCountLikes.TabIndex = 15;
@@ -173,7 +173,7 @@
             this.Controls.Add(this.lblDatum);
             this.Controls.Add(this.pbMediaMessage);
             this.Controls.Add(this.lblAuteurNaam);
-            this.Controls.Add(this.lbReport1);
+            this.Controls.Add(this.tbMessage);
             this.Name = "PostFeed";
             this.Size = new System.Drawing.Size(670, 130);
             this.Load += new System.EventHandler(this.PostFeed_Load);
@@ -185,7 +185,7 @@
 
         #endregion
         private System.Windows.Forms.PictureBox pbMediaMessage;
-        private System.Windows.Forms.Label lbReport1;
+        private System.Windows.Forms.Label tbMessage;
         private System.Windows.Forms.Label lblAuteurNaam;
         private System.Windows.Forms.Label lblDatum;
         private System.Windows.Forms.LinkLabel lblDownloadMedia;

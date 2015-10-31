@@ -93,7 +93,8 @@ namespace ICT4Events.Views.SocialSystem.Controls
         private void LoadReplies()
         {
             List<Reply> allReply = _logicPost.GetRepliesByPost(_post);
-
+            tbPanelReplies.RowCount = 1;
+            tbPanelReplies.Controls.Clear();
             int i = 0;
             foreach (var p in allReply)
             {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 using SharedModels.Data.OracleContexts;
 using SharedModels.Logic;
@@ -14,6 +15,9 @@ namespace ICT4Events.Views.SocialSystem.Controls
         private readonly Event _event;
         private readonly PostLogic _logic;
         private readonly ReportOracleContext _reportContext;
+
+        private List<Post> Posts;
+
         public TimeLine(Guest user, Event ev)
         {
             InitializeComponent();
@@ -36,42 +40,61 @@ namespace ICT4Events.Views.SocialSystem.Controls
             LoadPosts();
         }
         /// <summary>
-        /// LOAD THE MAIN POSTS ON THE TIMELINE
+        /// Load the main post on the timeline 
+        /// Eerst even dit
         /// </summary>
         public void LoadPosts()
         {
-            List<Post> allPost = _logic.GetAllByEvent(_event);
-            int i = 0;
-            foreach (Reply post in allPost)
+            Posts = _logic.GetAllByEvent(_event).Where(p => p.Visible).ToList();
+            foreach (Reply post in Posts)
             {
-                CheckReportStatus(post, _logic, _reportContext);
-                if (post.MainPostID == 0)
-                {
-                    if (post.Visible)
-                    {
-                        if (i <= 5)
-                        {
-                            tableLayoutPanel1.RowCount += 1;
-                            if (_user != null)
-                            {
-                                tableLayoutPanel1.Controls.Add(new PostFeed(post, _event, _user, false), 0, i);
-                            }
-                            else
-                            {
-                                tableLayoutPanel1.Controls.Add(new PostFeed(post, _event, _admin, false), 0, i);
-                            }
-                            i++;
-                        }
-                    }
-                }
+                PostLoad(post);
             }
         }
 
-        private void CheckReportStatus(Post post, PostLogic postLogic, ReportOracleContext reportContext)
+
+
+        private void tmrRefresh_Tick(object sender, EventArgs e)
         {
-            List<Report> allReportsByPost = reportContext.GetAllByPost(post);
-            if (allReportsByPost.Count >= 5) post.Visible = false;
-            postLogic.UpdatePost(post);
+            CompareAndRefreshPosts(); // of een dergelijke naam
+        }
+
+        private void CompareAndRefreshPosts()
+        {
+            var newListPosts = _logic.GetAllByEvent(_event).Where(p => p.Visible).ToList();
+            if(!Equals(newListPosts.Count, Posts.Count))
+            {
+                tableLayoutPanel1.Controls.Clear();
+                foreach (Reply post in newListPosts)
+                {
+                    PostLoad(post);
+                }
+                Posts = newListPosts;
+            }
+        }
+
+        private void PostLoad(Reply post)
+        {
+            int i = 0;
+            if (post.MainPostID == 0)
+            {
+
+                if (i <= 5)
+                {
+                    // Post are getting loaded here on the timeline
+                    tableLayoutPanel1.RowCount += 1;
+                    if (_user != null)
+                    {
+                        tableLayoutPanel1.Controls.Add(new PostFeed(post, _event, _user, false), 0, i);
+                    }
+                    else
+                    {
+                        tableLayoutPanel1.Controls.Add(new PostFeed(post, _event, _admin, false), 0, i);
+                    }
+                    i++;
+                }
+
+            }
         }
     }
 }
