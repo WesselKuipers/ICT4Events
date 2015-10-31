@@ -32,5 +32,10 @@ namespace SharedModels.Models
             Visible = visible;
             Content = content;
         }
+
+        public override string ToString()
+        {
+            return $"PostID: {ID} - Visible: {Visible}";
+        }
     }
 }
