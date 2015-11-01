@@ -47,6 +47,7 @@
             this.pbMediaMessage.BackColor = System.Drawing.Color.White;
             this.pbMediaMessage.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pbMediaMessage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pbMediaMessage.InitialImage = global::ICT4Events.Properties.Resources.LoadingIcon;
             this.pbMediaMessage.Location = new System.Drawing.Point(497, 16);
             this.pbMediaMessage.Name = "pbMediaMessage";
             this.pbMediaMessage.Size = new System.Drawing.Size(154, 87);

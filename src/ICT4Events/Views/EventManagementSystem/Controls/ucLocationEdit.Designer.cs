@@ -41,6 +41,7 @@
             this.btnDeleteLocation = new System.Windows.Forms.Button();
             this.btnAddLocation = new System.Windows.Forms.Button();
             this.btnEditLocation = new System.Windows.Forms.Button();
+            this.btnUploadMap = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.picMap)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numLocationCapacity)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numLocationPrice)).BeginInit();
@@ -49,6 +50,7 @@
             // picMap
             // 
             this.picMap.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.picMap.InitialImage = global::ICT4Events.Properties.Resources.LoadingIcon;
             this.picMap.Location = new System.Drawing.Point(3, 29);
             this.picMap.Name = "picMap";
             this.picMap.Size = new System.Drawing.Size(469, 318);
@@ -181,10 +183,21 @@
             this.btnEditLocation.UseVisualStyleBackColor = true;
             this.btnEditLocation.Click += new System.EventHandler(this.btnEditLocation_Click);
             // 
+            // btnUploadMap
+            // 
+            this.btnUploadMap.Location = new System.Drawing.Point(6, 351);
+            this.btnUploadMap.Name = "btnUploadMap";
+            this.btnUploadMap.Size = new System.Drawing.Size(118, 39);
+            this.btnUploadMap.TabIndex = 13;
+            this.btnUploadMap.Text = "Plattegrond uploaden";
+            this.btnUploadMap.UseVisualStyleBackColor = true;
+            this.btnUploadMap.Click += new System.EventHandler(this.btnUploadMap_Click);
+            // 
             // ucLocationEdit
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.btnUploadMap);
             this.Controls.Add(this.btnEditLocation);
             this.Controls.Add(this.btnAddLocation);
             this.Controls.Add(this.btnDeleteLocation);
@@ -223,5 +236,6 @@
         private System.Windows.Forms.Button btnDeleteLocation;
         private System.Windows.Forms.Button btnAddLocation;
         private System.Windows.Forms.Button btnEditLocation;
+        private System.Windows.Forms.Button btnUploadMap;
     }
 }

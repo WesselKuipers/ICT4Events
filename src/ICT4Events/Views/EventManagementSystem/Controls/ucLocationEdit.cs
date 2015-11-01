@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using SharedModels.FTP;
 using SharedModels.Logic;
 using SharedModels.Models;
 
@@ -25,6 +26,11 @@ namespace ICT4Events.Views.EventManagementSystem.Controls
             lsbLocations.Items.AddRange(locations.ToArray());
 
             lsbLocations.SelectedIndex = 0;
+
+            if (string.IsNullOrWhiteSpace(_event.MapPath)) return;
+
+            picMap.ImageLocation = $"{FtpHelper.ServerHardLogin}/{_event.ID}/{_event.MapPath}";
+            picMap.SizeMode = PictureBoxSizeMode.Zoom;
         }
 
         private void btnAddLocation_Click(object sender, EventArgs e)
@@ -50,7 +56,15 @@ namespace ICT4Events.Views.EventManagementSystem.Controls
         {
             if (!CheckRequiredFields()) return;
 
-            var location = (Location)lsbLocations.SelectedItem;
+            var location = (Location) lsbLocations.SelectedItem;
+
+            var guestCount = LogicCollection.GuestLogic.GetGuestCountByLocation(location);
+            if (numLocationCapacity.Value < guestCount)
+            {
+                MessageBox.Show(
+                    "De capaciteit van locatie is minder dan het huidige aantal ingeschreven gasten bij deze locatie");
+                return;
+            }
 
             location.Name = txtLocationName.Text;
             location.Capacity = (int) numLocationCapacity.Value;
@@ -97,6 +111,36 @@ namespace ICT4Events.Views.EventManagementSystem.Controls
         {
             return !string.IsNullOrWhiteSpace(txtLocationName.Text) &&
                    numLocationCapacity.Value > 0;
+        }
+
+        private void btnUploadMap_Click(object sender, EventArgs e)
+        {
+            var ofd = new OpenFileDialog
+            {
+                Filter = "Image files (*.jpg, *.jpeg, *.jpe, *.jfif, *.png) | *.jpg; *.jpeg; *.jpe; *.jfif; *.png"
+            };
+
+            if (ofd.ShowDialog() != DialogResult.OK) return;
+            var path = ofd.FileName;
+            var filename = ofd.SafeFileName;
+
+            if (!string.IsNullOrWhiteSpace(_event.MapPath))
+            {
+                FtpHelper.DeleteFile($"{_event.ID}/{_event.MapPath}");
+            }
+
+            if (FtpHelper.UploadFile(path, $"{_event.ID}/{filename}"))
+            {
+                picMap.ImageLocation = path;
+                picMap.SizeMode = PictureBoxSizeMode.Zoom;
+
+                _event.MapPath = filename;
+                LogicCollection.EventLogic.UpdateEvent(_event);
+            }
+            else
+            {
+                MessageBox.Show("Er is iets misgegaan bij het uploaden van de plattegrond");
+            }
         }
     }
 }
