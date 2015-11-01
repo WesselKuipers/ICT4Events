@@ -50,6 +50,7 @@
             // picMap
             // 
             this.picMap.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.picMap.InitialImage = global::ICT4Events.Properties.Resources.LoadingIcon;
             this.picMap.Location = new System.Drawing.Point(3, 29);
             this.picMap.Name = "picMap";
             this.picMap.Size = new System.Drawing.Size(469, 318);

@@ -159,6 +159,7 @@
             this.picEventMap.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.picEventMap.InitialImage = global::ICT4Events.Properties.Resources.LoadingIcon;
             this.picEventMap.Location = new System.Drawing.Point(355, 123);
             this.picEventMap.Name = "picEventMap";
             this.picEventMap.Size = new System.Drawing.Size(255, 158);
@@ -184,7 +185,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.calEventDate);
             this.Name = "ReservationSystemForm";
-            this.Text = "ReservationSystemForm";
+            this.Text = "Reserveren voor evenementen";
             ((System.ComponentModel.ISupportInitialize)(this.picEventMap)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
