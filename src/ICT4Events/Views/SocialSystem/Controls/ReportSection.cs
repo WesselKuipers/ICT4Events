@@ -74,12 +74,11 @@ namespace ICT4Events.Views.SocialSystem.Controls
             Post post = (Post) lbReportsUnder5.SelectedItem;
             if (post != null)
             {
-                var messageBoxResult = System.Windows.MessageBox.Show("Weet je het zeker?", "Verbgen?", System.Windows.MessageBoxButton.YesNo);
+                var messageBoxResult = System.Windows.MessageBox.Show("Weet je het zeker?", "Verbergen?", System.Windows.MessageBoxButton.YesNo);
                 if (messageBoxResult == MessageBoxResult.Yes)
                 {
                     post.Visible = false;
                     _logicPost.UpdatePost(post);
-                    MessageBox.Show($"Bericht is verborgen.");
                 }
             }
             else
@@ -98,7 +97,6 @@ namespace ICT4Events.Views.SocialSystem.Controls
                 {
                     post.Visible = true;
                     _logicPost.UpdatePost(post);
-                    MessageBox.Show($"Bericht is nu zichtbaar.");
                 }
             }
             else
@@ -122,8 +120,6 @@ namespace ICT4Events.Views.SocialSystem.Controls
                     {
                         _logicReport.Delete(rep);
                     }
-
-                    MessageBox.Show($"Bericht is nu zichtbaar en reports zijn verwijderd");
                 }
                 RefreshReportSystem(_getAllPostByEvent, _logicReport);
             }
