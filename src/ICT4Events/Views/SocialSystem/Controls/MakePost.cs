@@ -148,7 +148,7 @@ namespace ICT4Events.Views.SocialSystem.Controls
 
                         // Show errors
                         if (_uploadedFile != null)
-                            MessageBox.Show(@"Uw bestand is succesvol upgeload", @"Message", MessageBoxButtons.OK,
+                            MessageBox.Show(@"Uw bestand is succesvol geüpload", @"Message", MessageBoxButtons.OK,
                                 MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
                         else
                             MessageBox.Show(@"Er is iets misgegaan");
@@ -166,7 +166,7 @@ namespace ICT4Events.Views.SocialSystem.Controls
             // Check if message is empty
             if (string.IsNullOrEmpty(tbBerichtPost.Text))
             {
-                MessageBox.Show(@"Ga je echt niets vertellen? Kom op joh.");
+                MessageBox.Show(@"Ga je echt niets vertellen?");
             }
             else
             {
