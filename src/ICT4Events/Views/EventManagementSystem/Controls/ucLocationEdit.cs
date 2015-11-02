@@ -61,8 +61,7 @@ namespace ICT4Events.Views.EventManagementSystem.Controls
             var guestCount = LogicCollection.GuestLogic.GetGuestCountByLocation(location);
             if (numLocationCapacity.Value < guestCount)
             {
-                MessageBox.Show(
-                    "De capaciteit van locatie is minder dan het huidige aantal ingeschreven gasten bij deze locatie");
+                MessageBox.Show("De capaciteit van locatie is minder dan het huidige aantal ingeschreven gasten bij deze locatie");
                 return;
             }
 

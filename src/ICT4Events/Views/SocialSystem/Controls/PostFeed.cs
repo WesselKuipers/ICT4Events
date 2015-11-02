@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 using ICT4Events.Views.SocialSystem.Forms;
+using SharedModels.Data.ContextInterfaces;
 using SharedModels.Data.OracleContexts;
 using SharedModels.Enums;
 using SharedModels.FTP;
@@ -26,7 +28,8 @@ namespace ICT4Events.Views.SocialSystem.Controls
         private readonly ReportOracleContext _logicReport;
         private PostFeedExtended extended;
 
-        public PostFeed(Post post, Event ev, Guest active, bool reply)
+
+        private PostFeed(Post post, Event ev, bool reply)
         {
             InitializeComponent();
             _logicMedia = new MediaOracleContext();
@@ -36,35 +39,25 @@ namespace ICT4Events.Views.SocialSystem.Controls
 
             _post = post;
             _event = ev;
-            // CURRENT "GUEST" SIGNED IN.
-            _activeUser = active;
-            // GUEST OF THE POST
-            _guestPost = _logicGuest.GetGuestByEvent(_event, _post.GuestID);
 
-            if (reply)
-            {
-                lbReaction.Visible = false;
-            }
+            lbReaction.Visible = !reply;
         }
-        public PostFeed(Post post, Event ev, User admin, bool reply)
+
+        public PostFeed(Post post, Event ev, Guest active, bool reply) : this(post, ev, reply)
         {
-            InitializeComponent();
-            _logicMedia = new MediaOracleContext();
-            _logicPost = new PostLogic();
-            _logicGuest = new GuestLogic(new GuestOracleContext());
-            _logicReport = new ReportOracleContext();
+            // Currently signed in guest
+            _activeUser = active;
 
-            _post = post;
-            _event = ev;
-            // CURRENT "ADMIN" SIGNED IN.
-            _admin = admin;
-            // GUEST OF THE POST
+            // User of the post
             _guestPost = _logicGuest.GetGuestByEvent(_event, _post.GuestID);
+        }
+        public PostFeed(Post post, Event ev, User admin, bool reply) : this(post, ev, reply)
+        {
+            // Currently signed in administrator
+            _admin = admin;
 
-            if (reply)
-            {
-                lbReaction.Visible = false;
-            }
+            // User of the post
+            _guestPost = _logicGuest.GetGuestByEvent(_event, _post.GuestID);
         }
 
         private void PostFeed_Load(object sender, EventArgs e)
@@ -80,21 +73,20 @@ namespace ICT4Events.Views.SocialSystem.Controls
         {
             if (CheckReportStatus(_post, _logicPost, _logicReport))
             {
-                MessageBox.Show($"Bericht is verborgen. Je kunt geen rapport meer insturen.");
+                MessageBox.Show("Bericht is verborgen. Je kunt geen rapport meer insturen.");
                 return;
             }
 
             var reportForm = new ReportPostForm();
             var result = reportForm.ShowDialog();
-            if (result == DialogResult.OK)
-            {
-                //try to add report to database and show appropriate message
-                MessageBox.Show(_logicPost.Report(_logicGuest.GetGuestByEvent(_event, _activeUser.ID), _post,
-                    reportForm.ReasonReturnValue)
-                    ? "Rapport succesvol verzonden. Bedankt voor u feedback!"
-                    : "Er is iets fout gegaan met het doorvoeren van dit rapport, onze excuses hiervoor.");
-                RefreshSocialSystem();
-            }
+            if (result != DialogResult.OK) return;
+
+            // Try to add report to database and show appropriate message
+            MessageBox.Show(_logicPost.Report(_logicGuest.GetGuestByEvent(_event, _activeUser.ID), _post,
+                reportForm.ReasonReturnValue)
+                ? "Rapport succesvol verzonden. Bedankt voor u feedback!"
+                : "Er is iets fout gegaan met het doorvoeren van dit rapport, onze excuses hiervoor.");
+            RefreshSocialSystem();
         }
         private void lbLike_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
@@ -102,6 +94,7 @@ namespace ICT4Events.Views.SocialSystem.Controls
                 _logicPost.Like(_activeUser, _post);
             else
                 _logicPost.Like(_admin, _post);
+
             RefreshSocialSystem();
         }
         private void lblUnLike_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -114,36 +107,31 @@ namespace ICT4Events.Views.SocialSystem.Controls
         }
         private void lblDeletePost_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            if(_logicPost.DeletePost(_post))
-                MessageBox.Show(@"Post of reactie succesvol verwijderd");
-            else
-                MessageBox.Show(@"Er is iets mis gegaan");
+            MessageBox.Show(_logicPost.DeletePost(_post)
+                ? "Post of reactie succesvol verwijderd"
+                : "Er is iets mis gegaan");
+
             //Controls.Remove(this.Name);
         }
+
         private void lbReaction_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            if (_activeUser != null)
-            {
-                // guest post reaction on post
-                extended = new PostFeedExtended(_post, _event, _activeUser);
-            }
-            else
-            {
-                // admin post reaction on post
-                extended = new PostFeedExtended(_post, _event, _admin);
-            }
+            extended = _activeUser != null
+                ? new PostFeedExtended(_post, _event, _activeUser)
+                : new PostFeedExtended(_post, _event, _admin);
 
-            ExtendedForm expost = new ExtendedForm();
-            expost.Controls.Add(extended);
-            expost.ShowDialog();
+            var extendedPostform = new ExtendedForm();
+            extendedPostform.Controls.Add(extended);
+            extendedPostform.ShowDialog();
         }
         /// <summary>
         /// Refresh everything on the user control
         /// </summary>
         private void RefreshSocialSystem()
         {
-            List<Report> reports = _logicReport.GetAllByPost(_post);
-            List<int> likes = _logicPost.GetAllLikes(_post);
+            var reports = _logicReport.GetAllByPost(_post);
+            var likes = _logicPost.GetAllLikes(_post);
+
             lbLike.Visible = true;
             lblUnLike.Visible = false;
 
@@ -157,30 +145,26 @@ namespace ICT4Events.Views.SocialSystem.Controls
                 }
                 if (reports != null)
                 {
-                    foreach (Report r in reports)
+                    foreach (var r in reports.Where(r => r.GuestID == _activeUser.ID))
                     {
-                        if (r.GuestID == _activeUser.ID)
-                            lbReport.Enabled = false;
+                        lbReport.Enabled = false;
                     }
                 }
                 if (likes != null)
                 {
-                    foreach (int i in likes)
+                    foreach (var i in likes.Where(i => i == _activeUser.ID))
                     {
-                        if (i == _activeUser.ID)
-                        {
-                            lbLike.Visible = false;
-                            lblUnLike.Visible = true;
-                        }
+                        lbLike.Visible = false;
+                        lblUnLike.Visible = true;
                     }
-                    lblCountLikes.Text = likes.Count + @" mens(en) vinden dit leuk";
+                    lblCountLikes.Text = $"{likes.Count} mens(en) vinden dit leuk";
                 }
                 else
                 {
-                    lblCountLikes.Text = @"0 mens(en) vinden dit leuk";
+                    lblCountLikes.Text = "0 mensen vinden dit leuk";
                 }
             }
-            else
+            else // TODO: Refactor this to avoid duplicate code
             {
                 // Admin rights
                 lbReport.Visible = false;
@@ -188,19 +172,17 @@ namespace ICT4Events.Views.SocialSystem.Controls
 
                 if (likes != null)
                 {
-                    foreach (int i in likes)
+                    foreach (var i in likes.Where(i => i == _admin.ID))
                     {
-                        if (i == _admin.ID)
-                        {
-                            lbLike.Visible = false;
-                            lblUnLike.Visible = true;
-                        }
+                        lbLike.Visible = false;
+                        lblUnLike.Visible = true;
                     }
-                    lblCountLikes.Text = likes.Count + @" mens(en) vinden dit leuk";
+
+                    lblCountLikes.Text = $"{likes.Count} mens(en) vinden dit leuk";
                 }
                 else
                 {
-                    lblCountLikes.Text = @"0 mens(en) vinden dit leuk";
+                    lblCountLikes.Text = "0 mensen vinden dit leuk";
                 }
             }
 
@@ -212,35 +194,38 @@ namespace ICT4Events.Views.SocialSystem.Controls
         /// <summary>
         /// This method is use to load image from FTP server
         /// </summary>
-        /// <param name="post"></param>
+        /// <param name="post">The post to look up the media of</param>
         private void ShowMedia(Post post)
         {
             if (post.MediaID != 0)
             {
                 _media = _logicMedia.GetById(post.MediaID);
-                if (_media.Type == MediaType.Image) // Image
+                switch (_media.Type)
                 {
-                    string ftpPath = @"/" + post.EventID + @"/" + post.GuestID + @"/" + _media.Path;
-                    pbMediaMessage.ImageLocation = FtpHelper.ServerHardLogin + @"/" + ftpPath;
-                    pbMediaMessage.SizeMode = PictureBoxSizeMode.Zoom;
-                }else if (_media.Type == MediaType.Audio)   // Audio
-                {
-                    pbMediaMessage.ImageLocation = FtpHelper.ServerHardLogin + @"/mp3.jpg";
-                    pbMediaMessage.SizeMode = PictureBoxSizeMode.Zoom;
-                }
-                else
-                { 
-                    // MP4 (video)
-                    pbMediaMessage.ImageLocation = FtpHelper.ServerHardLogin + @"/mp4.png";
-                    pbMediaMessage.SizeMode = PictureBoxSizeMode.Zoom;
+                    case MediaType.Image:
+                        var ftpPath = $"/{post.EventID}/{post.GuestID}/{_media.Path}";
+                        pbMediaMessage.ImageLocation = $"{FtpHelper.ServerHardLogin}/{ftpPath}";
+                        pbMediaMessage.SizeMode = PictureBoxSizeMode.Zoom;
+                        break;
+                    case MediaType.Audio:
+                        pbMediaMessage.ImageLocation = FtpHelper.ServerHardLogin + @"/mp3.jpg"; // TODO: Are these files even stored with these filenames?
+                        pbMediaMessage.SizeMode = PictureBoxSizeMode.Zoom;
+                        break;
+                    default:
+                        // MP4 (video)
+                        pbMediaMessage.ImageLocation = $"{FtpHelper.ServerHardLogin}/mp4.png";
+                        pbMediaMessage.SizeMode = PictureBoxSizeMode.Zoom;
+                        break;
                 }
             }
             else
             {
-                // Without media show nothin
+                // Post doesn't have any attached media
                 pbMediaMessage.Visible = false;
                 lblDownloadMedia.Visible = false;
+
                 tbMessage.Width = 614;
+
                 lblUnLike.Location = new Point(569, lblUnLike.Location.Y);
                 lbLike.Location = new Point(584, lbLike.Location.Y);
                 lblDeletePost.Location = new Point(517, lblDeletePost.Location.Y);
@@ -254,31 +239,26 @@ namespace ICT4Events.Views.SocialSystem.Controls
         /// <param name="post"></param>
         private void DownloadMedia(Post post)
         {
-            if (post.MediaID != 0)
-            {
-                _media = _logicMedia.GetById(post.MediaID);
+            if (post.MediaID == 0) return;
 
-                FolderBrowserDialog saveMedia = new FolderBrowserDialog();
+            _media = _logicMedia.GetById(post.MediaID);
 
-                if (saveMedia.ShowDialog() == DialogResult.OK)
-                {
-                    string pathSelected = saveMedia.SelectedPath;
-                    FtpHelper.DownloadFile(FtpHelper.ServerHardLogin + @"/" + @"/" + post.EventID + @"/" + post.GuestID + @"/" + _media.Path, pathSelected + "/" + _media.Path);
-                    MessageBox.Show(@"Bestand is succesvol gedownload");
-                }
-            }
+            var saveMedia = new FolderBrowserDialog();
+
+            if (saveMedia.ShowDialog() != DialogResult.OK) return;
+
+            var pathSelected = saveMedia.SelectedPath;
+            FtpHelper.DownloadFile($"{FtpHelper.ServerHardLogin}/{post.EventID}/{post.GuestID}/{_media.Path}", $"{pathSelected}/{_media.Path}");
+            MessageBox.Show("Bestand is succesvol gedownload");
         }
-        private bool CheckReportStatus(Post post, PostLogic postLogic, ReportOracleContext reportContext)
+        private bool CheckReportStatus(Post post, PostLogic postLogic, IReportContext reportContext)
         {
-            List<Report> allReportsByPost = reportContext.GetAllByPost(post);
-            if (allReportsByPost.Count >= 5)
-            {
-                post.Visible = false;
-                postLogic.UpdatePost(post);
-                return true;
-            }
-            return false;
+            var allReportsByPost = reportContext.GetAllByPost(post);
+            if (allReportsByPost.Count < 5) return false;
 
+            post.Visible = false;
+            postLogic.UpdatePost(post);
+            return true;
         }
     }
 }

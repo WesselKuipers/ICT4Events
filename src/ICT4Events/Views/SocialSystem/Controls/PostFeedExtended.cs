@@ -30,7 +30,8 @@ namespace ICT4Events.Views.SocialSystem.Controls
 
             _post = post;
             _event = ev;
-            // CURRENT "GUEST" SIGNED IN.
+
+            // Currently signed in guest
             _activeUser = active;
         }
 
@@ -42,16 +43,14 @@ namespace ICT4Events.Views.SocialSystem.Controls
 
             _post = post;
             _event = ev;
-            // CURRENT "GUEST" SIGNED IN.
             _admin = admin;
         }
 
         private void PostFeedExtended_Load(object sender, EventArgs e)
         {
-            if (_activeUser != null)
-                tbPanelMainPost.Controls.Add(new PostFeed(_post, _event, _activeUser, true));
-            else
-                tbPanelMainPost.Controls.Add(new PostFeed(_post, _event, _admin, true));
+            tbPanelMainPost.Controls.Add(_activeUser != null
+                ? new PostFeed(_post, _event, _activeUser, true)
+                : new PostFeed(_post, _event, _admin, true));
 
             LoadReplies();
         }
@@ -60,30 +59,25 @@ namespace ICT4Events.Views.SocialSystem.Controls
         {
             if (!string.IsNullOrEmpty(tbReplyMessage.Text))
             {
-                string mess = tbReplyMessage.Text;
+                var mess = tbReplyMessage.Text;
                 AddReply(mess);
             }
             else
             {
-                MessageBox.Show(@"Bericht is verplicht!");
+                MessageBox.Show("Bericht is verplicht!");
             }
         }
 
         /// <summary>
-        /// Reaction method to add reaction to database
+        /// Adds a reply to database
         /// </summary>
-        /// <param name="message"></param>
+        /// <param name="message">Content of the reply</param>
         private void AddReply(string message)
         {
-            Reply r = null;
-            if (_activeUser != null)
-            {
-                r = new Reply(0, _activeUser.ID, _event.ID, 0, _post.ID, DateTime.Now, true, message);
-            }
-            else
-            {
-                r = new Reply(0, _admin.ID, _event.ID, 0, _post.ID, DateTime.Now, true, message);
-            }
+            Reply r;
+            r = _activeUser != null 
+                ? new Reply(0, _activeUser.ID, _event.ID, 0, _post.ID, DateTime.Now, true, message)
+                : new Reply(0, _admin.ID, _event.ID, 0, _post.ID, DateTime.Now, true, message);
 
             if (_logicPost.InsertPost(r) == null)
                 MessageBox.Show(@"Er is iets misgegaan");
@@ -92,17 +86,17 @@ namespace ICT4Events.Views.SocialSystem.Controls
 
         private void LoadReplies()
         {
-            List<Reply> allReply = _logicPost.GetRepliesByPost(_post);
+            var replies = _logicPost.GetRepliesByPost(_post);
             tbPanelReplies.RowCount = 1;
             tbPanelReplies.Controls.Clear();
-            int i = 0;
-            foreach (var p in allReply)
+            var i = 0;
+            foreach (var p in replies)
             {
                 CheckReportStatus(p, _logicPost, _reportContext);
 
                 if (p.MainPostID != _post.ID) continue;
                 if (!p.Visible) continue;
-                if (i > allReply.Count) continue;
+                if (i > replies.Count) continue;
                 tbPanelReplies.RowCount += 1;
                 tbPanelReplies.Controls.Add(new PostFeed(p, _event, _activeUser, true), 0, i);
                 i++;
@@ -111,7 +105,7 @@ namespace ICT4Events.Views.SocialSystem.Controls
 
         private void CheckReportStatus(Post post, PostLogic postLogic, ReportOracleContext reportContext)
         {
-            List<Report> allReports = reportContext.GetAllByPost(post);
+            var allReports = reportContext.GetAllByPost(post);
             if (allReports.Count >= 5) post.Visible = false;
             postLogic.UpdatePost(post);
         }
