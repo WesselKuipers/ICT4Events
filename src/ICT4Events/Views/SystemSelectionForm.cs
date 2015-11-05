@@ -29,6 +29,9 @@ namespace ICT4Events
             btnAccountManagementSystem.Click += OpenAccountManagement;
 
             var btnSocialMediaSystem = new Button {Text = "Tijdlijn bekijken", Dock = DockStyle.Fill };
+            
+            
+            var btnMaterialSystem = new Button { Text = "Materiaal Verhuur", Dock = DockStyle.Fill};
 
             if (_user.Permission == PermissionType.User)
             {
@@ -52,6 +55,10 @@ namespace ICT4Events
 
                 tblSystemButtons.Controls.Add(btnSocialMediaSystem);
                 tblSystemButtons.Controls.Add(btnAccountManagementSystem);
+
+                
+                btnMaterialSystem.Click += OpenMaterialManagement;
+                tblSystemButtons.Controls.Add(btnMaterialSystem);
             }
             if (_user.Permission == PermissionType.Administrator)
             {
@@ -86,7 +93,8 @@ namespace ICT4Events
 
         private void OpenMaterialManagement(object sender, EventArgs e)
         {
-            new MaterialSystem(_ev).ShowDialog();
+            var ev = SelectEvent(LogicCollection.EventLogic.GetAllEvents());
+            new MaterialSystem(ev).ShowDialog();
         }
 
         private void OpenSocialMediaUser(object sender, EventArgs e)
@@ -100,10 +108,7 @@ namespace ICT4Events
 
         private void OpenSocialMediaEmployee(object sender, EventArgs e)
         {
-            Event ev;
-
-            var events = LogicCollection.EventLogic.GetAllEvents();
-            ev = SelectEvent(events);
+            var ev = SelectEvent(LogicCollection.EventLogic.GetAllEvents());
 
             new SocialMediaSystemForm(_user, ev).ShowDialog();
         }
