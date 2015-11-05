@@ -23,19 +23,9 @@ namespace ICT4Events.Views.Accountsystem.Controls
         {
             btnUpdatePermissions.Enabled = false;
 
-            foreach (var user in _logic.AllUsers.Where(user => user.ID != _user.ID))
-            {
-                lbUsers.Items.Add(user);
-            }
+            lbUsers.Items.AddRange(_logic.AllUsers.Where(user => user.ID != _user.ID).ToArray());
 
-            foreach (var permissiontype in Enum.GetValues(typeof(PermissionType)))
-            {
-                cbPermTypes.Items.Add(permissiontype);
-            }
-
-            lbUsers.SelectedIndex = 0;
-            var selUser = (User) lbUsers.SelectedItem;
-            cbPermTypes.SelectedItem = selUser.Permission;
+            cbPermTypes.DataSource = Enum.GetValues(typeof (PermissionType));
         }
 
         private void lbUsers_SelectedIndexChanged(object sender, EventArgs e)
@@ -47,25 +37,27 @@ namespace ICT4Events.Views.Accountsystem.Controls
             }
             else
             {
-                cbPermTypes.SelectedText = "";
+                cbPermTypes.SelectedText = string.Empty;
                 btnUpdatePermissions.Enabled = false;
             }
         }
 
         private User GetSelectedUser()
         {
-            if (lbUsers.SelectedItem is User)
-            {
-                return lbUsers.SelectedItem as User;
-            }
-            return null;
+            return lbUsers.SelectedItem as User;
         }
 
         private void btnUpdatePermissions_Click(object sender, EventArgs e)
         {
-            if (GetSelectedUser() != null)
+            var user = GetSelectedUser();
+
+            if (user != null)
             {
-                _logic.UpdateUser(GetSelectedUser());
+                var permission = (PermissionType)cbPermTypes.SelectedItem;
+                user.Permission = permission;
+                MessageBox.Show(_logic.UpdateUser(user)
+                    ? "User is succesvol aangepast"
+                    : "User is niet succesvol aangepast");
             }
             else
             {

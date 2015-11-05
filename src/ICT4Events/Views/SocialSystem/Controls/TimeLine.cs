@@ -37,18 +37,18 @@ namespace ICT4Events.Views.SocialSystem.Controls
 
         private void TimeLine_Load(object sender, EventArgs e)
         {
-            LoadPosts();
+            LoadAllPosts();
         }
         /// <summary>
         /// Load the main post on the timeline 
         /// Eerst even dit
         /// </summary>
-        public void LoadPosts()
+        private void LoadAllPosts()
         {
-            Posts = _logic.GetAllByEvent(_event).Where(p => p.Visible).ToList();
+            Posts = _logic.GetAllByEvent(_event).Where(p => p.Visible).OrderByDescending(x => x.Date).ToList();
             foreach (Reply post in Posts)
             {
-                PostLoad(post);
+                LoadPost(post);
             }
         }
 
@@ -56,29 +56,28 @@ namespace ICT4Events.Views.SocialSystem.Controls
 
         private void tmrRefresh_Tick(object sender, EventArgs e)
         {
-            CompareAndRefreshPosts(); // of een dergelijke naam
+            CompareAndRefreshPosts();
         }
 
         private void CompareAndRefreshPosts()
         {
-            var newListPosts = _logic.GetAllByEvent(_event).Where(p => p.Visible).ToList();
+            var newListPosts = _logic.GetAllByEvent(_event).Where(p => p.Visible).OrderByDescending(x => x.Date).ToList();
             if(!Equals(newListPosts.Count, Posts.Count))
             {
                 tableLayoutPanel1.Controls.Clear();
                 foreach (Reply post in newListPosts)
                 {
-                    PostLoad(post);
+                    LoadPost(post);
                 }
                 Posts = newListPosts;
             }
         }
 
-        private void PostLoad(Reply post)
+        private void LoadPost(Reply post)
         {
-            int i = 0;
+            var i = 0;
             if (post.MainPostID == 0)
             {
-
                 if (i <= 5)
                 {
                     // Post are getting loaded here on the timeline

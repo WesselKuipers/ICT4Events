@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Data;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,8 +26,6 @@ namespace ICT4Events.Views.EventManagementSystem.Controls
             var locations = LogicCollection.LocationLogic.GetLocationsByEvent(_event);
             lsbLocations.Items.AddRange(locations.ToArray());
 
-            lsbLocations.SelectedIndex = 0;
-
             if (string.IsNullOrWhiteSpace(_event.MapPath)) return;
 
             picMap.ImageLocation = $"{FtpHelper.ServerHardLogin}/{_event.ID}/{_event.MapPath}";
@@ -45,6 +44,7 @@ namespace ICT4Events.Views.EventManagementSystem.Controls
             {
                 lsbLocations.Items.Add(location);
                 lsbLocations.SelectedItem = Location;
+                MessageBox.Show("Locatie is succesvol toegevoegd");
             }
             else
             {
@@ -78,6 +78,8 @@ namespace ICT4Events.Views.EventManagementSystem.Controls
                 lsbLocations.Items.Remove(location);
                 lsbLocations.Items.Add(location);
                 lsbLocations.SelectedItem = location;
+
+                MessageBox.Show("Locatie is succesvol aangepast");
             }
         }
 

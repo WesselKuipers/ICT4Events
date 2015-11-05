@@ -205,16 +205,14 @@ namespace ICT4Events.Views.SocialSystem.Controls
                     case MediaType.Image:
                         var ftpPath = $"/{post.EventID}/{post.GuestID}/{_media.Path}";
                         pbMediaMessage.ImageLocation = $"{FtpHelper.ServerHardLogin}/{ftpPath}";
-                        pbMediaMessage.SizeMode = PictureBoxSizeMode.Zoom;
                         break;
                     case MediaType.Audio:
-                        pbMediaMessage.ImageLocation = FtpHelper.ServerHardLogin + @"/mp3.jpg"; // TODO: Are these files even stored with these filenames?
-                        pbMediaMessage.SizeMode = PictureBoxSizeMode.Zoom;
+                        // Show mp3 icon
+                        pbMediaMessage.ImageLocation = FtpHelper.ServerHardLogin + @"/mp3.jpg";
                         break;
                     default:
-                        // MP4 (video)
+                        // Show mp3 icon
                         pbMediaMessage.ImageLocation = $"{FtpHelper.ServerHardLogin}/mp4.png";
-                        pbMediaMessage.SizeMode = PictureBoxSizeMode.Zoom;
                         break;
                 }
             }
@@ -260,5 +258,6 @@ namespace ICT4Events.Views.SocialSystem.Controls
             postLogic.UpdatePost(post);
             return true;
         }
+
     }
 }

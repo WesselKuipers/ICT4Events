@@ -51,6 +51,7 @@
             this.pbMediaMessage.Location = new System.Drawing.Point(497, 16);
             this.pbMediaMessage.Name = "pbMediaMessage";
             this.pbMediaMessage.Size = new System.Drawing.Size(154, 87);
+            this.pbMediaMessage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pbMediaMessage.TabIndex = 5;
             this.pbMediaMessage.TabStop = false;
             this.pbMediaMessage.Tag = "";
@@ -63,7 +64,7 @@
             this.tbMessage.Name = "tbMessage";
             this.tbMessage.Size = new System.Drawing.Size(454, 87);
             this.tbMessage.TabIndex = 4;
-            this.tbMessage.Text = "Inhoud van het bericht met mogelijkheid voor meerdere regels. bla bla bla";
+            this.tbMessage.Text = "Inhoud van het bericht met mogelijkheid voor meerdere regels.";
             // 
             // lblAuteurNaam
             // 
