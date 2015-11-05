@@ -90,7 +90,7 @@ namespace SharedModels.Data.OracleContexts
             if (record == null) return null;
 
             return new Report(Convert.ToInt32(record[0]), Convert.ToInt32(record[1]), record[3],
-                DateTime.Parse(record[2]), Convert.ToBoolean(Convert.ToInt32(record[4])));
+                DateTime.Parse(record[2]), Convert.ToBoolean(record[4]));
         }
     }
 }

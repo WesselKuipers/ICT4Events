@@ -28,28 +28,28 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.tbControlSMSF = new System.Windows.Forms.TabControl();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tbTimeLine = new System.Windows.Forms.TabPage();
             this.tbMakePost = new System.Windows.Forms.TabPage();
-            this.tbControlSMSF.SuspendLayout();
+            this.tabControl1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // tbControlSMSF
+            // tabControl1
             // 
-            this.tbControlSMSF.Controls.Add(this.tbTimeLine);
-            this.tbControlSMSF.Controls.Add(this.tbMakePost);
-            this.tbControlSMSF.Location = new System.Drawing.Point(12, 12);
-            this.tbControlSMSF.Name = "tbControlSMSF";
-            this.tbControlSMSF.SelectedIndex = 0;
-            this.tbControlSMSF.Size = new System.Drawing.Size(713, 659);
-            this.tbControlSMSF.TabIndex = 0;
+            this.tabControl1.Controls.Add(this.tbTimeLine);
+            this.tabControl1.Controls.Add(this.tbMakePost);
+            this.tabControl1.Location = new System.Drawing.Point(12, 12);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(809, 436);
+            this.tabControl1.TabIndex = 0;
             // 
             // tbTimeLine
             // 
             this.tbTimeLine.Location = new System.Drawing.Point(4, 22);
             this.tbTimeLine.Name = "tbTimeLine";
             this.tbTimeLine.Padding = new System.Windows.Forms.Padding(3);
-            this.tbTimeLine.Size = new System.Drawing.Size(705, 633);
+            this.tbTimeLine.Size = new System.Drawing.Size(801, 410);
             this.tbTimeLine.TabIndex = 0;
             this.tbTimeLine.Text = "Tijdlijn";
             this.tbTimeLine.UseVisualStyleBackColor = true;
@@ -68,19 +68,19 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(736, 683);
-            this.Controls.Add(this.tbControlSMSF);
+            this.ClientSize = new System.Drawing.Size(834, 461);
+            this.Controls.Add(this.tabControl1);
             this.Name = "SocialMediaSystemForm";
             this.Text = "SocialMediaSystemFormcs";
             this.Load += new System.EventHandler(this.SocialMediaSystemForm_Load);
-            this.tbControlSMSF.ResumeLayout(false);
+            this.tabControl1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.TabControl tbControlSMSF;
+        private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tbTimeLine;
         private System.Windows.Forms.TabPage tbMakePost;
     }

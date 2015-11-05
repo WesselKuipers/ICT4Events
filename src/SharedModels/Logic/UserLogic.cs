@@ -101,7 +101,7 @@ namespace SharedModels.Logic
         public User AuthenticateUser(string username, string password)
         {
             var user = _context.AuthenticateUser(username, password);
-            
+
             if (user != null)
             {
                 return user;

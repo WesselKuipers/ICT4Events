@@ -29,7 +29,7 @@ namespace SharedModels.Data.OracleContexts
                 new OracleParameter("postid", Convert.ToInt32(id))
             };
 
-            return GetEntityFromRecord(Database.ExecuteReader(query, parameters).FirstOrDefault());
+            return GetEntityFromRecord(Database.ExecuteReader(query, parameters).First());
         }
 
         public Post Insert(Post entity)
@@ -40,39 +40,15 @@ namespace SharedModels.Data.OracleContexts
             {
                 new OracleParameter("userid", entity.GuestID),
                 new OracleParameter("eventid", entity.EventID),
+                new OracleParameter("mediaid", entity.MediaID),
                 new OracleParameter("postdate", entity.Date),
                 new OracleParameter("content", entity.Content),
-                entity.MediaID > 0
-                    ? new OracleParameter("mediaid", (entity.MediaID))
-                    : new OracleParameter("mediaid", (DBNull.Value)),
                 new OracleParameter("lastID", OracleDbType.Decimal) {Direction = ParameterDirection.ReturnValue}
             };
 
             string newID;
             if (!Database.ExecuteNonQuery(query, out newID, parameters)) return null;
             return GetById(Convert.ToInt32(newID));
-        }
-
-        public Reply Insert(Reply entity)
-        {
-            var query =
-    "INSERT INTO post (postid, userid, eventid, mediaid, mainpostid, postdate, content) VALUES (seq_post.nextval, :userid, :eventid, :mediaid, :mainpostid, :postdate, :content) RETURNING postid INTO :lastID";
-            var parameters = new List<OracleParameter>
-            {
-                new OracleParameter("userid", entity.GuestID),
-                new OracleParameter("eventid", entity.EventID),
-                new OracleParameter("mainpostid", entity.MainPostID),
-                new OracleParameter("postdate", entity.Date),
-                new OracleParameter("content", entity.Content),
-                entity.MediaID > 0
-                    ? new OracleParameter("mediaid", (entity.MediaID))
-                    : new OracleParameter("mediaid", (DBNull.Value)),
-                new OracleParameter("lastID", OracleDbType.Decimal) {Direction = ParameterDirection.ReturnValue}
-            };
-
-            string newID;
-            if (!Database.ExecuteNonQuery(query, out newID, parameters)) return null;
-            return (Reply) GetById(Convert.ToInt32(newID));
         }
 
         public bool Update(Post entity)
@@ -122,132 +98,6 @@ namespace SharedModels.Data.OracleContexts
             return res.Select(GetReplyEntityFromRecord).ToList();
         }
 
-        public List<int> GetAllLikes(Post post)
-        {
-            var query = "SELECT userid FROM likes WHERE postid = :postid";
-            var parameters = new List<OracleParameter>
-            {
-                new OracleParameter("postid", post.ID)
-            };
-
-            var res = Database.ExecuteReader(query, parameters);
-
-            if (!res.Any()) return null;
-
-            var result = res.Select(r => Convert.ToInt32(r[0])).ToList();
-            return result;
-        }
-
-        public bool AddLikeToPost(Post post, Guest guest)
-        {
-            var query = "INSERT INTO likes (postid, userid) VALUES (:postid, :userid)";
-            var parameters = new List<OracleParameter>
-            {
-                new OracleParameter("postid", post.ID),
-                new OracleParameter("userid", guest.ID)
-            };
-
-            return Database.ExecuteNonQuery(query, parameters);
-        }
-
-        public bool RemoveLikeFromPost(Post post, Guest guest)
-        {
-            var query = "DELETE FROM likes WHERE postid = :postid AND userid = :userid";
-            var parameters = new List<OracleParameter>
-            {
-                new OracleParameter("postid", post.ID),
-                new OracleParameter("userid", guest.ID)
-            };
-
-            return Database.ExecuteNonQuery(query, parameters);
-        }
-        public bool AddLikeToPost(Post post, User admin)
-        {
-            var query = "INSERT INTO likes (postid, userid) VALUES (:postid, :userid)";
-            var parameters = new List<OracleParameter>
-            {
-                new OracleParameter("postid", post.ID),
-                new OracleParameter("userid", admin.ID)
-            };
-
-            return Database.ExecuteNonQuery(query, parameters);
-        }
-
-        public bool RemoveLikeFromPost(Post post, User admin)
-        {
-            var query = "DELETE FROM likes WHERE postid = :postid AND userid = :userid";
-            var parameters = new List<OracleParameter>
-            {
-                new OracleParameter("postid", post.ID),
-                new OracleParameter("userid", admin.ID)
-            };
-
-            return Database.ExecuteNonQuery(query, parameters);
-        }
-
-        public List<Post> GetPostsByTag(string tag)
-        {
-            var query = "SELECT p.* FROM post p INNER JOIN posttags t ON p.postid = t.postid WHERE t.tagname = :tagname";
-            var parameters = new List<OracleParameter>
-            {
-                new OracleParameter("tagname", tag)
-            };
-
-            var res = Database.ExecuteReader(query, parameters);
-            return res.Select(GetEntityFromRecord).ToList();
-        }
-
-        public List<string> GetTagsByPost(Post post)
-        {
-            var query =
-                "SELECT t.tagname FROM posttags t INNER JOIN post ON t.postid = p.postid WHERE p.postid = :postid";
-            var parameters = new List<OracleParameter>
-            {
-                new OracleParameter("postid", post.ID)
-            };
-
-            var res = Database.ExecuteReader(query, parameters);
-            return res.Any() ? res.Select(t => t[0]).ToList() : null;
-        }
-
-        public bool AddTagToPost(Post post, string tag)
-        {
-            tag = tag.Trim('#');
-            var query = "INSERT INTO posttags (postid, tagname) VALUES (:postid, :tagname)";
-            var parameters = new List<OracleParameter>
-            {
-                new OracleParameter("postid", post.ID),
-                new OracleParameter("tagname", tag)
-            };
-
-            return Database.ExecuteNonQuery(query, parameters);
-        }
-
-        public bool AddTagToEvent(Event ev, string tag)
-        {
-            tag = tag.Trim('#');
-            var query = "INSERT INTO tag (tagname, eventid) VALUES (:tagname, :eventid)";
-            var parameters = new List<OracleParameter>
-            {
-                new OracleParameter("tagname", tag),
-                new OracleParameter("eventid", ev.ID)
-            };
-
-            return Database.ExecuteNonQuery(query, parameters);
-        }
-
-        public bool RemoveTagFromPost(Post post, string tag)
-        {
-            var query = "DELETE FROM posttags WHERE postid = :postid AND tagname = :tagname)";
-            var parameters = new List<OracleParameter>
-            {
-                new OracleParameter("postid", post.ID),
-                new OracleParameter("tagname", tag)
-            };
-
-            return Database.ExecuteNonQuery(query, parameters);
-        }
-
         protected override Post GetEntityFromRecord(List<string> record)
         {
             //postid userid eventid mediaid mainpostid postdate visible content
@@ -258,27 +108,17 @@ namespace SharedModels.Data.OracleContexts
                 return GetReplyEntityFromRecord(record);
             }
 
-            var result = new Post(Convert.ToInt32(record[0]), Convert.ToInt32(record[1]), Convert.ToInt32(record[2]),
-                Convert.ToInt32(record[3]), DateTime.Parse(record[5]), Convert.ToBoolean(Convert.ToInt32(record[6])),
-                record[7]);
-
-            result.Likes = GetAllLikes(result);
-
-            return result;
+            return new Post(Convert.ToInt32(record[0]), Convert.ToInt32(record[1]), Convert.ToInt32(record[2]),
+                Convert.ToInt32(record[3]), DateTime.Parse(record[5]), Convert.ToBoolean(Convert.ToInt32(record[6])), record[7]);
         }
 
         private Reply GetReplyEntityFromRecord(List<string> record)
         {
             if (record == null) return null;
 
-
-            var result = new Reply(Convert.ToInt32(record[0]), Convert.ToInt32(record[1]), Convert.ToInt32(record[2]),
+            return new Reply(Convert.ToInt32(record[0]), Convert.ToInt32(record[1]), Convert.ToInt32(record[2]),
                     Convert.ToInt32(record[3]), Convert.ToInt32(record[4]), DateTime.Parse(record[5]),
                     Convert.ToBoolean(Convert.ToInt32(record[6])), record[7]);
-
-            result.Likes = GetAllLikes(result);
-
-            return result;
         }
     }
 }

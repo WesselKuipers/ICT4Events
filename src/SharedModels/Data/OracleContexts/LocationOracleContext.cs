@@ -36,6 +36,7 @@ namespace SharedModels.Data.OracleContexts
                 "INSERT INTO location (locationid, eventid, name, capacity, price, x, y) VALUES (seq_location.nextval, :eventid, :name, :capacity, :price, :x, :y) RETURNING locationid INTO :lastID";
             var parameters = new List<OracleParameter>
             {
+                new OracleParameter("locationid", entity.ID),
                 new OracleParameter("eventid", entity.EventID),
                 new OracleParameter("name", entity.Name),
                 new OracleParameter("capacity", entity.Capacity),

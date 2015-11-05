@@ -70,8 +70,8 @@ namespace ICT4Events.Views.Reservation_System
             calEventDate.MaxSelectionCount = (int) (ev.EndDate.Subtract(ev.StartDate).TotalDays) + 1;
 
             // TODO: Make sure this actually gets saved here
-            picEventMap.ImageLocation = $"{SharedModels.FTP.FtpHelper.ServerHardLogin}/{ev.ID}/{ev.MapPath}";
-            picEventMap.SizeMode = PictureBoxSizeMode.Zoom;
+            picEventMap.ImageLocation = $"{SharedModels.FTP.FtpHelper.ServerAddress}/{ev.ID}/{ev.MapPath}";
+
             RefreshStatus();
         }
 

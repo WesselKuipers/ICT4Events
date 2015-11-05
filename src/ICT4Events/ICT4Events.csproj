@@ -69,59 +69,11 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Views\EventManagementSystem\Controls\ucEventEdit.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Views\EventManagementSystem\Controls\ucEventEdit.Designer.cs">
-      <DependentUpon>ucEventEdit.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\EventManagementSystem\Controls\ucLocationEdit.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Views\EventManagementSystem\Controls\ucLocationEdit.Designer.cs">
-      <DependentUpon>ucLocationEdit.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\EventManagementSystem\EventManagementForm.cs">
+    <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Views\EventManagementSystem\EventManagementForm.Designer.cs">
-      <DependentUpon>EventManagementForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\EventSelectionForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\EventSelectionForm.Designer.cs">
-      <DependentUpon>EventSelectionForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\SocialSystem\Controls\PostFeedExtended.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Views\SocialSystem\Controls\PostFeedExtended.Designer.cs">
-      <DependentUpon>PostFeedExtended.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\SocialSystem\Controls\ReportSection.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Views\SocialSystem\Controls\ReportSection.Designer.cs">
-      <DependentUpon>ReportSection.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\SocialSystem\Controls\SearchByTag.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Views\SocialSystem\Controls\SearchByTag.Designer.cs">
-      <DependentUpon>SearchByTag.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\SocialSystem\Forms\ExtendedForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\SocialSystem\Forms\ExtendedForm.Designer.cs">
-      <DependentUpon>ExtendedForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\SystemSelectionForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\SystemSelectionForm.Designer.cs">
-      <DependentUpon>SystemSelectionForm.cs</DependentUpon>
+    <Compile Include="Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\Accountsystem\Controls\ucChangePassword.cs">
       <SubType>UserControl</SubType>
@@ -167,6 +119,12 @@
     <Compile Include="Views\Accountsystem\Controls\ucEditUser.Designer.cs">
       <DependentUpon>ucEditUser.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\MaterialSystem\Forms\MaterialSystem.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\MaterialSystem\Forms\MaterialSystem.Designer.cs">
+      <DependentUpon>MaterialSystem.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\Reservation System\Forms\GuestPaymentForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -203,44 +161,14 @@
     <Compile Include="Views\SocialSystem\Controls\TimeLine.designer.cs">
       <DependentUpon>TimeLine.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\SocialSystem\Forms\ReportPostForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\SocialSystem\Forms\ReportPostForm.Designer.cs">
-      <DependentUpon>ReportPostForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Views\SocialSystem\Forms\SocialMediaSystemForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Views\SocialSystem\Forms\SocialMediaSystemForm.designer.cs">
       <DependentUpon>SocialMediaSystemForm.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="Views\EventManagementSystem\Controls\ucEventEdit.resx">
-      <DependentUpon>ucEventEdit.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\EventManagementSystem\Controls\ucLocationEdit.resx">
-      <DependentUpon>ucLocationEdit.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\EventManagementSystem\EventManagementForm.resx">
-      <DependentUpon>EventManagementForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\EventSelectionForm.resx">
-      <DependentUpon>EventSelectionForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\SocialSystem\Controls\PostFeedExtended.resx">
-      <DependentUpon>PostFeedExtended.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\SocialSystem\Controls\ReportSection.resx">
-      <DependentUpon>ReportSection.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\SocialSystem\Controls\SearchByTag.resx">
-      <DependentUpon>SearchByTag.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\SocialSystem\Forms\ExtendedForm.resx">
-      <DependentUpon>ExtendedForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\SystemSelectionForm.resx">
-      <DependentUpon>SystemSelectionForm.cs</DependentUpon>
+    <EmbeddedResource Include="Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -273,6 +201,9 @@
     <EmbeddedResource Include="Views\LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Views\MaterialSystem\Forms\MaterialSystem.resx">
+      <DependentUpon>MaterialSystem.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\Reservation System\Forms\GuestPaymentForm.resx">
       <DependentUpon>GuestPaymentForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -290,9 +221,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\SocialSystem\Controls\TimeLine.resx">
       <DependentUpon>TimeLine.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\SocialSystem\Forms\ReportPostForm.resx">
-      <DependentUpon>ReportPostForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\SocialSystem\Forms\SocialMediaSystemForm.resx">
       <DependentUpon>SocialMediaSystemForm.cs</DependentUpon>
@@ -317,10 +245,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Views\EventManagementSystem\" />
+    <Folder Include="Views\MaterialSystem\Controls\" />
     <Folder Include="Views\Reservation System\Controls\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\LoadingIcon.gif" />
+    <Content Include="Views\MaterialSystem\Forms\TempCopyPasteShortCuts.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
