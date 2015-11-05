@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using SharedModels.Data.OracleContexts;
@@ -13,9 +14,9 @@ namespace ICT4Events.Views.SocialSystem.Controls
         private readonly Event _event;
         private readonly Guest _activeUser;
         private readonly User _admin;
-        private Media _media;
         private readonly PostLogic _logicPost;
         private readonly ReportOracleContext _reportContext;
+        private List<Reply> _replies;
 
         public PostFeedExtended(Post post, Event ev, Guest active)
         {
@@ -78,18 +79,43 @@ namespace ICT4Events.Views.SocialSystem.Controls
                 MessageBox.Show(@"Er is iets misgegaan");
             LoadReplies();
         }
-
+        /// <summary>
+        /// Loads the replies
+        /// </summary>
         private void LoadReplies()
         {
-            tbPanelReplies.Controls.Clear();
-            var replies = _logicPost.GetRepliesByPost(_post);
+            _replies = _logicPost.GetRepliesByPost(_post).Where(p => p.Visible).OrderByDescending(x => x.Date).ToList();
 
-            foreach (var p in replies.Where(p => p.Visible))
+            tbPanelReplies.Controls.Clear();
+            tbPanelReplies.RowCount = 0;
+            tbPanelReplies.RowStyles.Clear();
+            tbPanelReplies.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+
+            foreach (var p in _replies)
             {
-                if (!p.Visible) continue;
-                tbPanelReplies.Controls.Add(new PostFeed(p, _event, _activeUser, true), 0, ++tbPanelReplies.RowCount);
+                tbPanelReplies.RowCount++;
+                tbPanelReplies.Controls.Add(new PostFeed(p, _event, _activeUser, true), 0, tbPanelReplies.RowCount);
             }
         }
-
+        /// <summary>
+        /// Compare the exsist list with the new reply list
+        /// </summary>
+        private void CompareList()
+        {
+            var newListOfReplies = _logicPost.GetRepliesByPost(_post).Where(p => p.Visible).OrderByDescending(x => x.Date).ToList();
+            if (!Equals(newListOfReplies.Count, _replies.Count))
+            {
+                LoadReplies();
+            }
+        }
+        /// <summary>
+        /// Ticking timer
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void tmrRefresh_Tick(object sender, EventArgs e)
+        {
+            CompareList();
+        }
     }
 }

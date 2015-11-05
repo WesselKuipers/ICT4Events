@@ -103,7 +103,7 @@ namespace SharedModels.Data.OracleContexts
 
         public List<Post> GetAllByEvent(Event ev)
         {
-            var query = "SELECT * FROM post WHERE eventid = :eventid ORDER BY postid";
+            var query = "SELECT * FROM post WHERE eventid = :eventid AND mainpostid IS NULL ORDER BY postid";
             var parameters = new List<OracleParameter>
             {
                 new OracleParameter("eventid", ev.ID)
@@ -116,8 +116,12 @@ namespace SharedModels.Data.OracleContexts
 
         public List<Reply> GetRepliesByPost(Post post)
         {
-            var query = "SELECT * FROM post WHERE mainpostid IS NOT NULL ORDER BY postid";
-            var res = Database.ExecuteReader(query);
+            var query = "SELECT * FROM post WHERE mainpostid = :postid ORDER BY postid";
+            var parameters = new List<OracleParameter>
+            {
+                new OracleParameter("postid", post.ID)
+            };
+            var res = Database.ExecuteReader(query, parameters);
 
             return res.Select(GetReplyEntityFromRecord).OrderBy(x => x.Date).ToList();
         }

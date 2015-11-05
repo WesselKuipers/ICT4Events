@@ -121,7 +121,7 @@ namespace ICT4Events.Views.SocialSystem.Controls
                 : new PostFeedExtended(_post, _event, _admin);
 
             var extendedPostform = new ExtendedForm();
-            extendedPostform.Controls.Add(extended);
+            extendedPostform.tbpPostWatch.Controls.Add(extended);
             extendedPostform.ShowDialog();
         }
         /// <summary>
@@ -211,7 +211,7 @@ namespace ICT4Events.Views.SocialSystem.Controls
                         pbMediaMessage.ImageLocation = FtpHelper.ServerHardLogin + @"/mp3.jpg";
                         break;
                     default:
-                        // Show mp3 icon
+                        // Show mp4 icon
                         pbMediaMessage.ImageLocation = $"{FtpHelper.ServerHardLogin}/mp4.png";
                         break;
                 }
