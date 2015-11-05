@@ -52,8 +52,6 @@ namespace ICT4Events.Views.SocialSystem.Controls
             }
         }
 
-
-
         private void tmrRefresh_Tick(object sender, EventArgs e)
         {
             CompareAndRefreshPosts();
@@ -75,24 +73,14 @@ namespace ICT4Events.Views.SocialSystem.Controls
 
         private void LoadPost(Reply post)
         {
-            var i = 0;
             if (post.MainPostID == 0)
             {
-                if (i <= 5)
-                {
                     // Post are getting loaded here on the timeline
-                    tableLayoutPanel1.RowCount += 1;
-                    if (_user != null)
-                    {
-                        tableLayoutPanel1.Controls.Add(new PostFeed(post, _event, _user, false), 0, i);
-                    }
-                    else
-                    {
-                        tableLayoutPanel1.Controls.Add(new PostFeed(post, _event, _admin, false), 0, i);
-                    }
-                    i++;
-                }
-
+                    tableLayoutPanel1.RowCount++;
+                    tableLayoutPanel1.Controls.Add(
+                        _user != null
+                            ? new PostFeed(post, _event, _user, false)
+                            : new PostFeed(post, _event, _admin, false), 0, tableLayoutPanel1.RowCount + 1);
             }
         }
     }
