@@ -91,6 +91,38 @@ namespace ICT4Events
 
         private void OpenSocialMediaUser(object sender, EventArgs e)
         {
+            var eventGuest = SelectEvent(_user);
+            var ev = eventGuest.Key;
+            var guest = eventGuest.Value;
+           
+            new SocialMediaSystemForm(guest, ev).ShowDialog();
+        }
+
+        private void OpenSocialMediaEmployee(object sender, EventArgs e)
+        {
+            Event ev;
+
+            var events = LogicCollection.EventLogic.GetAllEvents();
+            ev = SelectEvent(events);
+
+            new SocialMediaSystemForm(_user, ev).ShowDialog();
+        }
+
+        private Event SelectEvent(List<Event> events)
+        {
+            Event result = null;
+
+            var form = new EventSelectionForm(events);
+            if (form.ShowDialog() == DialogResult.OK)
+            {
+                result = form.Event;
+            }
+
+            return result;
+        }
+
+        private KeyValuePair<Event, Guest> SelectEvent(User user)
+        {
             Event ev;
             Guest guest;
 
@@ -101,49 +133,23 @@ namespace ICT4Events
             if (!activeEvents.Any() || !guests.Any())
             {
                 MessageBox.Show("Er zijn geen actieve evenementen gevonden");
-                return;
+                return default(KeyValuePair<Event, Guest>);
             };
 
             // If user is a guest in multiple active events..
             if (guests.Count > 1)
             {
                 var selectableEvents = activeEvents.Where(x => guests.Select(y => y.EventID).Contains(x.ID)).ToList();
-
-                var form = new EventSelectionForm(selectableEvents);
-                if (form.ShowDialog() == DialogResult.OK)
-                {
-                    ev = form.Event;
-                }
-                else
-                {
-                    return;
-                }
+                ev = SelectEvent(selectableEvents);
             }
             else
             {
                 ev = activeEvents.First();
             }
+
             guest = guests.First(x => x.EventID == ev.ID);
-            new SocialMediaSystemForm(guest, ev).ShowDialog();
-        }
 
-        private void OpenSocialMediaEmployee(object sender, EventArgs e)
-        {
-            Event ev;
-
-            var events = LogicCollection.EventLogic.GetAllEvents();
-
-            var form = new EventSelectionForm(events);
-            if (form.ShowDialog() == DialogResult.OK)
-            {
-                ev = form.Event;
-            }
-            else
-            {
-                return;
-            }
-
-            new SocialMediaSystemForm(_user, ev).ShowDialog();
+            return new KeyValuePair<Event, Guest>(ev, guest);
         }
 
         

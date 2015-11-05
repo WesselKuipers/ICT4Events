@@ -115,13 +115,23 @@
             // 
             this.numCapacity.Location = new System.Drawing.Point(118, 113);
             this.numCapacity.Maximum = new decimal(new int[] {
-            100000,
+            1000000,
+            0,
+            0,
+            0});
+            this.numCapacity.Minimum = new decimal(new int[] {
+            5,
             0,
             0,
             0});
             this.numCapacity.Name = "numCapacity";
             this.numCapacity.Size = new System.Drawing.Size(203, 20);
             this.numCapacity.TabIndex = 45;
+            this.numCapacity.Value = new decimal(new int[] {
+            50,
+            0,
+            0,
+            0});
             // 
             // dtpEndDate
             // 

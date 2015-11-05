@@ -33,6 +33,8 @@ namespace ICT4Events.Views.SocialSystem.Controls
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
+            panelPosts.Controls.Clear();
+
             if (!string.IsNullOrWhiteSpace(txtTag.Text))
             {
                 lblNoPostsFound.Visible = false;

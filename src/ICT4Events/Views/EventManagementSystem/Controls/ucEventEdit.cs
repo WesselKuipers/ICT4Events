@@ -80,11 +80,26 @@ namespace ICT4Events.Views.EventManagementSystem.Controls
                         maxCap: (int) numCapacity.Value
                         ));
 
-                if (_ev == null) return;
+                if (_ev == null)
+                {
+                    MessageBox.Show("ERROR 42352347dEr3f2f26Fx08: Er is iets misgegaan.");
+                    return;
+                }
 
                 FtpHelper.CreateDirectory(_ev.ID.ToString());
                 OnEventSuccessfullyModified();
+                RefreshUserControl();
+                MessageBox.Show("Evenement succesvol aangemaakt!");
             }
+        }
+
+        private void RefreshUserControl()
+        {
+            txtName.Text = string.Empty;
+            txtLocation.Text = string.Empty;
+            numCapacity.Value = 50;
+            dtpStartDate.Value = DateTime.Now;
+            dtpEndDate.Value = DateTime.Now.AddDays(7);
         }
 
         protected virtual void OnEventSuccessfullyModified()
