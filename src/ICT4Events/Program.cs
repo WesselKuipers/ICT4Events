@@ -25,7 +25,7 @@ namespace ICT4Events
             var loginForm = new LoginForm();
             if (loginForm.ShowDialog() == DialogResult.OK)
             {
-                Application.Run(new Form1(loginForm.User));
+                Application.Run(new SystemSelectionForm(loginForm.User));
             }
             else
             {

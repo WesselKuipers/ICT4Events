@@ -1,7 +1,0 @@
-﻿DON'T DELETE ME PLS I'M HARMLESS ;-;
-
-Copy Paste ShortCuts
-_contextGuest.GetById(material.GuestID)				=     material.Guest
-_contextMaterial.GetAllByEvent(_event)				=     _materials
-_contextGuest.GetAllByEvent(_event)					=     _guests
-_contextMaterialType.GetById(material.TypeID).Name	=	  material.Type

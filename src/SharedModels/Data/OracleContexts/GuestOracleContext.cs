@@ -29,7 +29,7 @@ namespace SharedModels.Data.OracleContexts
             {
                 new OracleParameter("userid", Convert.ToInt32(id))
             };
-            if (id == null) return null;
+
             return GetEntityFromRecord(Database.ExecuteReader(query, parameters).First());
         }
 
@@ -107,6 +107,19 @@ namespace SharedModels.Data.OracleContexts
             };
 
             return GetEntityFromRecord(Database.ExecuteReader(query, parameters).FirstOrDefault());
+        }
+
+        public List<Guest> GetGuestsByUser(User user)
+        {
+            var query =
+                "SELECT u.*, g.eventid, g.locationid, g.passid, g.paid, g.present, g.datestart, g.dateend, g.leaderid FROM guest g INNER JOIN useraccount u ON g.userid = u.userid WHERE g.userid = :userid";
+            var parameters = new List<OracleParameter>
+            {
+                new OracleParameter("userid", user.ID)
+            };
+
+            var res = Database.ExecuteReader(query, parameters);
+            return res.Select(GetEntityFromRecord).ToList();
         }
 
         public List<Guest> GetGuestsByGroup(Event ev, int leaderID)

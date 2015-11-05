@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Net.Sockets;
+using System.Runtime.InteropServices;
 using Oracle.DataAccess.Client;
 using SharedModels.Data.ContextInterfaces;
 using SharedModels.Models;
@@ -73,6 +75,20 @@ namespace SharedModels.Data.OracleContexts
             var parameters = new List<OracleParameter> { new OracleParameter("eventid", ev.ID) };
 
             return Database.ExecuteNonQuery(query, parameters);
+        }
+
+        public List<string> GetTagsByEvent(Event ev)
+        {
+            var query =
+                "SELECT t.tagname FROM posttags t INNER JOIN post p ON p.postid = t.postid WHERE p.eventid = :eventid";
+            var parameters = new List<OracleParameter>
+            {
+                new OracleParameter("eventid", ev.ID)
+            };
+
+            var res = Database.ExecuteReader(query, parameters);
+
+            return res.Any() ? res.Select(t => t[0]).ToList() : null;
         }
 
         protected override Event GetEntityFromRecord(List<string> record)

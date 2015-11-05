@@ -7,21 +7,57 @@ namespace ICT4Events.Views.SocialSystem.Forms
 {
     public partial class SocialMediaSystemForm : Form
     {
-        private readonly User _user;
+        private readonly Guest _user;
         private readonly Event _event;
-        public SocialMediaSystemForm(User user, Event ev)
+        private readonly User _admin;
+
+        public SocialMediaSystemForm(Guest user, Event ev)
         {
             InitializeComponent();
             _user = user;
             _event = ev;
         }
 
+        public SocialMediaSystemForm(User admin, Event ev)
+        {
+            InitializeComponent();
+            _admin = admin;
+            _event = ev;
+        }
+        
         private void SocialMediaSystemForm_Load(object sender, EventArgs e)
         {
-            TimeLine timeLine = new TimeLine(_user, _event);
-            tbTimeLine.Controls.Add(timeLine);
-            MakePost makePost = new MakePost(_user, _event);
-            tbMakePost.Controls.Add(makePost);
+            if (_user != null)
+            {
+                var timeLine = new TimeLine(_user, _event) {Dock = DockStyle.Fill};
+                tbTimeLine.Controls.Add(timeLine);
+
+                var makePost = new MakePost(_user, _event)
+                {
+                    Anchor = (AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top)
+                };
+                tbMakePost.Controls.Add(makePost);
+            }
+            else
+            {
+                var timeLine = new TimeLine(_admin, _event) {Dock = DockStyle.Fill};
+                tbTimeLine.Controls.Add(timeLine);
+
+                var makePost = new MakePost(_admin, _event)
+                {
+                    Anchor = (AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top)
+                };
+                tbMakePost.Controls.Add(makePost);
+
+                TabPage reports = new TabPage("Gerapporteerde Posts");
+                tbControlSMSF.TabPages.Add(reports);
+                reports.Controls.Add(new ReportSection(_admin, _event));
+            }
+
+            var tbSearch = new TabPage("Zoek op tags");
+            var searchByTag = new SearchByTag(_user, _event) { Dock = DockStyle.Fill };
+            tbControlSMSF.TabPages.Add(tbSearch);
+            tbSearch.Controls.Add(searchByTag);
         }
     }
 }

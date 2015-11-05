@@ -142,7 +142,7 @@ namespace SharedModels.Data.OracleContexts
             var material = new Material(Convert.ToInt32(record[0]), record[3], Convert.ToInt32(record[1]),
                 Convert.ToInt32(record[2]));
 
-            if (Convert.ToInt32(record[4]) != 0)
+            if (!string.IsNullOrWhiteSpace(record[4]))
             {
                 material.GuestID = Convert.ToInt32(record[4]);
                 material.StartDate = DateTime.Parse(record[5]);

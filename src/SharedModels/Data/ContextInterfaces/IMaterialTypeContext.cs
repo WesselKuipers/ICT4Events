@@ -6,6 +6,5 @@ namespace SharedModels.Data.ContextInterfaces
 {
     public interface IMaterialTypeContext : IRepositoryContext<MaterialType>
     {
-        MaterialType GetByName(string name);
     }
 }

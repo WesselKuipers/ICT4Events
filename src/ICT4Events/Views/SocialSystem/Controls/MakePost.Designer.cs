@@ -30,7 +30,7 @@
         {
             this.label1 = new System.Windows.Forms.Label();
             this.tbBerichtPost = new System.Windows.Forms.TextBox();
-            this.btUploaden = new System.Windows.Forms.Button();
+            this.btnUpload = new System.Windows.Forms.Button();
             this.btPostAanmaken = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.pbPreview = new System.Windows.Forms.PictureBox();
@@ -58,15 +58,15 @@
             this.tbBerichtPost.TabIndex = 1;
             this.tbBerichtPost.Text = "Wat wil je met ons delen? #think";
             // 
-            // btUploaden
+            // btnUpload
             // 
-            this.btUploaden.Location = new System.Drawing.Point(19, 43);
-            this.btUploaden.Name = "btUploaden";
-            this.btUploaden.Size = new System.Drawing.Size(167, 23);
-            this.btUploaden.TabIndex = 2;
-            this.btUploaden.Text = "Selecteer een bestand...";
-            this.btUploaden.UseVisualStyleBackColor = true;
-            this.btUploaden.Click += new System.EventHandler(this.btUploaden_Click);
+            this.btnUpload.Location = new System.Drawing.Point(19, 43);
+            this.btnUpload.Name = "btnUpload";
+            this.btnUpload.Size = new System.Drawing.Size(167, 23);
+            this.btnUpload.TabIndex = 2;
+            this.btnUpload.Text = "Selecteer een bestand...";
+            this.btnUpload.UseVisualStyleBackColor = true;
+            this.btnUpload.Click += new System.EventHandler(this.btUploaden_Click);
             // 
             // btPostAanmaken
             // 
@@ -92,6 +92,7 @@
             this.pbPreview.Location = new System.Drawing.Point(272, 11);
             this.pbPreview.Name = "pbPreview";
             this.pbPreview.Size = new System.Drawing.Size(204, 116);
+            this.pbPreview.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pbPreview.TabIndex = 5;
             this.pbPreview.TabStop = false;
             // 
@@ -110,7 +111,7 @@
             this.gbUpload.Controls.Add(this.btBestandUploaden);
             this.gbUpload.Controls.Add(this.pbPreview);
             this.gbUpload.Controls.Add(this.label2);
-            this.gbUpload.Controls.Add(this.btUploaden);
+            this.gbUpload.Controls.Add(this.btnUpload);
             this.gbUpload.Location = new System.Drawing.Point(18, 198);
             this.gbUpload.Name = "gbUpload";
             this.gbUpload.Size = new System.Drawing.Size(482, 133);
@@ -139,7 +140,7 @@
 
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox tbBerichtPost;
-        private System.Windows.Forms.Button btUploaden;
+        private System.Windows.Forms.Button btnUpload;
         private System.Windows.Forms.Button btPostAanmaken;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.PictureBox pbPreview;

@@ -32,17 +32,6 @@ namespace SharedModels.Data.OracleContexts
             return GetEntityFromRecord(Database.ExecuteReader(query, parameters).First());
         }
 
-        public MaterialType GetByName(string name)
-        {
-            var query = "SELECT * FROM materialtype WHERE name = :name ORDER BY materialtypeid";
-            var parameters = new List<OracleParameter>
-            {
-                new OracleParameter("name", name)
-            };
-
-            return GetEntityFromRecord(Database.ExecuteReader(query, parameters).First());
-        }
-
         public MaterialType Insert(MaterialType entity)
         {
             var query =

@@ -12,9 +12,9 @@ namespace SharedModels.Models
         public string Name { get; set; }
         public int EventID { get; }
         public int TypeID { get; set; }
-        public int? GuestID { get; set; }
-        public DateTime? StartDate { get; set; }
-        public DateTime? EndDate { get; set; }
+        public int GuestID { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
 
         public Material(int id, string name, int ev, int type)
         {
@@ -30,11 +30,6 @@ namespace SharedModels.Models
             GuestID = guest;
             StartDate = start;
             EndDate = end;
-        }
-
-        //Empty Constructor
-        public Material()
-        {
         }
     }
 }
