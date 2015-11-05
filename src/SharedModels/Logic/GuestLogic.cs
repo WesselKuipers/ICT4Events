@@ -27,6 +27,11 @@ namespace SharedModels.Logic
             return _context.GetGuestByEvent(ev, userID);
         }
 
+        public Guest GetByRfid(string rfid)
+        {
+            return _context.GetByRfid(rfid);
+        }
+
         public int GetGuestCountByEvent(Event ev)
         {
             return _context.GetGuestCountByEvent(ev);
