@@ -60,7 +60,6 @@
             this.txtUsername.Name = "txtUsername";
             this.txtUsername.Size = new System.Drawing.Size(140, 20);
             this.txtUsername.TabIndex = 7;
-            this.txtUsername.Text = "stefanovandeBovenkamp@teleworm.us";
             // 
             // label2
             // 
@@ -105,6 +104,7 @@
             this.Controls.Add(this.label1);
             this.Name = "LoginForm";
             this.Text = "ICT4Events Login";
+            this.Load += new System.EventHandler(this.LoginForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

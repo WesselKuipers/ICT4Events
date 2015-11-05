@@ -23,12 +23,15 @@ namespace ICT4Events.Properties {
             }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("smtp.gmail.com")]
-        public string SMTPAddress {
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string Username {
             get {
-                return ((string)(this["SMTPAddress"]));
+                return ((string)(this["Username"]));
+            }
+            set {
+                this["Username"] = value;
             }
         }
     }
