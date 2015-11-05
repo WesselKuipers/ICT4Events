@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
@@ -65,8 +66,7 @@ namespace SharedModels.Logic
                 location.ID, user.RegistrationDate, user.Permission, user.Surname, user.Country, user.City, user.Postal,
                 user.Address, user.Telephone, leaderID);
             
-            // TODO: Make emails work
-            //SendConfirmationEmail(user, ev, location, start, end);
+            SendConfirmationEmail(user, ev, location, start, end);
 
             FtpHelper.CreateDirectory($"{ev.ID}/{guest.ID}");
 
@@ -96,9 +96,8 @@ namespace SharedModels.Logic
 
             var user = new User(0, username, LogicCollection.UserLogic.GetHashedPassword(password), "new user");
             user = LogicCollection.UserLogic.RegisterUser(user, true, password);
-
-            // TODO: Make emails work!!
-            //SendConfirmationEmail(user, ev, location, start, end);
+            
+            SendConfirmationEmail(user, ev, location, start, end);
 
             return RegisterUserForEvent(user, ev, location, start, end, leaderID);
         }
@@ -110,7 +109,11 @@ namespace SharedModels.Logic
         /// <returns>true if mail was successfully send, throws exception if sending mail fails</returns>
         private static bool SendConfirmationEmail(User user, Event ev, Location location, DateTime start, DateTime end)
         {
-            // TODO: to should be user.Username
+            // TODO: Add this to settings boyo
+            var fromAddress = new MailAddress("ict4events.s21a@gmail.com", "ICT4Events");
+            var toAddress = new MailAddress(user.Username, user.Name);
+            const string fromPassword = "ICT4event!";
+
             var message = new MailMessage("ict4events.s21a@gmail.com", "goos.bekerom@gmail.com")
             {
                 Subject = "Confirmation of your new user account for ICT4Events",
@@ -122,8 +125,15 @@ namespace SharedModels.Logic
                     "\r\n\r\nHave a nice day!"
             };
 
-            // TODO: Find out what our smtp host is
-            var smtp = new SmtpClient("smtp.gmail.com", 587);
+            var smtp = new SmtpClient
+            {
+                Host = "smtp.gmail.com",
+                Port = 587,
+                EnableSsl = true,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                UseDefaultCredentials = false,
+                Credentials = new NetworkCredential(fromAddress.Address, fromPassword)
+            };
 
             try
             {

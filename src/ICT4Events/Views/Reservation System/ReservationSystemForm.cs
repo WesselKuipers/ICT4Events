@@ -121,7 +121,8 @@ namespace ICT4Events.Views.Reservation_System
             }
 
             _guest.Paid = true;
-            
+            _guestRepo.UpdateGuest(_guest);
+
             RefreshStatus();
         }
     }
