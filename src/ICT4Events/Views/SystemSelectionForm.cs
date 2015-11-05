@@ -7,6 +7,7 @@ using System.Windows.Forms.VisualStyles;
 using ICT4Events.Views;
 using ICT4Events.Views.Accountsystem;
 using ICT4Events.Views.EventManagementSystem;
+using ICT4Events.Views.MaterialSystem.Forms;
 using ICT4Events.Views.Reservation_System;
 using ICT4Events.Views.SocialSystem.Forms;
 using SharedModels.Enums;
@@ -83,6 +84,11 @@ namespace ICT4Events
             new EventManagementForm().ShowDialog();
         }
 
+        private void OpenMaterialManagement(object sender, EventArgs e)
+        {
+            new MaterialSystem(_ev).ShowDialog();
+        }
+
         private void OpenSocialMediaUser(object sender, EventArgs e)
         {
             Event ev;
@@ -139,5 +145,7 @@ namespace ICT4Events
 
             new SocialMediaSystemForm(_user, ev).ShowDialog();
         }
+
+        
     }
 }
