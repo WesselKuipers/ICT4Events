@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Windows.Documents;
+using System.Linq;
 using System.Windows.Forms;
-using ICT4Events.Views.SocialSystem.Forms;
 using SharedModels.Data.OracleContexts;
-using SharedModels.Enums;
-using SharedModels.FTP;
 using SharedModels.Logic;
 using SharedModels.Models;
 
@@ -86,28 +81,14 @@ namespace ICT4Events.Views.SocialSystem.Controls
 
         private void LoadReplies()
         {
-            var replies = _logicPost.GetRepliesByPost(_post);
-            tbPanelReplies.RowCount = 1;
             tbPanelReplies.Controls.Clear();
-            var i = 0;
-            foreach (var p in replies)
+            var replies = _logicPost.GetRepliesByPost(_post);
+
+            foreach (var p in replies.Where(p => p.Visible))
             {
-                CheckReportStatus(p, _logicPost, _reportContext);
-
-                if (p.MainPostID != _post.ID) continue;
                 if (!p.Visible) continue;
-                if (i > replies.Count) continue;
-                tbPanelReplies.RowCount += 1;
-                tbPanelReplies.Controls.Add(new PostFeed(p, _event, _activeUser, true), 0, i);
-                i++;
+                tbPanelReplies.Controls.Add(new PostFeed(p, _event, _activeUser, true), 0, ++tbPanelReplies.RowCount);
             }
-        }
-
-        private void CheckReportStatus(Post post, PostLogic postLogic, ReportOracleContext reportContext)
-        {
-            var allReports = reportContext.GetAllByPost(post);
-            if (allReports.Count >= 5) post.Visible = false;
-            postLogic.UpdatePost(post);
         }
 
     }

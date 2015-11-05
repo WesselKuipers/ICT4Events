@@ -226,9 +226,9 @@ namespace ICT4Events.Views.SocialSystem.Controls
 
                 lblUnLike.Location = new Point(569, lblUnLike.Location.Y);
                 lbLike.Location = new Point(584, lbLike.Location.Y);
-                lblDeletePost.Location = new Point(517, lblDeletePost.Location.Y);
-                lbReport.Location = new Point(517, lbReport.Location.Y);
-                lbReaction.Location = new Point(455, lbReaction.Location.Y);
+                lblDeletePost.Location = new Point(505, lblDeletePost.Location.Y);
+                lbReport.Location = new Point(505, lbReport.Location.Y);
+                lbReaction.Location = new Point(440, lbReaction.Location.Y);
             }
         }
         /// <summary>
@@ -246,8 +246,11 @@ namespace ICT4Events.Views.SocialSystem.Controls
             if (saveMedia.ShowDialog() != DialogResult.OK) return;
 
             var pathSelected = saveMedia.SelectedPath;
-            FtpHelper.DownloadFile($"{FtpHelper.ServerHardLogin}/{post.EventID}/{post.GuestID}/{_media.Path}", $"{pathSelected}/{_media.Path}");
-            MessageBox.Show("Bestand is succesvol gedownload");
+
+            if (FtpHelper.DownloadFile($"/{post.EventID}/{post.GuestID}/{_media.Path}", $"{pathSelected}/{_media.Path}"))
+                MessageBox.Show("Bestand is succesvol gedownload");
+            else
+                MessageBox.Show("ERROR: Er is iets misgegaan.");
         }
         private bool CheckReportStatus(Post post, PostLogic postLogic, IReportContext reportContext)
         {
@@ -258,6 +261,5 @@ namespace ICT4Events.Views.SocialSystem.Controls
             postLogic.UpdatePost(post);
             return true;
         }
-
     }
 }
