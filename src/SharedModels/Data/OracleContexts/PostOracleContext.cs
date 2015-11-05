@@ -18,7 +18,7 @@ namespace SharedModels.Data.OracleContexts
             var query = "SELECT * FROM post ORDER BY postid";
             var res = Database.ExecuteReader(query);
 
-            return res.Select(GetEntityFromRecord).ToList();
+            return res.Select(GetEntityFromRecord).OrderByDescending(x => x.Date).ToList();
         }
 
         public Post GetById(object id)
@@ -111,7 +111,7 @@ namespace SharedModels.Data.OracleContexts
 
             var res = Database.ExecuteReader(query, parameters);
 
-            return res.Select(GetEntityFromRecord).ToList();
+            return res.Select(GetEntityFromRecord).OrderByDescending(x => x.Date).ToList();
         }
 
         public List<Reply> GetRepliesByPost(Post post)
@@ -119,7 +119,7 @@ namespace SharedModels.Data.OracleContexts
             var query = "SELECT * FROM post WHERE mainpostid IS NOT NULL ORDER BY postid";
             var res = Database.ExecuteReader(query);
 
-            return res.Select(GetReplyEntityFromRecord).ToList();
+            return res.Select(GetReplyEntityFromRecord).OrderBy(x => x.Date).ToList();
         }
 
         public List<int> GetAllLikes(Post post)
@@ -194,7 +194,7 @@ namespace SharedModels.Data.OracleContexts
             };
 
             var res = Database.ExecuteReader(query, parameters);
-            return res.Select(GetEntityFromRecord).ToList();
+            return res.Select(GetEntityFromRecord).OrderByDescending(x => x.Date).ToList();
         }
 
         public List<string> GetTagsByPost(Post post)
