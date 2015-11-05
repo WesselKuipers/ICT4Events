@@ -23,7 +23,7 @@ namespace SharedModels.Models
 
         public override string ToString()
         {
-            return Name;
+            return $"{Name} - {Price.ToString("C")}";
         }
     }
 }
