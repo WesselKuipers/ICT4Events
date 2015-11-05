@@ -167,6 +167,12 @@
     <Compile Include="Views\Accountsystem\Controls\ucEditUser.Designer.cs">
       <DependentUpon>ucEditUser.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\MaterialSystem\Forms\MaterialSystem.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\MaterialSystem\Forms\MaterialSystem.Designer.cs">
+      <DependentUpon>MaterialSystem.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\Reservation System\Forms\GuestPaymentForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -273,6 +279,9 @@
     <EmbeddedResource Include="Views\LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Views\MaterialSystem\Forms\MaterialSystem.resx">
+      <DependentUpon>MaterialSystem.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\Reservation System\Forms\GuestPaymentForm.resx">
       <DependentUpon>GuestPaymentForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -317,10 +326,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Views\MaterialSystem\Controls\" />
     <Folder Include="Views\Reservation System\Controls\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\LoadingIcon.gif" />
+    <Content Include="Views\MaterialSystem\Forms\TempCopyPasteShortCuts.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

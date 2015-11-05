@@ -30,6 +30,7 @@ namespace SharedModels.Data.OracleContexts
                 new OracleParameter("userid", Convert.ToInt32(id))
             };
 
+            if (id == null) return null;
             return GetEntityFromRecord(Database.ExecuteReader(query, parameters).First());
         }
 

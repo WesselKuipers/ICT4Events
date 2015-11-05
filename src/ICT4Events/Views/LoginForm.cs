@@ -26,7 +26,6 @@ namespace ICT4Events.Views
         private void TxtPassword_Leave(object sender, EventArgs e)
         {
             _alreadyFocused = false;
-            
         }
 
         private void TxtPassword_MouseUp(object sender, MouseEventArgs e)
