@@ -30,14 +30,8 @@
         {
             this.label1 = new System.Windows.Forms.Label();
             this.tbBerichtPost = new System.Windows.Forms.TextBox();
-            this.btnUpload = new System.Windows.Forms.Button();
             this.btPostAanmaken = new System.Windows.Forms.Button();
-            this.label2 = new System.Windows.Forms.Label();
-            this.pbPreview = new System.Windows.Forms.PictureBox();
-            this.btBestandUploaden = new System.Windows.Forms.Button();
-            this.gbUpload = new System.Windows.Forms.GroupBox();
-            ((System.ComponentModel.ISupportInitialize)(this.pbPreview)).BeginInit();
-            this.gbUpload.SuspendLayout();
+            this.tbpLoadUcUpload = new System.Windows.Forms.TableLayoutPanel();
             this.SuspendLayout();
             // 
             // label1
@@ -51,86 +45,45 @@
             // 
             // tbBerichtPost
             // 
-            this.tbBerichtPost.Location = new System.Drawing.Point(18, 26);
+            this.tbBerichtPost.Location = new System.Drawing.Point(3, 3);
             this.tbBerichtPost.Multiline = true;
             this.tbBerichtPost.Name = "tbBerichtPost";
-            this.tbBerichtPost.Size = new System.Drawing.Size(482, 166);
+            this.tbBerichtPost.Size = new System.Drawing.Size(622, 142);
             this.tbBerichtPost.TabIndex = 1;
             this.tbBerichtPost.Text = "Wat wil je met ons delen? #think";
             // 
-            // btnUpload
-            // 
-            this.btnUpload.Location = new System.Drawing.Point(19, 43);
-            this.btnUpload.Name = "btnUpload";
-            this.btnUpload.Size = new System.Drawing.Size(167, 23);
-            this.btnUpload.TabIndex = 2;
-            this.btnUpload.Text = "Selecteer een bestand...";
-            this.btnUpload.UseVisualStyleBackColor = true;
-            this.btnUpload.Click += new System.EventHandler(this.btUploaden_Click);
-            // 
             // btPostAanmaken
             // 
-            this.btPostAanmaken.Location = new System.Drawing.Point(181, 337);
+            this.btPostAanmaken.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.btPostAanmaken.Location = new System.Drawing.Point(0, 344);
             this.btPostAanmaken.Name = "btPostAanmaken";
-            this.btPostAanmaken.Size = new System.Drawing.Size(112, 23);
+            this.btPostAanmaken.Size = new System.Drawing.Size(637, 41);
             this.btPostAanmaken.TabIndex = 3;
             this.btPostAanmaken.Text = "Post aanmaken";
             this.btPostAanmaken.UseVisualStyleBackColor = true;
             this.btPostAanmaken.Click += new System.EventHandler(this.btPostAanmaken_Click);
             // 
-            // label2
+            // tbpLoadUcUpload
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(16, 27);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(122, 13);
-            this.label2.TabIndex = 4;
-            this.label2.Text = "Foto of video uploaden?";
-            // 
-            // pbPreview
-            // 
-            this.pbPreview.Location = new System.Drawing.Point(272, 11);
-            this.pbPreview.Name = "pbPreview";
-            this.pbPreview.Size = new System.Drawing.Size(204, 116);
-            this.pbPreview.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pbPreview.TabIndex = 5;
-            this.pbPreview.TabStop = false;
-            // 
-            // btBestandUploaden
-            // 
-            this.btBestandUploaden.Location = new System.Drawing.Point(19, 72);
-            this.btBestandUploaden.Name = "btBestandUploaden";
-            this.btBestandUploaden.Size = new System.Drawing.Size(107, 23);
-            this.btBestandUploaden.TabIndex = 6;
-            this.btBestandUploaden.Text = "Bestand uploaden";
-            this.btBestandUploaden.UseVisualStyleBackColor = true;
-            this.btBestandUploaden.Click += new System.EventHandler(this.btBestandUploaden_Click);
-            // 
-            // gbUpload
-            // 
-            this.gbUpload.Controls.Add(this.btBestandUploaden);
-            this.gbUpload.Controls.Add(this.pbPreview);
-            this.gbUpload.Controls.Add(this.label2);
-            this.gbUpload.Controls.Add(this.btnUpload);
-            this.gbUpload.Location = new System.Drawing.Point(18, 198);
-            this.gbUpload.Name = "gbUpload";
-            this.gbUpload.Size = new System.Drawing.Size(482, 133);
-            this.gbUpload.TabIndex = 7;
-            this.gbUpload.TabStop = false;
+            this.tbpLoadUcUpload.ColumnCount = 1;
+            this.tbpLoadUcUpload.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tbpLoadUcUpload.Location = new System.Drawing.Point(3, 151);
+            this.tbpLoadUcUpload.Name = "tbpLoadUcUpload";
+            this.tbpLoadUcUpload.RowCount = 1;
+            this.tbpLoadUcUpload.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tbpLoadUcUpload.Size = new System.Drawing.Size(622, 148);
+            this.tbpLoadUcUpload.TabIndex = 4;
             // 
             // MakePost
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.tbpLoadUcUpload);
             this.Controls.Add(this.btPostAanmaken);
             this.Controls.Add(this.tbBerichtPost);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.gbUpload);
             this.Name = "MakePost";
-            this.Size = new System.Drawing.Size(503, 385);
-            ((System.ComponentModel.ISupportInitialize)(this.pbPreview)).EndInit();
-            this.gbUpload.ResumeLayout(false);
-            this.gbUpload.PerformLayout();
+            this.Size = new System.Drawing.Size(637, 385);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -140,11 +93,7 @@
 
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox tbBerichtPost;
-        private System.Windows.Forms.Button btnUpload;
         private System.Windows.Forms.Button btPostAanmaken;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.PictureBox pbPreview;
-        private System.Windows.Forms.Button btBestandUploaden;
-        private System.Windows.Forms.GroupBox gbUpload;
+        private System.Windows.Forms.TableLayoutPanel tbpLoadUcUpload;
     }
 }

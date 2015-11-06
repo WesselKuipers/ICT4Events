@@ -1,6 +1,6 @@
 ﻿namespace ICT4Events.Views.SocialSystem.Controls
 {
-    partial class Upload
+    partial class UcUpload
     {
         /// <summary> 
         /// Required designer variable.
@@ -43,9 +43,9 @@
             this.gbUpload.Controls.Add(this.pbPreview);
             this.gbUpload.Controls.Add(this.label2);
             this.gbUpload.Controls.Add(this.btnUpload);
-            this.gbUpload.Location = new System.Drawing.Point(19, 3);
+            this.gbUpload.Location = new System.Drawing.Point(3, 3);
             this.gbUpload.Name = "gbUpload";
-            this.gbUpload.Size = new System.Drawing.Size(482, 133);
+            this.gbUpload.Size = new System.Drawing.Size(446, 133);
             this.gbUpload.TabIndex = 8;
             this.gbUpload.TabStop = false;
             // 
@@ -57,10 +57,11 @@
             this.btBestandUploaden.TabIndex = 6;
             this.btBestandUploaden.Text = "Bestand uploaden";
             this.btBestandUploaden.UseVisualStyleBackColor = true;
+            this.btBestandUploaden.Click += new System.EventHandler(this.btBestandUploaden_Click);
             // 
             // pbPreview
             // 
-            this.pbPreview.Location = new System.Drawing.Point(272, 11);
+            this.pbPreview.Location = new System.Drawing.Point(226, 11);
             this.pbPreview.Name = "pbPreview";
             this.pbPreview.Size = new System.Drawing.Size(204, 116);
             this.pbPreview.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -84,14 +85,15 @@
             this.btnUpload.TabIndex = 2;
             this.btnUpload.Text = "Selecteer een bestand...";
             this.btnUpload.UseVisualStyleBackColor = true;
+            this.btnUpload.Click += new System.EventHandler(this.btnUpload_Click);
             // 
-            // Upload
+            // UcUpload
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.gbUpload);
-            this.Name = "Upload";
-            this.Size = new System.Drawing.Size(508, 150);
+            this.Name = "UcUpload";
+            this.Size = new System.Drawing.Size(462, 148);
             this.gbUpload.ResumeLayout(false);
             this.gbUpload.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbPreview)).EndInit();

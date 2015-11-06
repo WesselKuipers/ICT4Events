@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 using SharedModels.Enums;
 using SharedModels.FTP;
@@ -24,18 +26,24 @@ namespace ICT4Events.Views.SocialSystem.Controls
             if (_user.Permission == PermissionType.User)
             {
                 var listMedia = LogicCollection.MediaLogic.GetAllByGuest((Guest) _user);
-
-                foreach (Media m in listMedia)
-                {
-                    PictureBox picBox = new PictureBox()
-                    {
-                        Height = 200,
-                        Width = 200,
-                        ImageLocation = $"{FtpHelper.ServerHardLogin}/{_user.ID}/{m.Path}",
-                        SizeMode = PictureBoxSizeMode.Zoom
-                    };
-                }
+                TreeNode[] arrayofNodes = listMedia.Select(I => new TreeNode(I.Path)).ToArray();
+                TreeNode treeNode = new TreeNode($"{_user.ID} - {_user.Name} {_user.Surname}", arrayofNodes);
+                trvCatalogue.Nodes.Add(treeNode);
+                tbpLoadUcUpload.Controls.Add(new UcUpload(_user, _event), 1, 1);
+                
             }
+        }
+
+
+        private void trvCatalogue_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            string userID = e.Node.Parent.Text.Substring(0, e.Node.Parent.Text.IndexOf("-", StringComparison.Ordinal)).Trim();
+            picCatalogue.ImageLocation = $"{FtpHelper.ServerHardLogin}/{_event.ID}/{userID}/{e.Node.Text}";
+
+            LinkLabel delete = new LinkLabel();
+            delete.Text = @"Verwijderen Media";
+            delete.Location = new Point(435, 255);
+            this.Controls.Add(delete);
         }
     }
 }

@@ -117,11 +117,11 @@
     <Compile Include="Views\SocialSystem\Controls\SearchByTag.Designer.cs">
       <DependentUpon>SearchByTag.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\SocialSystem\Controls\Upload.cs">
+    <Compile Include="Views\SocialSystem\Controls\UcUpload.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Views\SocialSystem\Controls\Upload.Designer.cs">
-      <DependentUpon>Upload.cs</DependentUpon>
+    <Compile Include="Views\SocialSystem\Controls\UcUpload.Designer.cs">
+      <DependentUpon>UcUpload.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\SocialSystem\Forms\ExtendedForm.cs">
       <SubType>Form</SubType>
@@ -251,8 +251,8 @@
     <EmbeddedResource Include="Views\SocialSystem\Controls\SearchByTag.resx">
       <DependentUpon>SearchByTag.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\SocialSystem\Controls\Upload.resx">
-      <DependentUpon>Upload.cs</DependentUpon>
+    <EmbeddedResource Include="Views\SocialSystem\Controls\UcUpload.resx">
+      <DependentUpon>UcUpload.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\SocialSystem\Forms\ExtendedForm.resx">
       <DependentUpon>ExtendedForm.cs</DependentUpon>
