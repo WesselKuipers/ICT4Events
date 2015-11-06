@@ -10,24 +10,16 @@ namespace ICT4Events.Views.SocialSystem.Controls
 {
     public partial class TimeLine : UserControl
     {
-        private readonly Guest _user ;
-        private readonly User _admin;
+        private readonly User _user ;
         private readonly Event _event;
         private readonly PostLogic _logic;
 
         private List<Post> Posts;
 
-        public TimeLine(Guest user, Event ev)
-        {
-            InitializeComponent();
-            _user = user;
-            _event = ev;
-            _logic = new PostLogic();
-        }
         public TimeLine(User user, Event ev)
         {
             InitializeComponent();
-            _admin = user;
+            _user = user;
             _event = ev;
             _logic = new PostLogic();
         }
@@ -62,11 +54,9 @@ namespace ICT4Events.Views.SocialSystem.Controls
             foreach (Reply post in PostsList)
             {
                     // Post are getting loaded here on the timeline
-                    tableLayoutPanel1.RowCount++;
-                    tableLayoutPanel1.Controls.Add(
-                        _user != null
-                            ? new PostFeed(post, _event, _user, false)
-                            : new PostFeed(post, _event, _admin, false), 0, tableLayoutPanel1.RowCount + 1);
+                tableLayoutPanel1.RowCount++;
+                tableLayoutPanel1.Controls.Add(new PostFeed(post, _event, _user, false), 0,
+                    tableLayoutPanel1.RowCount + 1);
             }
         }
     }

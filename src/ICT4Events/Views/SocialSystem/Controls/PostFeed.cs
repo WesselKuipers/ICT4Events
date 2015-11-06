@@ -18,9 +18,8 @@ namespace ICT4Events.Views.SocialSystem.Controls
     {
         private readonly Post _post;
         private readonly Event _event;
-        private readonly Guest _guestPost;
-        private readonly User _admin;
-        private readonly Guest _activeUser;
+        private readonly Guest _postGuest;
+        private readonly User _activeUser;
         private Media _media;
         private readonly MediaOracleContext _logicMedia;
         private readonly PostLogic _logicPost;
@@ -28,8 +27,7 @@ namespace ICT4Events.Views.SocialSystem.Controls
         private readonly ReportOracleContext _logicReport;
         private PostFeedExtended extended;
 
-
-        private PostFeed(Post post, Event ev, bool reply)
+        public PostFeed(Post post, Event ev, User user, bool reply)
         {
             InitializeComponent();
             _logicMedia = new MediaOracleContext();
@@ -41,23 +39,12 @@ namespace ICT4Events.Views.SocialSystem.Controls
             _event = ev;
 
             lbReaction.Visible = !reply;
-        }
 
-        public PostFeed(Post post, Event ev, Guest active, bool reply) : this(post, ev, reply)
-        {
-            // Currently signed in guest
-            _activeUser = active;
+            // Currently signed in user
+            _activeUser = user;
 
-            // User of the post
-            _guestPost = _logicGuest.GetGuestByEvent(_event, _post.GuestID);
-        }
-        public PostFeed(Post post, Event ev, User admin, bool reply) : this(post, ev, reply)
-        {
-            // Currently signed in administrator
-            _admin = admin;
-
-            // User of the post
-            _guestPost = _logicGuest.GetGuestByEvent(_event, _post.GuestID);
+            // Guest of the post
+            _postGuest = _logicGuest.GetGuestByEvent(_event, _post.GuestID);
         }
 
         private void PostFeed_Load(object sender, EventArgs e)
@@ -91,18 +78,15 @@ namespace ICT4Events.Views.SocialSystem.Controls
         private void lbLike_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             if (_activeUser != null)
-                _logicPost.Like(_activeUser, _post);
-            else
-                _logicPost.Like(_admin, _post);
+                _logicPost.Like(_activeUser.ID, _post);
 
             RefreshSocialSystem();
         }
         private void lblUnLike_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             if(_activeUser != null) 
-                _logicPost.UnLike(_activeUser, _post);
-            else
-                _logicPost.UnLike(_admin, _post);
+                _logicPost.Unlike(_activeUser.ID, _post);
+
             RefreshSocialSystem();
         }
         private void lblDeletePost_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -116,9 +100,7 @@ namespace ICT4Events.Views.SocialSystem.Controls
 
         private void lbReaction_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            extended = _activeUser != null
-                ? new PostFeedExtended(_post, _event, _activeUser)
-                : new PostFeedExtended(_post, _event, _admin);
+            extended = new PostFeedExtended(_post, _event, _activeUser);
 
             var extendedPostform = new ExtendedForm();
             extendedPostform.tbpPostWatch.Controls.Add(extended);
@@ -133,61 +115,40 @@ namespace ICT4Events.Views.SocialSystem.Controls
             var likes = _logicPost.GetAllLikes(_post);
 
             lbLike.Visible = true;
-            lblUnLike.Visible = false;
+            lblLikeStatus.Visible = false;
 
-            if (_activeUser != null)
+            // Guest rights
+            if (_post.GuestID == _activeUser.ID)
             {
-                // Guest rights
-                if (_post.GuestID == _activeUser.ID)
-                {
-                    lbReport.Visible = false;
-                    lblDeletePost.Visible = true;
-                }
-                if (reports != null)
-                {
-                    foreach (var r in reports.Where(r => r.GuestID == _activeUser.ID))
-                    {
-                        lbReport.Enabled = false;
-                    }
-                }
-                if (likes != null)
-                {
-                    foreach (var i in likes.Where(i => i == _activeUser.ID))
-                    {
-                        lbLike.Visible = false;
-                        lblUnLike.Visible = true;
-                    }
-                    lblCountLikes.Text = $"{likes.Count} mens(en) vinden dit leuk";
-                }
-                else
-                {
-                    lblCountLikes.Text = "0 mensen vinden dit leuk";
-                }
-            }
-            else // TODO: Refactor this to avoid duplicate code
-            {
-                // Admin rights
                 lbReport.Visible = false;
                 lblDeletePost.Visible = true;
+            }
 
-                if (likes != null)
+            if (reports != null)
+            {
+                foreach (var r in reports.Where(r => r.GuestID == _activeUser.ID))
                 {
-                    foreach (var i in likes.Where(i => i == _admin.ID))
-                    {
-                        lbLike.Visible = false;
-                        lblUnLike.Visible = true;
-                    }
+                    lbReport.Enabled = false;
+                }
+            }
 
-                    lblCountLikes.Text = $"{likes.Count} mens(en) vinden dit leuk";
-                }
-                else
+            if (likes != null)
+            {
+                if (likes.Any(i => i == _activeUser.ID))
                 {
-                    lblCountLikes.Text = "0 mensen vinden dit leuk";
+                    lbLike.Visible = false;
+                    lblLikeStatus.Visible = true;
                 }
+
+                lblCountLikes.Text = $"{likes.Count} mens(en) vinden dit leuk";
+            }
+            else
+            {
+                lblCountLikes.Text = "0 mensen vinden dit leuk";
             }
 
             tbMessage.Text = _post.Content;
-            lblAuteurNaam.Text = _guestPost.Name + @" " + _guestPost.Surname;
+            lblAuteurNaam.Text = _postGuest.Name + @" " + _postGuest.Surname;
             lblDatum.Text = @"Geplaatst op " + _post.Date.ToString("dd/MM/yyyy");
             ShowMedia(_post);
         }
@@ -208,11 +169,11 @@ namespace ICT4Events.Views.SocialSystem.Controls
                         break;
                     case MediaType.Audio:
                         // Show mp3 icon
-                        pbMediaMessage.ImageLocation = FtpHelper.ServerHardLogin + @"/mp3.jpg";
+                        pbMediaMessage.Image = Properties.Resources.mp3;
                         break;
                     default:
                         // Show mp4 icon
-                        pbMediaMessage.ImageLocation = $"{FtpHelper.ServerHardLogin}/mp4.png";
+                        pbMediaMessage.Image = Properties.Resources.mp4;
                         break;
                 }
             }
@@ -224,7 +185,7 @@ namespace ICT4Events.Views.SocialSystem.Controls
 
                 tbMessage.Width = 614;
 
-                lblUnLike.Location = new Point(569, lblUnLike.Location.Y);
+                lblLikeStatus.Location = new Point(569, lblLikeStatus.Location.Y);
                 lbLike.Location = new Point(584, lbLike.Location.Y);
                 lblDeletePost.Location = new Point(505, lblDeletePost.Location.Y);
                 lbReport.Location = new Point(505, lbReport.Location.Y);
@@ -247,11 +208,12 @@ namespace ICT4Events.Views.SocialSystem.Controls
 
             var pathSelected = saveMedia.SelectedPath;
 
-            if (FtpHelper.DownloadFile($"/{post.EventID}/{post.GuestID}/{_media.Path}", $"{pathSelected}/{_media.Path}"))
-                MessageBox.Show("Bestand is succesvol gedownload");
-            else
-                MessageBox.Show("ERROR: Er is iets misgegaan.");
+            MessageBox.Show(FtpHelper.DownloadFile($"/{post.EventID}/{post.GuestID}/{_media.Path}",
+                $"{pathSelected}/{_media.Path}")
+                ? "Bestand is succesvol gedownload"
+                : "Er is iets misgegaan met het downloaden van deze media");
         }
+
         private bool CheckReportStatus(Post post, PostLogic postLogic, IReportContext reportContext)
         {
             var allReportsByPost = reportContext.GetAllByPost(post);
