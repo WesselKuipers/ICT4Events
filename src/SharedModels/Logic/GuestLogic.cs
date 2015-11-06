@@ -109,12 +109,11 @@ namespace SharedModels.Logic
         /// <returns>true if mail was successfully send, throws exception if sending mail fails</returns>
         private static bool SendConfirmationEmail(User user, Event ev, Location location, DateTime start, DateTime end)
         {
-            // TODO: Add this to settings boyo
-            var fromAddress = new MailAddress("ict4events.s21a@gmail.com", "ICT4Events");
+            var fromAddress = new MailAddress(Properties.Settings.Default.Email, "ICT4Events");
             var toAddress = new MailAddress(user.Username, user.Name);
-            const string fromPassword = "ICT4event!";
+            var fromPassword = Properties.Settings.Default.EmailPassword;
 
-            var message = new MailMessage("ict4events.s21a@gmail.com", "goos.bekerom@gmail.com")
+            var message = new MailMessage(fromAddress, toAddress)
             {
                 Subject = "Confirmation of your new user account for ICT4Events",
                 Body =
