@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using ICT4Events.Views.SocialSystem.Forms;
+using SharedModels.Debug;
 using SharedModels.Enums;
 using SharedModels.FTP;
 using SharedModels.Logic;
@@ -202,9 +204,27 @@ namespace ICT4Events.Views.SocialSystem.Controls
             if (saveMedia.ShowDialog() != DialogResult.OK) return;
 
             var pathSelected = saveMedia.SelectedPath;
+            
+            var succeeded = false;
+            if (_media.Type == MediaType.Image)
+            {
+                try
+                {
+                    pbMediaMessage.Image.Save($"{pathSelected}/{_media.Path}");
+                    succeeded = true;
+                }
+                catch (IOException e)
+                {
+                    Logger.Write(e.Message);
+                    succeeded = false;
+                }
+            }
+            else
+            {
+                succeeded = FtpHelper.DownloadFile($"/{post.EventID}/{post.GuestID}/{_media.Path}", $"{pathSelected}/{_media.Path}");
+            }
 
-            MessageBox.Show(FtpHelper.DownloadFile($"/{post.EventID}/{post.GuestID}/{_media.Path}",
-                $"{pathSelected}/{_media.Path}")
+            MessageBox.Show(succeeded
                 ? "Bestand is succesvol gedownload"
                 : "Er is iets misgegaan met het downloaden van deze media");
         }
