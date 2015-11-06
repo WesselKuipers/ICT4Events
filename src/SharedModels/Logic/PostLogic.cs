@@ -149,5 +149,15 @@ namespace SharedModels.Logic
         {
             return _context.AddTagToEvent(ev, tag);
         }
+
+        public bool CheckReportStatus(Post post)
+        {
+            var allReportsByPost = LogicCollection.PostLogic.GetReportsByPost(post);
+            if (allReportsByPost.Count < 5) return false;
+
+            post.Visible = false;
+            LogicCollection.PostLogic.UpdatePost(post);
+            return true;
+        }
     }
 }

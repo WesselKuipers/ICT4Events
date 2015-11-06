@@ -1,9 +1,6 @@
 ﻿using System;
-using System.IO;
-using System.Linq;
 using System.Windows.Forms;
 using SharedModels.Data.OracleContexts;
-using SharedModels.FTP;
 using SharedModels.Logic;
 using SharedModels.Models;
 
@@ -75,9 +72,12 @@ namespace ICT4Events.Views.SocialSystem.Controls
                             _logicPost.AddTagToEvent(_event, tag.ToLower());
                             _logicPost.AddTagToPost(addedPost, tag.ToLower());
                         }
+                        MessageBox.Show("Je bericht is gepubliceerd op je tijdlijn");
                     }
-
-                    MessageBox.Show("Je bericht is gepubliceerd op je tijdlijn");
+                    else
+                    {
+                        MessageBox.Show("Je bericht is niet gepubliceerd op de tijdlijn");
+                    }
                 }
             }
         }

@@ -46,9 +46,10 @@ namespace ICT4Events.Views.SocialSystem.Controls
         {
             DownloadMedia(_post);
         }
+
         private void lbReport_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            if (CheckReportStatus(_post))
+            if (LogicCollection.PostLogic.CheckReportStatus(_post))
             {
                 MessageBox.Show("Bericht is verborgen. Je kunt geen rapport meer insturen.");
                 return;
@@ -229,14 +230,5 @@ namespace ICT4Events.Views.SocialSystem.Controls
                 : "Er is iets misgegaan met het downloaden van deze media");
         }
 
-        private bool CheckReportStatus(Post post)
-        {
-            var allReportsByPost = LogicCollection.PostLogic.GetReportsByPost(post);
-            if (allReportsByPost.Count < 5) return false;
-
-            post.Visible = false;
-            LogicCollection.PostLogic.UpdatePost(post);
-            return true;
-        }
     }
 }

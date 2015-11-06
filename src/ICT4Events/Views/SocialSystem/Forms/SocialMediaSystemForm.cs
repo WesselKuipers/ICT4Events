@@ -17,7 +17,11 @@ namespace ICT4Events.Views.SocialSystem.Forms
             _user = user;
             _event = ev;
         }
-        
+        /// <summary>
+        /// SocialMediaSystem on load
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SocialMediaSystemForm_Load(object sender, EventArgs e)
         {
 
@@ -30,16 +34,19 @@ namespace ICT4Events.Views.SocialSystem.Forms
             };
             tbMakePost.Controls.Add(makePost);
 
+            // Loads the tags section
             var tbSearch = new TabPage("Zoek op tags");
             var searchByTag = new SearchByTag(_user, _event) { Dock = DockStyle.Fill };
             tbControlSMSF.TabPages.Add(tbSearch);
             tbSearch.Controls.Add(searchByTag);
 
+            // Loads the catalogue
             var tbMedia = new TabPage("Catalogus");
             var catlogue = new Catalogue(_event, _user) { Dock = DockStyle.Fill };
             tbControlSMSF.TabPages.Add(tbMedia);
             tbMedia.Controls.Add(catlogue);
 
+            // Loads the report section
             if (_user.Permission == PermissionType.Employee || _user.Permission == PermissionType.Administrator)
             {
                 TabPage reports = new TabPage("Gerapporteerde Posts");

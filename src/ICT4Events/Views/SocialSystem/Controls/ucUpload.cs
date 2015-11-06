@@ -2,7 +2,6 @@
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using SharedModels.FTP;
 using SharedModels.Logic;
 using SharedModels.Models;
 
@@ -44,7 +43,7 @@ namespace ICT4Events.Views.SocialSystem.Controls
         {
             if (string.IsNullOrEmpty(Filepath))
             {
-                MessageBox.Show(@"Geen bestand geselecteerd!");
+                MessageBox.Show("Geen bestand geselecteerd!");
             }
             else
             {

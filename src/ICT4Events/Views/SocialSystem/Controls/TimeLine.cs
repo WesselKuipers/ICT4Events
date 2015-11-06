@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
-using SharedModels.Data.OracleContexts;
 using SharedModels.Logic;
 using SharedModels.Models;
 
@@ -53,7 +52,7 @@ namespace ICT4Events.Views.SocialSystem.Controls
         {
             foreach (Reply post in PostsList)
             {
-                    // Post are getting loaded here on the timeline
+               // Post are getting loaded here on the timeline
                 tableLayoutPanel1.RowCount++;
                 tableLayoutPanel1.Controls.Add(new PostFeed(post, _event, _user, false), 0,
                     tableLayoutPanel1.RowCount + 1);
