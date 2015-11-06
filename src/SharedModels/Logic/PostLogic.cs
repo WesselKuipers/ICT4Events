@@ -20,6 +20,7 @@ namespace SharedModels.Logic
         public PostLogic(IPostContext context)
         {
             _context = context;
+            _reportContext = new ReportOracleContext();
         }
 
         public Post InsertPost(Post post)

@@ -14,10 +14,9 @@ namespace ICT4Events.Views.SocialSystem.Controls
 {
     public partial class MakePost : UserControl
     {
-        private readonly Guest _user;
-        private readonly User _admin;
+        private readonly User _user;
         private readonly Event _event;
-        private readonly IMediaContext _logicMedia;
+        private readonly MediaLogic _logicMedia;
         private readonly PostLogic _logicPost;
         private string _filepath;
         private Media _uploadedFile;
@@ -26,7 +25,7 @@ namespace ICT4Events.Views.SocialSystem.Controls
         {
             InitializeComponent();
             _event = ev;
-            _logicMedia = new MediaOracleContext();
+            _logicMedia = new MediaLogic();
             _logicPost = new PostLogic(new PostOracleContext());
         }
 
@@ -35,23 +34,13 @@ namespace ICT4Events.Views.SocialSystem.Controls
         /// </summary>
         /// <param name="user">The user who is placing this post</param>
         /// <param name="ev">The event this post belongs to</param>
-        public MakePost(Guest user, Event ev) : this(ev)
+        public MakePost(User user, Event ev) : this(ev)
         {
             _user = user;
-        }
-        /// <summary>
-        /// Constructor used for the post form for administrators
-        /// </summary>
-        /// <param name="admin">The user who is placing this post</param>
-        /// <param name="ev">The event this post belongs to</param>
-        public MakePost(User admin, Event ev) : this(ev)
-        {
-            _admin = admin;
         }
 
         /// <summary>
         /// opens file dialog to select the file to upload
-        /// TODO: Filter is not working correctly
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -92,9 +81,7 @@ namespace ICT4Events.Views.SocialSystem.Controls
 
                 if (_user != null)
                 {
-                    // TODO: Refactor to have less duplicate code. Move these to separate functions!
                     
-                    // REMEMBER: BELOW IS A GUEST
                     if (!File.Exists(FtpHelper.ServerAddress + "/" + _event.ID))
                     {
                         // Creates user & event map if not exsist on FTP server
@@ -118,36 +105,6 @@ namespace ICT4Events.Views.SocialSystem.Controls
                     // Show errors
                     if (_uploadedFile != null)
                         MessageBox.Show("Uw bestand is succesvol upgeload", "File successfully uploaded", MessageBoxButtons.OK,
-                            MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
-                    else
-                        MessageBox.Show("Er is iets misgegaan");
-                }
-                else
-                {
-                    // REMEMBER: BELOW IS A ADMIN
-                    if (!File.Exists(FtpHelper.ServerAddress + "/" + _event.ID))
-                    {
-                        // Creates user & event map if not exsist on FTP server
-                        FtpHelper.CreateDirectory(_event.ID.ToString());
-                        if (!File.Exists(FtpHelper.ServerAddress + "/" + _event.ID + "/" + _admin.ID))
-                        {
-                            FtpHelper.CreateDirectory(_event.ID + "/" + _admin.ID);
-                        }
-                    }
-
-                    if (!FtpHelper.UploadFile(_filepath, _event.ID + "/" + _admin.ID + "/" + ftpFileName)) return;
-
-                    // Check file extension
-                    var type = CheckExtension(ftpFileExtension);
-
-                    // Makes the object media
-                    var media = new Media(0, _admin.ID, _event.ID, type, ftpFileNameWithoutExtension,
-                        ftpFileExtension, ftpFileName);
-                    _uploadedFile = _logicMedia.Insert(media);
-
-                    // Show errors
-                    if (_uploadedFile != null)
-                        MessageBox.Show("Uw bestand is succesvol geüpload", "File successfully uploaded", MessageBoxButtons.OK,
                             MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
                     else
                         MessageBox.Show("Er is iets misgegaan");
@@ -176,27 +133,17 @@ namespace ICT4Events.Views.SocialSystem.Controls
                     Post addedPost = null;
                     if (string.IsNullOrEmpty(_filepath))
                     {
-                        if (_user != null)
-                        {
-                            // Guest makes post without media
-                            var p = new Post(0, _user.ID, _event.ID, 0, DateTime.Now, true, tbBerichtPost.Text);
-                            addedPost = _logicPost.InsertPost(p);
-                        }
-                        else
-                        {
-                            // Admin makes post without media
-                            var p = new Post(0, _admin.ID, _event.ID, 0, DateTime.Now, true, tbBerichtPost.Text);
-                            addedPost = _logicPost.InsertPost(p);
-                        }
+                        // Post without media
+                        var p = new Post(0, _user.ID, _event.ID, 0, DateTime.Now, true, tbBerichtPost.Text);
+                        addedPost = _logicPost.InsertPost(p);
                         
                     }
                     else
                     {
+                        // Post with media
                         if (_uploadedFile != null)
                         {
-                            addedPost = _logicPost.InsertPost(_user != null
-                                ? new Post(0, _user.ID, _event.ID, _uploadedFile.ID, DateTime.Now, true, tbBerichtPost.Text)
-                                : new Post(0, _admin.ID, _event.ID, _uploadedFile.ID, DateTime.Now, true, tbBerichtPost.Text));
+                            addedPost = _logicPost.InsertPost(new Post(0, _user.ID, _event.ID, _uploadedFile.ID, DateTime.Now, true, tbBerichtPost.Text));
                         }
                     }
 

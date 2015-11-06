@@ -58,6 +58,11 @@ namespace ICT4Events.Views.SocialSystem.Forms
             var searchByTag = new SearchByTag(_user, _event) { Dock = DockStyle.Fill };
             tbControlSMSF.TabPages.Add(tbSearch);
             tbSearch.Controls.Add(searchByTag);
+
+            var tbMedia = new TabPage("Catalogus");
+            var catlogue = new Catalogue(_event, _user) { Dock = DockStyle.Fill };
+            tbControlSMSF.TabPages.Add(tbMedia);
+            tbMedia.Controls.Add(catlogue);
         }
     }
 }

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Windows.Forms;
 using SharedModels.Enums;
+using SharedModels.FTP;
+using SharedModels.Logic;
 using SharedModels.Models;
 
 namespace ICT4Events.Views.SocialSystem.Controls
@@ -21,7 +23,18 @@ namespace ICT4Events.Views.SocialSystem.Controls
         {
             if (_user.Permission == PermissionType.User)
             {
-                
+                var listMedia = LogicCollection.MediaLogic.GetAllByGuest((Guest) _user);
+
+                foreach (Media m in listMedia)
+                {
+                    PictureBox picBox = new PictureBox()
+                    {
+                        Height = 200,
+                        Width = 200,
+                        ImageLocation = $"{FtpHelper.ServerHardLogin}/{_user.ID}/{m.Path}",
+                        SizeMode = PictureBoxSizeMode.Zoom
+                    };
+                }
             }
         }
     }
