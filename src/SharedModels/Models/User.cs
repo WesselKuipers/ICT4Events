@@ -61,8 +61,7 @@ namespace SharedModels.Models
 
         public override string ToString()
         {
-            return ID + " | " + Name + " " + Surname + " | " + Username + " | " + City + ", " + Country + " | " +
-                   Telephone;
+            return $"{ID} | {Name} {Surname} | {Username} | {City}, {Country} | {Telephone}";
         }
     }
 }

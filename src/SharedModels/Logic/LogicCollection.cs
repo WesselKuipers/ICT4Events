@@ -30,5 +30,8 @@ namespace SharedModels.Logic
 
         private static PostLogic _materialLogic;
         public static PostLogic MaterialLogic => _postLogic ?? (_materialLogic = new PostLogic(new PostOracleContext()));
+
+        private static MediaLogic _mediaLogic;
+        public static MediaLogic MediaLogic => _mediaLogic ?? (_mediaLogic = new MediaLogic(new MediaOracleContext()));
     }
 }

@@ -11,13 +11,12 @@ namespace SharedModels.Data.ContextInterfaces
     {
         Reply Insert(Reply entity);
         List<Post> GetAllByEvent(Event ev);
+        Post GetByMediaId(Media media);
         List<Reply> GetRepliesByPost(Post post);
 
         List<int> GetAllLikes(Post post);
-        bool AddLikeToPost(Post post, Guest guest);
-        bool RemoveLikeFromPost(Post post, Guest guest);
-        bool AddLikeToPost(Post post, User admin);
-        bool RemoveLikeFromPost(Post post, User admin);
+        bool AddLikeToPost(Post post, int guestID);
+        bool RemoveLikeFromPost(Post post, int guestID);
 
         List<Post> GetPostsByTag(string tag);
         List<string> GetTagsByPost(Post post);

@@ -59,7 +59,7 @@
             this.tbMakePost.Location = new System.Drawing.Point(4, 22);
             this.tbMakePost.Name = "tbMakePost";
             this.tbMakePost.Padding = new System.Windows.Forms.Padding(3);
-            this.tbMakePost.Size = new System.Drawing.Size(801, 410);
+            this.tbMakePost.Size = new System.Drawing.Size(705, 633);
             this.tbMakePost.TabIndex = 1;
             this.tbMakePost.Text = "Post aanmaken";
             this.tbMakePost.UseVisualStyleBackColor = true;

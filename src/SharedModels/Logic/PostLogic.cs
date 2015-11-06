@@ -20,6 +20,7 @@ namespace SharedModels.Logic
         public PostLogic(IPostContext context)
         {
             _context = context;
+            _reportContext = new ReportOracleContext();
         }
 
         public Post InsertPost(Post post)
@@ -57,6 +58,11 @@ namespace SharedModels.Logic
             return _context.GetAllLikes(post);
         }
 
+        public Post GetByMediaId(Media media)
+        {
+            return _context.GetByMediaId(media);
+        }
+
         /// <summary>
         /// Adds a like to the a post
         /// </summary>
@@ -65,7 +71,29 @@ namespace SharedModels.Logic
         /// <returns>true if succesfull</returns>
         public bool Like(Guest guest, Post post)
         {
-            return _context.AddLikeToPost(post, guest);
+            return _context.AddLikeToPost(post, guest.ID);
+        }
+
+        /// <summary>
+        /// Adds a like to the a post
+        /// </summary>
+        /// <param name="userid">GuestID of who liked the post</param>
+        /// <param name="post">Post that got liked</param>
+        /// <returns>true if succesfull</returns>
+        public bool Like(int userid, Post post)
+        {
+            return _context.AddLikeToPost(post, userid);
+        }
+
+        /// <summary>
+        /// Removes a like from a post
+        /// </summary>
+        /// <param name="userid">Guest that unliked the post</param>
+        /// <param name="post">Post that got unliked</param>
+        /// <returns>true if succesfull</returns>
+        public bool Unlike(int userid, Post post)
+        {
+            return _context.RemoveLikeFromPost(post, userid);
         }
 
         /// <summary>
@@ -74,31 +102,9 @@ namespace SharedModels.Logic
         /// <param name="guest">Guest that unliked the post</param>
         /// <param name="post">Post that got unliked</param>
         /// <returns>true if succesfull</returns>
-        public bool UnLike(Guest guest, Post post)
+        public bool Unlike(Guest guest, Post post)
         {
-            return _context.RemoveLikeFromPost(post, guest);
-        }
-
-        /// <summary>
-        /// Adds a like to the a post
-        /// </summary>
-        /// <param name="admin">Guest that liked the post</param>
-        /// <param name="post">Post that got liked</param>
-        /// <returns>true if succesfull</returns>
-        public bool Like(User admin, Post post)
-        {
-            return _context.AddLikeToPost(post, admin);
-        }
-
-        /// <summary>
-        /// Removes a like from a post
-        /// </summary>
-        /// <param name="admin">Guest that unliked the post</param>
-        /// <param name="post">Post that got unliked</param>
-        /// <returns>true if succesfull</returns>
-        public bool UnLike(User admin, Post post)
-        {
-            return _context.RemoveLikeFromPost(post, admin);
+            return _context.RemoveLikeFromPost(post, guest.ID);
         }
 
         /// <summary>
@@ -112,6 +118,16 @@ namespace SharedModels.Logic
         {
             var report = new Report(guest.ID, post.ID, reason, DateTime.Now);
             return (_reportContext.Insert(report) != null);
+        }
+
+        public bool DeleteReport(Report report)
+        {
+            return _reportContext.Delete(report);
+        }
+        
+        public List<Report> GetReportsByPost(Post post)
+        {
+            return _reportContext.GetAllByPost(post);
         }
 
         /// <summary>
@@ -129,10 +145,19 @@ namespace SharedModels.Logic
             return _context.AddTagToPost(post, tag);
         }
 
-
         public bool AddTagToEvent(Event ev, string tag)
         {
             return _context.AddTagToEvent(ev, tag);
+        }
+
+        public bool CheckReportStatus(Post post)
+        {
+            var allReportsByPost = LogicCollection.PostLogic.GetReportsByPost(post);
+            if (allReportsByPost.Count < 5) return false;
+
+            post.Visible = false;
+            LogicCollection.PostLogic.UpdatePost(post);
+            return true;
         }
     }
 }

@@ -13,7 +13,6 @@ namespace ICT4Events.Views.SocialSystem.Controls
         private readonly User _admin;
         private readonly Event _event;
         private readonly PostLogic _logicPost;
-        private readonly ReportOracleContext _logicReport;
         private readonly List<Post> _getAllPostByEvent;
 
         public ReportSection(User admin, Event ev)
@@ -22,30 +21,31 @@ namespace ICT4Events.Views.SocialSystem.Controls
             _admin = admin;
             _event = ev;
             _logicPost = new PostLogic();
-            _logicReport = new ReportOracleContext();
             _getAllPostByEvent = _logicPost.GetAllByEvent(_event);
             lblWelkom.Text = $"Welkom bij de rapporten overzicht,  {_admin.Name} {_admin.Surname}";
         }
 
         private void ReportSection_Load(object sender, System.EventArgs e)
         {
-            RefreshReportSystem(_getAllPostByEvent, _logicReport);
+            RefreshReportSystem(_getAllPostByEvent);
         }
 
-        private void RefreshReportSystem(List<Post> getAllPostByEvent, ReportOracleContext report)
+        private void RefreshReportSystem(List<Post> getAllPostByEvent)
         {
             lbReportsUnder5.Items.Clear();
             lbUnvisiblePosts.Items.Clear();
             lbReportsAbove5.Items.Clear();
+
             // Under 5 listbox
             foreach (var p in getAllPostByEvent)
             {
-                var tempListOfReports = report.GetAllByPost(p);
+                var tempListOfReports = LogicCollection.PostLogic.GetReportsByPost(p);
                 if (tempListOfReports.Count >= 1 && tempListOfReports.Count < 5 && p.Visible)
                 {
                     lbReportsUnder5.Items.Add(p);
                 }
             }
+
             // Invisible listbox
             foreach (var p in getAllPostByEvent)
             {
@@ -54,10 +54,11 @@ namespace ICT4Events.Views.SocialSystem.Controls
                     lbUnvisiblePosts.Items.Add(p);
                 }
             }
-            // Above 5 lisbox
+
+            // Above 5 listbox
             foreach (var p in getAllPostByEvent)
             {
-                var tempListOfReports = report.GetAllByPost(p);
+                var tempListOfReports = LogicCollection.PostLogic.GetReportsByPost(p);
                 if (tempListOfReports.Count >= 5)
                 {
                     lbReportsAbove5.Items.Add(p);
@@ -71,7 +72,7 @@ namespace ICT4Events.Views.SocialSystem.Controls
 
         private void btHidePost_Click(object sender, System.EventArgs e)
         {
-            Post post = (Post) lbReportsUnder5.SelectedItem;
+            var post = (Post) lbReportsUnder5.SelectedItem;
             if (post != null)
             {
                 var messageBoxResult = System.Windows.MessageBox.Show("Weet je het zeker?", "Verbergen?", System.Windows.MessageBoxButton.YesNo);
@@ -85,11 +86,11 @@ namespace ICT4Events.Views.SocialSystem.Controls
             {
                 MessageBox.Show($"Selecteer eerst een post voordat je het wilt verbergen.");
             }
-            RefreshReportSystem(_getAllPostByEvent, _logicReport);
+            RefreshReportSystem(_getAllPostByEvent);
         }
         private void btZichtbaarMaken_Click(object sender, System.EventArgs e)
         {
-            Post post = (Post)lbUnvisiblePosts.SelectedItem;
+            var post = (Post)lbUnvisiblePosts.SelectedItem;
             if (post != null)
             {
                 var messageBoxResult = System.Windows.MessageBox.Show("Weet je het zeker?", "Zichtbaar maken?", System.Windows.MessageBoxButton.YesNo);
@@ -103,11 +104,11 @@ namespace ICT4Events.Views.SocialSystem.Controls
             {
                 MessageBox.Show($"Selecteer eerst een post voordat je het weer zichtbaar wilt maken.");
             }
-            RefreshReportSystem(_getAllPostByEvent, _logicReport);
+            RefreshReportSystem(_getAllPostByEvent);
         }
         private void btRemoveReports_Click(object sender, System.EventArgs e)
         {
-            Post post = (Post)lbReportsAbove5.SelectedItem;
+            var post = (Post)lbReportsAbove5.SelectedItem;
             if (post != null)
             {
                 var messageBoxResult = System.Windows.MessageBox.Show("Weet je het zeker?", "Zichtbaar maken & Reports verwijderen?", System.Windows.MessageBoxButton.YesNo);
@@ -115,13 +116,13 @@ namespace ICT4Events.Views.SocialSystem.Controls
                 {
                     post.Visible = true;
                     _logicPost.UpdatePost(post);
-                    var tempListOfReports = _logicReport.GetAllByPost(post);
-                    foreach (Report rep in tempListOfReports)
+                    var tempListOfReports = LogicCollection.PostLogic.GetReportsByPost(post);
+                    foreach (var rep in tempListOfReports)
                     {
-                        _logicReport.Delete(rep);
+                        LogicCollection.PostLogic.DeleteReport(rep);
                     }
                 }
-                RefreshReportSystem(_getAllPostByEvent, _logicReport);
+                RefreshReportSystem(_getAllPostByEvent);
             }
             else
             {
@@ -131,7 +132,7 @@ namespace ICT4Events.Views.SocialSystem.Controls
 
         private void btPostWatch1_Click(object sender, System.EventArgs e)
         {
-            Post post = (Post)lbReportsUnder5.SelectedItem;
+            var post = (Post)lbReportsUnder5.SelectedItem;
             if (post != null)
             {
                 WatchPost(post);
@@ -143,7 +144,7 @@ namespace ICT4Events.Views.SocialSystem.Controls
         }
         private void btPostWatch2_Click(object sender, System.EventArgs e)
         {
-            Post post = (Post)lbReportsAbove5.SelectedItem;
+            var post = (Post)lbReportsAbove5.SelectedItem;
             if (post != null)
             {
                 WatchPost(post);
@@ -155,7 +156,7 @@ namespace ICT4Events.Views.SocialSystem.Controls
         }
         private void btPostWatch3_Click(object sender, System.EventArgs e)
         {
-            Post post = (Post)lbUnvisiblePosts.SelectedItem;
+            var post = (Post)lbUnvisiblePosts.SelectedItem;
             if (post != null)
             {
                 WatchPost(post);

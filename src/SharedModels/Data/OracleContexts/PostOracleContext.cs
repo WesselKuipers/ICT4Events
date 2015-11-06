@@ -21,6 +21,17 @@ namespace SharedModels.Data.OracleContexts
             return res.Select(GetEntityFromRecord).OrderByDescending(x => x.Date).ToList();
         }
 
+        public Post GetByMediaId(Media media)
+        {
+            var query = "SELECT * FROM post WHERE mediaid = :mediaid ORDER BY postid";
+            var parameters = new List<OracleParameter>
+            {
+                new OracleParameter("mediaid", media.ID)
+            };
+
+            return GetEntityFromRecord(Database.ExecuteReader(query, parameters).FirstOrDefault());
+        }
+
         public Post GetById(object id)
         {
             var query = "SELECT * FROM post WHERE postid = :postid ORDER BY postid";
@@ -80,7 +91,9 @@ namespace SharedModels.Data.OracleContexts
             var query = "UPDATE post SET mediaid = :mediaid, postdate = :postdate, visible = :visible, content = :content WHERE postid = :postid";
             var parameters = new List<OracleParameter>
             {
-                new OracleParameter("mediaid", entity.MediaID),
+                entity.MediaID > 0
+                    ? new OracleParameter("mediaid", (entity.MediaID))
+                    : new OracleParameter("mediaid", (DBNull.Value)),
                 new OracleParameter("postdate", entity.Date) {OracleDbType = OracleDbType.Date},
                 new OracleParameter("visible", Convert.ToInt32(entity.Visible)),
                 new OracleParameter("content", entity.Content),
@@ -103,7 +116,7 @@ namespace SharedModels.Data.OracleContexts
 
         public List<Post> GetAllByEvent(Event ev)
         {
-            var query = "SELECT * FROM post WHERE eventid = :eventid ORDER BY postid";
+            var query = "SELECT * FROM post WHERE eventid = :eventid AND mainpostid IS NULL ORDER BY postid";
             var parameters = new List<OracleParameter>
             {
                 new OracleParameter("eventid", ev.ID)
@@ -116,8 +129,12 @@ namespace SharedModels.Data.OracleContexts
 
         public List<Reply> GetRepliesByPost(Post post)
         {
-            var query = "SELECT * FROM post WHERE mainpostid IS NOT NULL ORDER BY postid";
-            var res = Database.ExecuteReader(query);
+            var query = "SELECT * FROM post WHERE mainpostid = :postid ORDER BY postid";
+            var parameters = new List<OracleParameter>
+            {
+                new OracleParameter("postid", post.ID)
+            };
+            var res = Database.ExecuteReader(query, parameters);
 
             return res.Select(GetReplyEntityFromRecord).OrderBy(x => x.Date).ToList();
         }
@@ -140,11 +157,28 @@ namespace SharedModels.Data.OracleContexts
 
         public bool AddLikeToPost(Post post, Guest guest)
         {
+            return AddLikeToPost(post, guest.ID);
+        }
+
+        public bool AddLikeToPost(Post post, int guestID)
+        {
             var query = "INSERT INTO likes (postid, userid) VALUES (:postid, :userid)";
             var parameters = new List<OracleParameter>
             {
                 new OracleParameter("postid", post.ID),
-                new OracleParameter("userid", guest.ID)
+                new OracleParameter("userid", guestID)
+            };
+
+            return Database.ExecuteNonQuery(query, parameters);
+        }
+
+        public bool RemoveLikeFromPost(Post post, int guestID)
+        {
+            var query = "DELETE FROM likes WHERE postid = :postid AND userid = :userid";
+            var parameters = new List<OracleParameter>
+            {
+                new OracleParameter("postid", post.ID),
+                new OracleParameter("userid", guestID)
             };
 
             return Database.ExecuteNonQuery(query, parameters);
@@ -152,37 +186,7 @@ namespace SharedModels.Data.OracleContexts
 
         public bool RemoveLikeFromPost(Post post, Guest guest)
         {
-            var query = "DELETE FROM likes WHERE postid = :postid AND userid = :userid";
-            var parameters = new List<OracleParameter>
-            {
-                new OracleParameter("postid", post.ID),
-                new OracleParameter("userid", guest.ID)
-            };
-
-            return Database.ExecuteNonQuery(query, parameters);
-        }
-        public bool AddLikeToPost(Post post, User admin)
-        {
-            var query = "INSERT INTO likes (postid, userid) VALUES (:postid, :userid)";
-            var parameters = new List<OracleParameter>
-            {
-                new OracleParameter("postid", post.ID),
-                new OracleParameter("userid", admin.ID)
-            };
-
-            return Database.ExecuteNonQuery(query, parameters);
-        }
-
-        public bool RemoveLikeFromPost(Post post, User admin)
-        {
-            var query = "DELETE FROM likes WHERE postid = :postid AND userid = :userid";
-            var parameters = new List<OracleParameter>
-            {
-                new OracleParameter("postid", post.ID),
-                new OracleParameter("userid", admin.ID)
-            };
-
-            return Database.ExecuteNonQuery(query, parameters);
+            return RemoveLikeFromPost(post, guest.ID);
         }
 
         public List<Post> GetPostsByTag(string tag)

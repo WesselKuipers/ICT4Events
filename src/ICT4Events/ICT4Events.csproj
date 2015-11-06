@@ -102,6 +102,12 @@
     <Compile Include="Views\MaterialSystem\Forms\MaterialReservationSystem.Designer.cs">
       <DependentUpon>MaterialReservationSystem.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\SocialSystem\Controls\Catalogue.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\SocialSystem\Controls\Catalogue.Designer.cs">
+      <DependentUpon>Catalogue.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\SocialSystem\Controls\PostFeedExtended.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -119,6 +125,12 @@
     </Compile>
     <Compile Include="Views\SocialSystem\Controls\SearchByTag.Designer.cs">
       <DependentUpon>SearchByTag.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SocialSystem\Controls\UcUpload.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\SocialSystem\Controls\UcUpload.Designer.cs">
+      <DependentUpon>UcUpload.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\SocialSystem\Forms\ExtendedForm.cs">
       <SubType>Form</SubType>
@@ -242,6 +254,9 @@
     <EmbeddedResource Include="Views\EventSelectionForm.resx">
       <DependentUpon>EventSelectionForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Views\SocialSystem\Controls\Catalogue.resx">
+      <DependentUpon>Catalogue.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\MaterialSystem\Forms\MaterialReservationSystem.resx">
       <DependentUpon>MaterialReservationSystem.cs</DependentUpon>
     </EmbeddedResource>
@@ -253,6 +268,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\SocialSystem\Controls\SearchByTag.resx">
       <DependentUpon>SearchByTag.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\SocialSystem\Controls\UcUpload.resx">
+      <DependentUpon>UcUpload.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\SocialSystem\Forms\ExtendedForm.resx">
       <DependentUpon>ExtendedForm.cs</DependentUpon>
@@ -344,6 +362,10 @@
   <ItemGroup>
     <None Include="Resources\LoadingIcon.gif" />
     <Content Include="Views\MaterialSystem\Forms\TempCopyPasteShortCuts.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\mp3.jpg" />
+    <Content Include="Resources\mp4.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

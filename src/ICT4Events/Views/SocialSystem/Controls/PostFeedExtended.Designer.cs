@@ -28,17 +28,18 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.tbPanelReplies = new System.Windows.Forms.TableLayoutPanel();
             this.tbReplyMessage = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btReply = new System.Windows.Forms.Button();
             this.tbPanelMainPost = new System.Windows.Forms.TableLayoutPanel();
+            this.tmrRefresh = new System.Windows.Forms.Timer(this.components);
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tbPanelReplies
             // 
-            this.tbPanelReplies.AutoScroll = true;
             this.tbPanelReplies.AutoSize = true;
             this.tbPanelReplies.BackColor = System.Drawing.SystemColors.Control;
             this.tbPanelReplies.ColumnCount = 1;
@@ -46,7 +47,7 @@
             this.tbPanelReplies.Location = new System.Drawing.Point(16, 290);
             this.tbPanelReplies.Name = "tbPanelReplies";
             this.tbPanelReplies.RowCount = 1;
-            this.tbPanelReplies.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tbPanelReplies.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tbPanelReplies.Size = new System.Drawing.Size(669, 123);
             this.tbPanelReplies.TabIndex = 28;
             // 
@@ -55,7 +56,7 @@
             this.tbReplyMessage.Location = new System.Drawing.Point(14, 19);
             this.tbReplyMessage.Multiline = true;
             this.tbReplyMessage.Name = "tbReplyMessage";
-            this.tbReplyMessage.Size = new System.Drawing.Size(614, 52);
+            this.tbReplyMessage.Size = new System.Drawing.Size(634, 52);
             this.tbReplyMessage.TabIndex = 29;
             // 
             // groupBox1
@@ -64,13 +65,13 @@
             this.groupBox1.Controls.Add(this.tbReplyMessage);
             this.groupBox1.Location = new System.Drawing.Point(16, 154);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(643, 116);
+            this.groupBox1.Size = new System.Drawing.Size(669, 116);
             this.groupBox1.TabIndex = 30;
             this.groupBox1.TabStop = false;
             // 
             // btReply
             // 
-            this.btReply.Location = new System.Drawing.Point(498, 77);
+            this.btReply.Location = new System.Drawing.Point(518, 77);
             this.btReply.Name = "btReply";
             this.btReply.Size = new System.Drawing.Size(130, 23);
             this.btReply.TabIndex = 30;
@@ -91,16 +92,22 @@
             this.tbPanelMainPost.Size = new System.Drawing.Size(669, 123);
             this.tbPanelMainPost.TabIndex = 29;
             // 
+            // tmrRefresh
+            // 
+            this.tmrRefresh.Enabled = true;
+            this.tmrRefresh.Interval = 3000;
+            this.tmrRefresh.Tick += new System.EventHandler(this.tmrRefresh_Tick);
+            // 
             // PostFeedExtended
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.AutoSize = true;
+            this.AutoScroll = true;
             this.Controls.Add(this.tbPanelMainPost);
             this.Controls.Add(this.tbPanelReplies);
             this.Controls.Add(this.groupBox1);
             this.Name = "PostFeedExtended";
-            this.Size = new System.Drawing.Size(755, 665);
+            this.Size = new System.Drawing.Size(722, 610);
             this.Load += new System.EventHandler(this.PostFeedExtended_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
@@ -115,5 +122,6 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button btReply;
         private System.Windows.Forms.TableLayoutPanel tbPanelMainPost;
+        private System.Windows.Forms.Timer tmrRefresh;
     }
 }

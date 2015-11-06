@@ -15,8 +15,6 @@ namespace SharedModels.Logic
 {
     public class UserLogic
     {
-        // TODO: check for permissionTypes in methods
-
         private readonly IUserContext _context;
         private static readonly string Salt = GetHashString("saltyString");
 
@@ -48,7 +46,6 @@ namespace SharedModels.Logic
             return UpdateUser(user);
         }
 
-        // TODO: Move this method to UI logic? Or: Pass user object
         /// <summary>
         /// Hashes the password for a user if the 2 given passwords match.
         /// </summary>
@@ -111,6 +108,16 @@ namespace SharedModels.Logic
         }
 
         /// <summary>
+        /// Retrieves a user object based on user ID
+        /// </summary>
+        /// <param name="id">User ID to match on</param>
+        /// <returns>User associated with given username or null if nothing was found</returns>
+        public User GetById(int id)
+        {
+            return _context.GetById(id);
+        }
+
+        /// <summary>
         /// Retrieves a user object based on username
         /// </summary>
         /// <param name="username">Username to match on</param>
@@ -127,12 +134,11 @@ namespace SharedModels.Logic
         /// <returns>true if mail was successfully send, throws exception if sending mail fails</returns>
         private static bool SendConfirmationEmail(User user, bool generated = false, string password = "")
         {
-            // TODO: Add this to settings boyo
-            var fromAddress = new MailAddress("ict4events.s21a@gmail.com", "ICT4Events");
+            var fromAddress = new MailAddress(Properties.Settings.Default.Email, "ICT4Events");
             var toAddress = new MailAddress(user.Username, user.Name);
-            const string fromPassword = "ICT4event!";
-
+            var fromPassword = Properties.Settings.Default.EmailPassword;
             const string subject = "Confirmation of your new user account for ICT4Events";
+
             var body = 
                 "Hello " + user.Name + ",\r\n\r\n" +
                 "Your new account for ICT4Events was successfully created!" +

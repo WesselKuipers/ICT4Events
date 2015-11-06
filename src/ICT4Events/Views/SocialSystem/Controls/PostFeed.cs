@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using ICT4Events.Views.SocialSystem.Forms;
-using SharedModels.Data.ContextInterfaces;
-using SharedModels.Data.OracleContexts;
+using SharedModels.Debug;
 using SharedModels.Enums;
 using SharedModels.FTP;
 using SharedModels.Logic;
@@ -18,46 +16,25 @@ namespace ICT4Events.Views.SocialSystem.Controls
     {
         private readonly Post _post;
         private readonly Event _event;
-        private readonly Guest _guestPost;
-        private readonly User _admin;
-        private readonly Guest _activeUser;
+        private readonly User _postUser;
+        private readonly User _activeUser;
         private Media _media;
-        private readonly MediaOracleContext _logicMedia;
-        private readonly PostLogic _logicPost;
-        private readonly GuestLogic _logicGuest;
-        private readonly ReportOracleContext _logicReport;
         private PostFeedExtended extended;
 
-
-        private PostFeed(Post post, Event ev, bool reply)
+        public PostFeed(Post post, Event ev, User user, bool reply)
         {
             InitializeComponent();
-            _logicMedia = new MediaOracleContext();
-            _logicPost = new PostLogic();
-            _logicGuest = new GuestLogic(new GuestOracleContext());
-            _logicReport = new ReportOracleContext();
 
             _post = post;
             _event = ev;
 
             lbReaction.Visible = !reply;
-        }
 
-        public PostFeed(Post post, Event ev, Guest active, bool reply) : this(post, ev, reply)
-        {
-            // Currently signed in guest
-            _activeUser = active;
+            // Currently signed in user
+            _activeUser = user;
 
-            // User of the post
-            _guestPost = _logicGuest.GetGuestByEvent(_event, _post.GuestID);
-        }
-        public PostFeed(Post post, Event ev, User admin, bool reply) : this(post, ev, reply)
-        {
-            // Currently signed in administrator
-            _admin = admin;
-
-            // User of the post
-            _guestPost = _logicGuest.GetGuestByEvent(_event, _post.GuestID);
+            // Guest of the post
+            _postUser = LogicCollection.UserLogic.GetById(_post.GuestID);
         }
 
         private void PostFeed_Load(object sender, EventArgs e)
@@ -69,9 +46,10 @@ namespace ICT4Events.Views.SocialSystem.Controls
         {
             DownloadMedia(_post);
         }
+
         private void lbReport_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            if (CheckReportStatus(_post, _logicPost, _logicReport))
+            if (LogicCollection.PostLogic.CheckReportStatus(_post))
             {
                 MessageBox.Show("Bericht is verborgen. Je kunt geen rapport meer insturen.");
                 return;
@@ -82,7 +60,7 @@ namespace ICT4Events.Views.SocialSystem.Controls
             if (result != DialogResult.OK) return;
 
             // Try to add report to database and show appropriate message
-            MessageBox.Show(_logicPost.Report(_logicGuest.GetGuestByEvent(_event, _activeUser.ID), _post,
+            MessageBox.Show(LogicCollection.PostLogic.Report(LogicCollection.GuestLogic.GetGuestByEvent(_event, _activeUser.ID), _post,
                 reportForm.ReasonReturnValue)
                 ? "Rapport succesvol verzonden. Bedankt voor u feedback!"
                 : "Er is iets fout gegaan met het doorvoeren van dit rapport, onze excuses hiervoor.");
@@ -91,23 +69,20 @@ namespace ICT4Events.Views.SocialSystem.Controls
         private void lbLike_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             if (_activeUser != null)
-                _logicPost.Like(_activeUser, _post);
-            else
-                _logicPost.Like(_admin, _post);
+                LogicCollection.PostLogic.Like(_activeUser.ID, _post);
 
             RefreshSocialSystem();
         }
         private void lblUnLike_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            if(_activeUser != null) 
-                _logicPost.UnLike(_activeUser, _post);
-            else
-                _logicPost.UnLike(_admin, _post);
+            if(_activeUser != null)
+                LogicCollection.PostLogic.Unlike(_activeUser.ID, _post);
+
             RefreshSocialSystem();
         }
         private void lblDeletePost_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            MessageBox.Show(_logicPost.DeletePost(_post)
+            MessageBox.Show(LogicCollection.PostLogic.DeletePost(_post)
                 ? "Post of reactie succesvol verwijderd"
                 : "Er is iets mis gegaan");
 
@@ -116,12 +91,10 @@ namespace ICT4Events.Views.SocialSystem.Controls
 
         private void lbReaction_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            extended = _activeUser != null
-                ? new PostFeedExtended(_post, _event, _activeUser)
-                : new PostFeedExtended(_post, _event, _admin);
+            extended = new PostFeedExtended(_post, _event, _activeUser);
 
             var extendedPostform = new ExtendedForm();
-            extendedPostform.Controls.Add(extended);
+            extendedPostform.tbpPostWatch.Controls.Add(extended);
             extendedPostform.ShowDialog();
         }
         /// <summary>
@@ -129,65 +102,51 @@ namespace ICT4Events.Views.SocialSystem.Controls
         /// </summary>
         private void RefreshSocialSystem()
         {
-            var reports = _logicReport.GetAllByPost(_post);
-            var likes = _logicPost.GetAllLikes(_post);
+            var reports = LogicCollection.PostLogic.GetReportsByPost(_post);
+            var likes = LogicCollection.PostLogic.GetAllLikes(_post);
 
             lbLike.Visible = true;
-            lblUnLike.Visible = false;
+            lblLikeStatus.Visible = false;
 
-            if (_activeUser != null)
+            // Guest rights
+            if (_post.GuestID == _activeUser.ID)
             {
-                // Guest rights
-                if (_post.GuestID == _activeUser.ID)
-                {
-                    lbReport.Visible = false;
-                    lblDeletePost.Visible = true;
-                }
-                if (reports != null)
-                {
-                    foreach (var r in reports.Where(r => r.GuestID == _activeUser.ID))
-                    {
-                        lbReport.Enabled = false;
-                    }
-                }
-                if (likes != null)
-                {
-                    foreach (var i in likes.Where(i => i == _activeUser.ID))
-                    {
-                        lbLike.Visible = false;
-                        lblUnLike.Visible = true;
-                    }
-                    lblCountLikes.Text = $"{likes.Count} mens(en) vinden dit leuk";
-                }
-                else
-                {
-                    lblCountLikes.Text = "0 mensen vinden dit leuk";
-                }
-            }
-            else // TODO: Refactor this to avoid duplicate code
-            {
-                // Admin rights
                 lbReport.Visible = false;
                 lblDeletePost.Visible = true;
+            }
 
-                if (likes != null)
+            if (reports != null)
+            {
+                foreach (var r in reports.Where(r => r.GuestID == _activeUser.ID))
                 {
-                    foreach (var i in likes.Where(i => i == _admin.ID))
-                    {
-                        lbLike.Visible = false;
-                        lblUnLike.Visible = true;
-                    }
+                    lbReport.Enabled = false;
+                }
+            }
 
-                    lblCountLikes.Text = $"{likes.Count} mens(en) vinden dit leuk";
-                }
-                else
+            if (likes != null)
+            {
+                if (likes.Any(i => i == _activeUser.ID))
                 {
-                    lblCountLikes.Text = "0 mensen vinden dit leuk";
+                    lbLike.Visible = false;
+                    lblLikeStatus.Visible = true;
                 }
+
+                lblCountLikes.Text = $"{likes.Count} mens(en) vinden dit leuk";
+            }
+            else
+            {
+                lblCountLikes.Text = "0 mensen vinden dit leuk";
+            }
+
+            if (_activeUser.Permission == PermissionType.Employee ||
+            _activeUser.Permission == PermissionType.Administrator)
+            {
+                lbReport.Visible = false;
+                lblDeletePost.Visible = true;
             }
 
             tbMessage.Text = _post.Content;
-            lblAuteurNaam.Text = _guestPost.Name + @" " + _guestPost.Surname;
+            lblAuteurNaam.Text = _postUser.Name + @" " + _postUser.Surname;
             lblDatum.Text = @"Geplaatst op " + _post.Date.ToString("dd/MM/yyyy");
             ShowMedia(_post);
         }
@@ -199,7 +158,7 @@ namespace ICT4Events.Views.SocialSystem.Controls
         {
             if (post.MediaID != 0)
             {
-                _media = _logicMedia.GetById(post.MediaID);
+                _media = LogicCollection.MediaLogic.GetById(post.MediaID);
                 switch (_media.Type)
                 {
                     case MediaType.Image:
@@ -208,11 +167,11 @@ namespace ICT4Events.Views.SocialSystem.Controls
                         break;
                     case MediaType.Audio:
                         // Show mp3 icon
-                        pbMediaMessage.ImageLocation = FtpHelper.ServerHardLogin + @"/mp3.jpg";
+                        pbMediaMessage.Image = Properties.Resources.mp3;
                         break;
                     default:
-                        // Show mp3 icon
-                        pbMediaMessage.ImageLocation = $"{FtpHelper.ServerHardLogin}/mp4.png";
+                        // Show mp4 icon
+                        pbMediaMessage.Image = Properties.Resources.mp4;
                         break;
                 }
             }
@@ -224,7 +183,7 @@ namespace ICT4Events.Views.SocialSystem.Controls
 
                 tbMessage.Width = 614;
 
-                lblUnLike.Location = new Point(569, lblUnLike.Location.Y);
+                lblLikeStatus.Location = new Point(569, lblLikeStatus.Location.Y);
                 lbLike.Location = new Point(584, lbLike.Location.Y);
                 lblDeletePost.Location = new Point(505, lblDeletePost.Location.Y);
                 lbReport.Location = new Point(505, lbReport.Location.Y);
@@ -239,27 +198,37 @@ namespace ICT4Events.Views.SocialSystem.Controls
         {
             if (post.MediaID == 0) return;
 
-            _media = _logicMedia.GetById(post.MediaID);
+            _media = LogicCollection.MediaLogic.GetById(post.MediaID);
 
             var saveMedia = new FolderBrowserDialog();
 
             if (saveMedia.ShowDialog() != DialogResult.OK) return;
 
             var pathSelected = saveMedia.SelectedPath;
-
-            if (FtpHelper.DownloadFile($"/{post.EventID}/{post.GuestID}/{_media.Path}", $"{pathSelected}/{_media.Path}"))
-                MessageBox.Show("Bestand is succesvol gedownload");
+            
+            var succeeded = false;
+            if (_media.Type == MediaType.Image)
+            {
+                try
+                {
+                    pbMediaMessage.Image.Save($"{pathSelected}/{_media.Path}");
+                    succeeded = true;
+                }
+                catch (IOException e)
+                {
+                    Logger.Write(e.Message);
+                    succeeded = false;
+                }
+            }
             else
-                MessageBox.Show("ERROR: Er is iets misgegaan.");
-        }
-        private bool CheckReportStatus(Post post, PostLogic postLogic, IReportContext reportContext)
-        {
-            var allReportsByPost = reportContext.GetAllByPost(post);
-            if (allReportsByPost.Count < 5) return false;
+            {
+                succeeded = FtpHelper.DownloadFile($"/{post.EventID}/{post.GuestID}/{_media.Path}", $"{pathSelected}/{_media.Path}");
+            }
 
-            post.Visible = false;
-            postLogic.UpdatePost(post);
-            return true;
+            MessageBox.Show(succeeded
+                ? "Bestand is succesvol gedownload"
+                : "Er is iets misgegaan met het downloaden van deze media");
         }
+
     }
 }
