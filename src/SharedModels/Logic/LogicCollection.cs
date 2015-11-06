@@ -28,8 +28,8 @@ namespace SharedModels.Logic
         private static PostLogic _postLogic;
         public static PostLogic PostLogic => _postLogic ?? (_postLogic = new PostLogic(new PostOracleContext()));
 
-        private static PostLogic _materialLogic;
-        public static PostLogic MaterialLogic => _postLogic ?? (_materialLogic = new PostLogic(new PostOracleContext()));
+        private static MaterialLogic _materialLogic;
+        public static MaterialLogic MaterialLogic => _materialLogic ?? (_materialLogic = new MaterialLogic( new MaterialOracleContext()));
 
         private static MediaLogic _mediaLogic;
         public static MediaLogic MediaLogic => _mediaLogic ?? (_mediaLogic = new MediaLogic(new MediaOracleContext()));

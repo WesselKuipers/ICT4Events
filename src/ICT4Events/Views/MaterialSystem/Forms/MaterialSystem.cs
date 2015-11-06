@@ -1,16 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Phidgets;
 using Phidgets.Events;
 using SharedModels.Data.ContextInterfaces;
 using SharedModels.Data.OracleContexts;
+using SharedModels.Logic;
 using SharedModels.Models;
 
 
@@ -20,9 +15,6 @@ namespace ICT4Events.Views.MaterialSystem.Forms
     {
         #region Local Variables
         private readonly Event _event;
-        private readonly IGuestContext _contextGuest;
-        private readonly IMaterialContext _contextMaterial;
-        private readonly IMaterialTypeContext _contextMaterialType;
         private bool _rfidScanned;
         //private RFID rfid;
         #endregion
@@ -32,9 +24,6 @@ namespace ICT4Events.Views.MaterialSystem.Forms
         {
             InitializeComponent();
             _event = ev;
-            _contextGuest = new GuestOracleContext();
-            _contextMaterial = new MaterialOracleContext();
-            _contextMaterialType = new MaterialTypeOracleContext();
 
             _rfidScanned = true;
         }
@@ -124,7 +113,7 @@ namespace ICT4Events.Views.MaterialSystem.Forms
         {
             if (MaterialStorageLB.SelectedIndex != -1)
             {
-                foreach (var material in _contextMaterial.GetAllByEvent(_event))
+                foreach (var material in LogicCollection.MaterialLogic.GetAllByEvent(_event))
                 {
                     if (material.Name == MaterialStorageLB.SelectedItem.ToString())
                     {
@@ -153,11 +142,11 @@ namespace ICT4Events.Views.MaterialSystem.Forms
             {
 
                 MaterialUserLB.Items.Clear();
-                foreach (var guest in _contextGuest.GetAllByEvent(_event))
+                foreach (var guest in LogicCollection.GuestLogic.GetGuestsByEvent(_event))
                 {
                     if (guest.PassID == GebruikersNummerTb.Text)
                     {
-                        foreach (var material in _contextMaterial.GetReservedMaterialsByGuest(guest))
+                        foreach (var material in LogicCollection.MaterialLogic.GetReservedMaterialsByGuest(guest))
                         {
                             MaterialUserLB.Items.Add(material.Name);
                         }
@@ -167,7 +156,7 @@ namespace ICT4Events.Views.MaterialSystem.Forms
 
             //Refresh storage listbox
             MaterialStorageLB.Items.Clear();
-            foreach (var material in _contextMaterial.GetAllByEventAndNonReserved(_event))
+            foreach (var material in LogicCollection.MaterialLogic.GetAllByEventAndNonReserved(_event))
             {
                 MaterialStorageLB.Items.Add(material.Name);
             }
@@ -176,7 +165,7 @@ namespace ICT4Events.Views.MaterialSystem.Forms
             var savedIndex = CategorieCb.SelectedIndex;
             CategorieCb.Items.Clear();
             CategorieCb.Items.Add("Any");
-            foreach (var mt in _contextMaterialType.GetAll())
+            foreach (var mt in LogicCollection.MaterialLogic.GetAll())
             {
                 CategorieCb.Items.Add(mt.Name);
             }
@@ -190,11 +179,11 @@ namespace ICT4Events.Views.MaterialSystem.Forms
             {
 
                 MaterialUserLB.Items.Clear();
-                foreach (var guest in _contextGuest.GetAllByEvent(_event))
+                foreach (var guest in LogicCollection.GuestLogic.GetGuestsByEvent(_event))
                 {
                     if (guest.PassID == GebruikersNummerTb.Text)
                     {
-                        foreach (var material in _contextMaterial.GetReservedMaterialsByGuest(guest))
+                        foreach (var material in LogicCollection.MaterialLogic.GetReservedMaterialsByGuest(guest))
                         {
                             MaterialUserLB.Items.Add(material.Name);
                         }
@@ -204,9 +193,9 @@ namespace ICT4Events.Views.MaterialSystem.Forms
 
             //Refresh storage listbox
             MaterialStorageLB.Items.Clear();
-            foreach (var material in _contextMaterial.GetAllByEventAndNonReserved(_event))
+            foreach (var material in LogicCollection.MaterialLogic.GetAllByEventAndNonReserved(_event))
             {
-                if(material.TypeID == _contextMaterialType.GetByName(categorie).ID)
+                if(material.TypeID == LogicCollection.MaterialLogic.GetByName(categorie).ID)
                     MaterialStorageLB.Items.Add(material.Name);
             }
 
@@ -219,11 +208,11 @@ namespace ICT4Events.Views.MaterialSystem.Forms
             {
 
                 MaterialUserLB.Items.Clear();
-                foreach (var guest in _contextGuest.GetAllByEvent(_event))
+                foreach (var guest in LogicCollection.GuestLogic.GetGuestsByEvent(_event))
                 {
                     if (guest.PassID == GebruikersNummerTb.Text)
                     {
-                        foreach (var material in _contextMaterial.GetReservedMaterialsByGuest(guest))
+                        foreach (var material in LogicCollection.MaterialLogic.GetReservedMaterialsByGuest(guest))
                         {
                             MaterialUserLB.Items.Add(material.Name);
                         }
@@ -234,7 +223,7 @@ namespace ICT4Events.Views.MaterialSystem.Forms
 
             //Refresh storage listbox
             MaterialStorageLB.Items.Clear();
-            foreach (var material in _contextMaterial.GetAllByEventAndNonReserved(_event))
+            foreach (var material in LogicCollection.MaterialLogic.GetAllByEventAndNonReserved(_event))
             {
                 MaterialStorageLB.Items.Add(material.Name);
             }
@@ -275,11 +264,11 @@ namespace ICT4Events.Views.MaterialSystem.Forms
 
             if (FieldsFilled(boxes) && MaterialUserLB.Items.Count > 0 && MaterialUserLB.SelectedIndex != -1)
             {
-                foreach (var material in _contextMaterial.GetReservedMaterialsByGuest(_contextGuest.GetByRfid(GebruikersNummerTb.Text)))
+                foreach (var material in LogicCollection.MaterialLogic.GetReservedMaterialsByGuest(LogicCollection.GuestLogic.GetByRfid(GebruikersNummerTb.Text)))
                 {
                     if (material.Name == MaterialUserLB.Text)
                     {
-                        if(!_contextMaterial.RemoveReservation(material))
+                        if(!LogicCollection.MaterialLogic.RemoveReservation(material))
                             MessageBox.Show("Material unsuccesfully deleted: " + material.Name);
                     }
                 }
@@ -303,11 +292,11 @@ namespace ICT4Events.Views.MaterialSystem.Forms
 
             if (FieldsFilled(boxes) && MaterialStorageLB.Items.Count > 0 && MaterialStorageLB.SelectedIndex != -1)
             {
-                foreach (var material in _contextMaterial.GetAllByEvent(_event))
+                foreach (var material in LogicCollection.MaterialLogic.GetAllByEvent(_event))
                 {
                     if (material.ID.ToString() == ArtikelnummerTb.Text)
                     {
-                        _contextMaterial.AddReservation(material, _contextGuest.GetByRfid(GebruikersNummerTb.Text).ID,
+                        LogicCollection.MaterialLogic.AddReservation(material, LogicCollection.GuestLogic.GetByRfid(GebruikersNummerTb.Text).ID,
                             _event.StartDate, _event.EndDate);
                     }
                 }
@@ -362,7 +351,7 @@ namespace ICT4Events.Views.MaterialSystem.Forms
             //MessageBox.Show(_contextMaterial.GetAllByEvent(_event).Count.ToString());
 
             var remove = new List<Material>();
-            foreach (var material in _contextMaterial.GetAllByEvent(_event))
+            foreach (var material in LogicCollection.MaterialLogic.GetAllByEvent(_event))
             {
                 if (ArtikelnummerTb.Text == material.ID.ToString() && ProductTb.Text == material.Name)
                 {
@@ -376,14 +365,14 @@ namespace ICT4Events.Views.MaterialSystem.Forms
             foreach (var material in remove)
             {
                 //TODO Delete material from database
-                if (_contextMaterial.Delete(material))
-                    MessageBox.Show(_contextMaterial.GetAllByEvent(_event).Count.ToString());
+                if (LogicCollection.MaterialLogic.Delete(material))
+                    MessageBox.Show(LogicCollection.MaterialLogic.GetAllByEvent(_event).Count.ToString());
                 else
                 {
                     MessageBox.Show("Failed to delete material");
                 }
                 //End of TODO
-                _contextMaterial.GetAllByEvent(_event).Remove(material);
+                LogicCollection.MaterialLogic.GetAllByEvent(_event).Remove(material);
             }
             //MessageBox.Show(_contextMaterial.GetAllByEvent(_event).Count.ToString());
         }
@@ -402,20 +391,20 @@ namespace ICT4Events.Views.MaterialSystem.Forms
             boxes.Add(ProductTb);
             if (FieldsFilled(boxes))
             {
-                foreach (var material in _contextMaterial.GetAllByEvent(_event))
+                foreach (var material in LogicCollection.MaterialLogic.GetAllByEvent(_event))
                 {
                     if (material.ID.ToString() == ArtikelnummerTb.Text)
                     {
                         if (!string.IsNullOrEmpty(TypeNewTb.Text))
                         {
 
-                            _contextMaterialType.Insert(new MaterialType(0, TypeNewTb.Text));
-                            _contextMaterial.Update(new Material(material.ID, ProductNewTb.Text, material.EventID,
-                                _contextMaterialType.GetByName(TypeNewTb.Text).ID));
+                            LogicCollection.MaterialLogic.Insert(new MaterialType(0, TypeNewTb.Text));
+                            LogicCollection.MaterialLogic.Update(new Material(material.ID, ProductNewTb.Text, material.EventID,
+                                LogicCollection.MaterialLogic.GetByName(TypeNewTb.Text).ID));
                         }
                         else
                         {
-                            _contextMaterial.Update(new Material(material.ID, ProductNewTb.Text, material.EventID,
+                            LogicCollection.MaterialLogic.Update(new Material(material.ID, ProductNewTb.Text, material.EventID,
                                 material.TypeID));
                         }
                     }
@@ -459,7 +448,7 @@ namespace ICT4Events.Views.MaterialSystem.Forms
                 if (!string.IsNullOrEmpty(TypeNewTb.Text))
                 {
                     var typeAppearsAlready = false;
-                    foreach (var mt in _contextMaterialType.GetAll())
+                    foreach (var mt in LogicCollection.MaterialLogic.GetAll())
                     {
                         if (mt.Name == TypeNewTb.Text)
                         {
@@ -468,19 +457,19 @@ namespace ICT4Events.Views.MaterialSystem.Forms
                     }
                     if (!typeAppearsAlready)
                     {
-                        _contextMaterialType.Insert(new MaterialType(0, TypeNewTb.Text));
-                        _contextMaterial.Insert(new Material(0, ProductNewTb.Text, _event.ID,
-                            _contextMaterialType.GetByName(TypeNewTb.Text).ID));
+                        LogicCollection.MaterialLogic.Insert(new MaterialType(0, TypeNewTb.Text));
+                        LogicCollection.MaterialLogic.Insert(new Material(0, ProductNewTb.Text, _event.ID,
+                            LogicCollection.MaterialLogic.GetByName(TypeNewTb.Text).ID));
                     }
                     else
                     {
-                        _contextMaterial.Insert(new Material(0, ProductNewTb.Text, _event.ID,
-                            _contextMaterialType.GetByName(TypeNewTb.Text).ID));
+                        LogicCollection.MaterialLogic.Insert(new Material(0, ProductNewTb.Text, _event.ID,
+                            LogicCollection.MaterialLogic.GetByName(TypeNewTb.Text).ID));
                     }
                 }
                 else
                 {
-                    _contextMaterial.Insert(new Material(0, ProductNewTb.Text, _event.ID));
+                    LogicCollection.MaterialLogic.Insert(new Material(0, ProductNewTb.Text, _event.ID));
                 }
                 UpdateListBoxAndCategory();
                 UpdateArtNumberArtName();

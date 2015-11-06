@@ -9,7 +9,7 @@ namespace SharedModels.Data.ContextInterfaces
         List<Material> GetAllByEvent(Event ev);
         List<Material> GetAllByEventAndNonReserved(Event ev);
         List<Material> GetReservedMaterialsByGuest(Guest guest);
-        Material AddReservation(Material material, int guestID, DateTime startDate, DateTime endDate);
+        Material AddReservation(Material material, int guestId, DateTime startDate, DateTime endDate);
         bool UpdateReservation(Material material, DateTime startDate, DateTime endDate);
         bool RemoveReservation(Material material);
     }

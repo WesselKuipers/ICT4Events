@@ -54,7 +54,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Phidget21.NET">
-      <HintPath>..\..\Phidget21.NET.dll</HintPath>
+      <HintPath>..\..\lib\Phidget21.NET.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
