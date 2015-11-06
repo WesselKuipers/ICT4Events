@@ -93,6 +93,12 @@
     <Compile Include="Views\EventSelectionForm.Designer.cs">
       <DependentUpon>EventSelectionForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\SocialSystem\Controls\Catalogue.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\SocialSystem\Controls\Catalogue.Designer.cs">
+      <DependentUpon>Catalogue.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\SocialSystem\Controls\PostFeedExtended.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -226,6 +232,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\EventSelectionForm.resx">
       <DependentUpon>EventSelectionForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\SocialSystem\Controls\Catalogue.resx">
+      <DependentUpon>Catalogue.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\SocialSystem\Controls\PostFeedExtended.resx">
       <DependentUpon>PostFeedExtended.cs</DependentUpon>
