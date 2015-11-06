@@ -83,6 +83,7 @@
     <Compile Include="Logic\GuestLogic.cs" />
     <Compile Include="Logic\LocationLogic.cs" />
     <Compile Include="Logic\LogicCollection.cs" />
+    <Compile Include="Logic\MediaLogic.cs" />
     <Compile Include="Logic\PostLogic.cs" />
     <Compile Include="Models\Event.cs" />
     <Compile Include="Models\Guest.cs" />
