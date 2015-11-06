@@ -16,6 +16,7 @@ namespace ICT4Events.Views
         public LoginForm()
         {
             InitializeComponent();
+
             _alreadyFocused = false;
 
             txtPassword.GotFocus += TxtPassword_GotFocus;
@@ -23,10 +24,23 @@ namespace ICT4Events.Views
             txtPassword.Leave += TxtPassword_Leave;
         }
 
+        private void LoginForm_Load(object sender, EventArgs e)
+        {
+            var username = Properties.Settings.Default.Username;
+            if (!string.IsNullOrWhiteSpace(username))
+            {
+                txtUsername.Text = username;
+            }
+
+            if (!string.IsNullOrWhiteSpace(txtUsername.Text))
+            {
+               this.ActiveControl =  txtPassword;
+            }
+        }
+
         private void TxtPassword_Leave(object sender, EventArgs e)
         {
             _alreadyFocused = false;
-            
         }
 
         private void TxtPassword_MouseUp(object sender, MouseEventArgs e)
@@ -64,6 +78,10 @@ namespace ICT4Events.Views
                 var userLogic = new UserLogic(new UserOracleContext());
 
                 User = userLogic.AuthenticateUser(txtUsername.Text, userLogic.GetHashedPassword(txtPassword.Text));
+
+                Properties.Settings.Default.Username = User.Username;
+                Properties.Settings.Default.Save();
+
                 DialogResult = DialogResult.OK;
                 Close();
             }

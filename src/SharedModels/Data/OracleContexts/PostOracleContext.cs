@@ -116,7 +116,7 @@ namespace SharedModels.Data.OracleContexts
 
         public List<Reply> GetRepliesByPost(Post post)
         {
-            var query = "SELECT * FROM post WHERE mainpostid = :postid AND mainpostid != postid ORDER BY postid";
+            var query = "SELECT * FROM post WHERE mainpostid = :postid ORDER BY postid";
             var parameters = new List<OracleParameter>
             {
                 new OracleParameter("postid", post.ID)

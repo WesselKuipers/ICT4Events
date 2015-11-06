@@ -14,7 +14,6 @@ namespace ICT4Events.Views.SocialSystem.Controls
         private readonly User _admin;
         private readonly Event _event;
         private readonly PostLogic _logic;
-        private readonly ReportOracleContext _reportContext;
 
         private List<Post> Posts;
 
@@ -24,7 +23,6 @@ namespace ICT4Events.Views.SocialSystem.Controls
             _user = user;
             _event = ev;
             _logic = new PostLogic();
-            _reportContext = new ReportOracleContext();
         }
         public TimeLine(User user, Event ev)
         {
@@ -32,24 +30,12 @@ namespace ICT4Events.Views.SocialSystem.Controls
             _admin = user;
             _event = ev;
             _logic = new PostLogic();
-            _reportContext = new ReportOracleContext();
         }
 
         private void TimeLine_Load(object sender, EventArgs e)
         {
-            LoadAllPosts();
-        }
-        /// <summary>
-        /// Load the main post on the timeline 
-        /// Eerst even dit
-        /// </summary>
-        private void LoadAllPosts()
-        {
             Posts = _logic.GetAllByEvent(_event).Where(p => p.Visible).OrderByDescending(x => x.Date).ToList();
-            foreach (Reply post in Posts)
-            {
-                LoadPost(post);
-            }
+            LoadAllPosts(Posts);
         }
 
         private void tmrRefresh_Tick(object sender, EventArgs e)
@@ -62,18 +48,18 @@ namespace ICT4Events.Views.SocialSystem.Controls
             var newListPosts = _logic.GetAllByEvent(_event).Where(p => p.Visible).OrderByDescending(x => x.Date).ToList();
             if(!Equals(newListPosts.Count, Posts.Count))
             {
-                tableLayoutPanel1.Controls.Clear();
-                foreach (Reply post in newListPosts)
-                {
-                    LoadPost(post);
-                }
+                LoadAllPosts(newListPosts);
                 Posts = newListPosts;
             }
         }
 
-        private void LoadPost(Reply post)
+        /// <summary>
+        /// Load the main post on the timeline 
+        /// Eerst even dit
+        /// </summary>
+        private void LoadAllPosts(List<Post> PostsList)
         {
-            if (post.MainPostID == 0)
+            foreach (Reply post in PostsList)
             {
                     // Post are getting loaded here on the timeline
                     tableLayoutPanel1.RowCount++;
