@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using ICT4Events.Views.SocialSystem.Forms;
-using SharedModels.Data.ContextInterfaces;
-using SharedModels.Data.OracleContexts;
 using SharedModels.Enums;
 using SharedModels.FTP;
 using SharedModels.Logic;
@@ -21,19 +17,11 @@ namespace ICT4Events.Views.SocialSystem.Controls
         private readonly User _postUser;
         private readonly User _activeUser;
         private Media _media;
-        private readonly MediaOracleContext _logicMedia;
-        private readonly PostLogic _logicPost;
-        private readonly GuestLogic _logicGuest;
-        private readonly ReportOracleContext _logicReport;
         private PostFeedExtended extended;
 
         public PostFeed(Post post, Event ev, User user, bool reply)
         {
             InitializeComponent();
-            _logicMedia = new MediaOracleContext();
-            _logicPost = new PostLogic();
-            _logicGuest = new GuestLogic(new GuestOracleContext());
-            _logicReport = new ReportOracleContext();
 
             _post = post;
             _event = ev;
@@ -58,7 +46,7 @@ namespace ICT4Events.Views.SocialSystem.Controls
         }
         private void lbReport_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            if (CheckReportStatus(_post, _logicPost, _logicReport))
+            if (CheckReportStatus(_post))
             {
                 MessageBox.Show("Bericht is verborgen. Je kunt geen rapport meer insturen.");
                 return;
@@ -69,7 +57,7 @@ namespace ICT4Events.Views.SocialSystem.Controls
             if (result != DialogResult.OK) return;
 
             // Try to add report to database and show appropriate message
-            MessageBox.Show(_logicPost.Report(_logicGuest.GetGuestByEvent(_event, _activeUser.ID), _post,
+            MessageBox.Show(LogicCollection.PostLogic.Report(LogicCollection.GuestLogic.GetGuestByEvent(_event, _activeUser.ID), _post,
                 reportForm.ReasonReturnValue)
                 ? "Rapport succesvol verzonden. Bedankt voor u feedback!"
                 : "Er is iets fout gegaan met het doorvoeren van dit rapport, onze excuses hiervoor.");
@@ -78,20 +66,20 @@ namespace ICT4Events.Views.SocialSystem.Controls
         private void lbLike_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             if (_activeUser != null)
-                _logicPost.Like(_activeUser.ID, _post);
+                LogicCollection.PostLogic.Like(_activeUser.ID, _post);
 
             RefreshSocialSystem();
         }
         private void lblUnLike_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            if(_activeUser != null) 
-                _logicPost.Unlike(_activeUser.ID, _post);
+            if(_activeUser != null)
+                LogicCollection.PostLogic.Unlike(_activeUser.ID, _post);
 
             RefreshSocialSystem();
         }
         private void lblDeletePost_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            MessageBox.Show(_logicPost.DeletePost(_post)
+            MessageBox.Show(LogicCollection.PostLogic.DeletePost(_post)
                 ? "Post of reactie succesvol verwijderd"
                 : "Er is iets mis gegaan");
 
@@ -111,8 +99,8 @@ namespace ICT4Events.Views.SocialSystem.Controls
         /// </summary>
         private void RefreshSocialSystem()
         {
-            var reports = _logicReport.GetAllByPost(_post);
-            var likes = _logicPost.GetAllLikes(_post);
+            var reports = LogicCollection.PostLogic.GetReportsByPost(_post);
+            var likes = LogicCollection.PostLogic.GetAllLikes(_post);
 
             lbLike.Visible = true;
             lblLikeStatus.Visible = false;
@@ -167,7 +155,7 @@ namespace ICT4Events.Views.SocialSystem.Controls
         {
             if (post.MediaID != 0)
             {
-                _media = _logicMedia.GetById(post.MediaID);
+                _media = LogicCollection.MediaLogic.GetById(post.MediaID);
                 switch (_media.Type)
                 {
                     case MediaType.Image:
@@ -207,7 +195,7 @@ namespace ICT4Events.Views.SocialSystem.Controls
         {
             if (post.MediaID == 0) return;
 
-            _media = _logicMedia.GetById(post.MediaID);
+            _media = LogicCollection.MediaLogic.GetById(post.MediaID);
 
             var saveMedia = new FolderBrowserDialog();
 
@@ -221,13 +209,13 @@ namespace ICT4Events.Views.SocialSystem.Controls
                 : "Er is iets misgegaan met het downloaden van deze media");
         }
 
-        private bool CheckReportStatus(Post post, PostLogic postLogic, IReportContext reportContext)
+        private bool CheckReportStatus(Post post)
         {
-            var allReportsByPost = reportContext.GetAllByPost(post);
+            var allReportsByPost = LogicCollection.PostLogic.GetReportsByPost(post);
             if (allReportsByPost.Count < 5) return false;
 
             post.Visible = false;
-            postLogic.UpdatePost(post);
+            LogicCollection.PostLogic.UpdatePost(post);
             return true;
         }
     }

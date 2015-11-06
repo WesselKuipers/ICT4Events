@@ -114,6 +114,16 @@ namespace SharedModels.Logic
             return (_reportContext.Insert(report) != null);
         }
 
+        public bool DeleteReport(Report report)
+        {
+            return _reportContext.Delete(report);
+        }
+        
+        public List<Report> GetReportsByPost(Post post)
+        {
+            return _reportContext.GetAllByPost(post);
+        }
+
         /// <summary>
         /// Gets all posts that have a given tag
         /// </summary>
@@ -128,7 +138,6 @@ namespace SharedModels.Logic
         {
             return _context.AddTagToPost(post, tag);
         }
-
 
         public bool AddTagToEvent(Event ev, string tag)
         {
