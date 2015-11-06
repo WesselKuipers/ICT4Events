@@ -21,6 +21,17 @@ namespace SharedModels.Data.OracleContexts
             return res.Select(GetEntityFromRecord).OrderByDescending(x => x.Date).ToList();
         }
 
+        public Post GetByMediaId(Media media)
+        {
+            var query = "SELECT * FROM post WHERE mediaid = :mediaid ORDER BY postid";
+            var parameters = new List<OracleParameter>
+            {
+                new OracleParameter("mediaid", media.ID)
+            };
+
+            return GetEntityFromRecord(Database.ExecuteReader(query, parameters).FirstOrDefault());
+        }
+
         public Post GetById(object id)
         {
             var query = "SELECT * FROM post WHERE postid = :postid ORDER BY postid";
@@ -80,7 +91,9 @@ namespace SharedModels.Data.OracleContexts
             var query = "UPDATE post SET mediaid = :mediaid, postdate = :postdate, visible = :visible, content = :content WHERE postid = :postid";
             var parameters = new List<OracleParameter>
             {
-                new OracleParameter("mediaid", entity.MediaID),
+                entity.MediaID > 0
+                    ? new OracleParameter("mediaid", (entity.MediaID))
+                    : new OracleParameter("mediaid", (DBNull.Value)),
                 new OracleParameter("postdate", entity.Date) {OracleDbType = OracleDbType.Date},
                 new OracleParameter("visible", Convert.ToInt32(entity.Visible)),
                 new OracleParameter("content", entity.Content),

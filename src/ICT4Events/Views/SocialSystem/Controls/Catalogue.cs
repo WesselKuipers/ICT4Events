@@ -13,6 +13,8 @@ namespace ICT4Events.Views.SocialSystem.Controls
     {
         private readonly User _user;
         private readonly Event _event;
+        private Media _media;
+        private Button _delete;
 
         public Catalogue(Event ev,User user)
         {
@@ -23,27 +25,66 @@ namespace ICT4Events.Views.SocialSystem.Controls
 
         private void Catalogue_Load(object sender, EventArgs e)
         {
-            if (_user.Permission == PermissionType.User)
-            {
-                var listMedia = LogicCollection.MediaLogic.GetAllByGuest((Guest) _user);
-                TreeNode[] arrayofNodes = listMedia.Select(I => new TreeNode(I.Path)).ToArray();
-                TreeNode treeNode = new TreeNode($"{_user.ID} - {_user.Name} {_user.Surname}", arrayofNodes);
-                trvCatalogue.Nodes.Add(treeNode);
-                tbpLoadUcUpload.Controls.Add(new UcUpload(_user, _event), 1, 1);
-                
-            }
+            LoadCatalogue();
+            // Makes delete button & loads upload usercontrol
+            tbpLoadUcUpload.Controls.Add(new UcUpload(_user, _event), 1, 2);
+            _delete = new Button();
+            _delete.Text = @"Verwijderen Media";
+            _delete.Name = "lblDeleteMedia";
+            _delete.Click += lblDeleteMedia_LinkClicked;
+            _delete.Visible = false;
+            tbpLoadUcUpload.Controls.Add(_delete, 1, 1);
         }
-
 
         private void trvCatalogue_AfterSelect(object sender, TreeViewEventArgs e)
         {
-            string userID = e.Node.Parent.Text.Substring(0, e.Node.Parent.Text.IndexOf("-", StringComparison.Ordinal)).Trim();
-            picCatalogue.ImageLocation = $"{FtpHelper.ServerHardLogin}/{_event.ID}/{userID}/{e.Node.Text}";
+            if (trvCatalogue.SelectedNode.Parent != null)
+            {
+                string child = e.Node.Text;
+                string mediaId = child.Substring(0, child.IndexOf("-", StringComparison.Ordinal)).Trim();
 
-            LinkLabel delete = new LinkLabel();
-            delete.Text = @"Verwijderen Media";
-            delete.Location = new Point(435, 255);
-            this.Controls.Add(delete);
+                _media = LogicCollection.MediaLogic.GetById(Convert.ToInt32(mediaId));
+
+                picCatalogue.ImageLocation = $"{FtpHelper.ServerHardLogin}/{_event.ID}/{_media.UserID}/{_media.Path}";
+                _delete.Visible = true;
+            }
+        }
+
+        /// <summary>
+        /// Delete media from catalogue
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void lblDeleteMedia_LinkClicked(object sender, EventArgs e)
+        {
+            MessageBox.Show(LogicCollection.MediaLogic.DeleteMedia(_media) ? "Verwijderd!" : "Verwijderen mislukt");
+            LoadCatalogue();
+        }
+
+        private void LoadCatalogue()
+        {
+            trvCatalogue.Nodes.Clear();
+            // User
+            if (_user.Permission == PermissionType.User)
+            {
+                var listMedia = LogicCollection.MediaLogic.GetAllByGuest((Guest)_user);
+                TreeNode[] arrayofNodes = listMedia.Select(I => new TreeNode($"{I.ID} - {I.Path}")).ToArray();
+                TreeNode treeNode = new TreeNode($"{_user.Name} {_user.Surname}", arrayofNodes);
+                trvCatalogue.Nodes.Add(treeNode);
+            }
+            else if (_user.Permission == PermissionType.Administrator || _user.Permission == PermissionType.Employee)
+            {
+                // Admin
+                var listMedia = LogicCollection.MediaLogic.GetAllMedia(_event);
+                foreach (Media media in listMedia)
+                {
+                    var mediaUser = LogicCollection.UserLogic.GetById(media.UserID);
+                    TreeNode[] arrayofNodes = listMedia.Where(x => x.UserID == mediaUser.ID).Select(I => new TreeNode($"{I.ID} - {I.Path}")).ToArray();
+                    TreeNode treeNode = new TreeNode($"{mediaUser.Name} {mediaUser.Surname}", arrayofNodes);
+                    trvCatalogue.Nodes.Add(treeNode);
+                }
+
+            }
         }
     }
 }

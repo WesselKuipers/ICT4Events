@@ -11,6 +11,7 @@ namespace SharedModels.Data.ContextInterfaces
     {
         Reply Insert(Reply entity);
         List<Post> GetAllByEvent(Event ev);
+        Post GetByMediaId(Media media);
         List<Reply> GetRepliesByPost(Post post);
 
         List<int> GetAllLikes(Post post);

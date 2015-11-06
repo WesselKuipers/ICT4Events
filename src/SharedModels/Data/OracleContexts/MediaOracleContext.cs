@@ -88,6 +88,19 @@ namespace SharedModels.Data.OracleContexts
             return res.Select(GetEntityFromRecord).ToList();
         }
 
+        public List<Media> GetAllMedia(Event ev)
+        {
+            var query = "SELECT * FROM media WHERE eventid = :eventid ORDER BY mediaid";
+            var parameters = new List<OracleParameter>
+            {
+                new OracleParameter("eventid", ev.ID),
+            };
+
+            var res = Database.ExecuteReader(query, parameters);
+
+            return res.Select(GetEntityFromRecord).ToList();
+        }
+
         protected override Media GetEntityFromRecord(List<string> record)
         {
             if (record == null) return null;

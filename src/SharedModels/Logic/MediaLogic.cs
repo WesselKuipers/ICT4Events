@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.UI.WebControls;
 using SharedModels.Data.ContextInterfaces;
 using SharedModels.Data.OracleContexts;
 using SharedModels.Enums;
@@ -31,6 +32,11 @@ namespace SharedModels.Logic
             return _context.Insert(media);
         }
 
+        public bool Delete(Media media)
+        {
+            return _context.Delete(media);
+        }
+
         public Media GetById(int id)
         {
             return _context.GetById(id);
@@ -39,6 +45,11 @@ namespace SharedModels.Logic
         public List<Media> GetAllByGuest(Guest guest)
         {
             return _context.GetAllByGuest(guest);
+        }
+
+        public List<Media> GetAllMedia(Event ev)
+        {
+            return _context.GetAllMedia(ev);
         }
 
         /// <summary>
@@ -99,6 +110,27 @@ namespace SharedModels.Logic
                 }
 
                 return media;
+        }
+
+        public bool DeleteMedia(Media media)
+        {
+            // TODO: Empty post fix
+            if (LogicCollection.PostLogic.GetByMediaId(media) != null)
+            {
+                var post = LogicCollection.PostLogic.GetByMediaId(media);
+                post.MediaID = 0;
+                if (LogicCollection.PostLogic.UpdatePost(post))
+                {
+                    LogicCollection.MediaLogic.Delete(media);
+                    return true;
+                }
+            }
+            else
+            {
+                LogicCollection.MediaLogic.Delete(media);
+                return true;
+            }
+            return false;
         }
     }
 }

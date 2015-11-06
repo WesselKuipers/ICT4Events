@@ -45,11 +45,12 @@
             this.tbpLoadUcUpload.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tbpLoadUcUpload.Location = new System.Drawing.Point(0, 0);
             this.tbpLoadUcUpload.Name = "tbpLoadUcUpload";
-            this.tbpLoadUcUpload.RowCount = 2;
-            this.tbpLoadUcUpload.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 75F));
-            this.tbpLoadUcUpload.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tbpLoadUcUpload.RowCount = 3;
+            this.tbpLoadUcUpload.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 92.50493F));
+            this.tbpLoadUcUpload.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 7.495069F));
+            this.tbpLoadUcUpload.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 148F));
             this.tbpLoadUcUpload.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tbpLoadUcUpload.Size = new System.Drawing.Size(630, 380);
+            this.tbpLoadUcUpload.Size = new System.Drawing.Size(752, 722);
             this.tbpLoadUcUpload.TabIndex = 0;
             // 
             // trvCatalogue
@@ -57,17 +58,19 @@
             this.trvCatalogue.Dock = System.Windows.Forms.DockStyle.Left;
             this.trvCatalogue.Location = new System.Drawing.Point(3, 3);
             this.trvCatalogue.Name = "trvCatalogue";
-            this.tbpLoadUcUpload.SetRowSpan(this.trvCatalogue, 2);
-            this.trvCatalogue.Size = new System.Drawing.Size(183, 374);
+            this.tbpLoadUcUpload.SetRowSpan(this.trvCatalogue, 3);
+            this.trvCatalogue.Size = new System.Drawing.Size(219, 716);
             this.trvCatalogue.TabIndex = 2;
             this.trvCatalogue.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.trvCatalogue_AfterSelect);
             // 
             // picCatalogue
             // 
             this.picCatalogue.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.picCatalogue.Location = new System.Drawing.Point(192, 3);
+            this.picCatalogue.InitialImage = global::ICT4Events.Properties.Resources.LoadingIcon;
+            this.picCatalogue.Location = new System.Drawing.Point(228, 3);
             this.picCatalogue.Name = "picCatalogue";
-            this.picCatalogue.Size = new System.Drawing.Size(435, 279);
+            this.picCatalogue.Size = new System.Drawing.Size(521, 524);
+            this.picCatalogue.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.picCatalogue.TabIndex = 3;
             this.picCatalogue.TabStop = false;
             // 
@@ -78,7 +81,7 @@
             this.AutoScroll = true;
             this.Controls.Add(this.tbpLoadUcUpload);
             this.Name = "Catalogue";
-            this.Size = new System.Drawing.Size(630, 380);
+            this.Size = new System.Drawing.Size(752, 722);
             this.Load += new System.EventHandler(this.Catalogue_Load);
             this.tbpLoadUcUpload.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.picCatalogue)).EndInit();
@@ -91,5 +94,6 @@
         private System.Windows.Forms.TableLayoutPanel tbpLoadUcUpload;
         private System.Windows.Forms.TreeView trvCatalogue;
         private System.Windows.Forms.PictureBox picCatalogue;
+        private System.Windows.Forms.Label lblDeleteMedia;
     }
 }

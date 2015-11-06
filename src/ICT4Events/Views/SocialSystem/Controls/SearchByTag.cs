@@ -14,11 +14,11 @@ namespace ICT4Events.Views.SocialSystem.Controls
 {
     public partial class SearchByTag : UserControl
     {
-        private readonly Guest _user;
+        private readonly User _user;
         private readonly Event _event;
         private readonly PostLogic _logic;
 
-        public SearchByTag(Guest user, Event ev)
+        public SearchByTag(User user, Event ev)
         {
             InitializeComponent();
             _user = user;

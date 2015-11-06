@@ -11,5 +11,6 @@ namespace SharedModels.Data.ContextInterfaces
     public interface IMediaContext : IRepositoryContext<Media>
     {
         List<Media> GetAllByGuest(Guest guest);
+        List<Media> GetAllMedia(Event ev);
     }
 }

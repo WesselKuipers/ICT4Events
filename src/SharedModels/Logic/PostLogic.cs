@@ -58,6 +58,11 @@ namespace SharedModels.Logic
             return _context.GetAllLikes(post);
         }
 
+        public Post GetByMediaId(Media media)
+        {
+            return _context.GetByMediaId(media);
+        }
+
         /// <summary>
         /// Adds a like to the a post
         /// </summary>
