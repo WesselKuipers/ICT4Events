@@ -88,6 +88,8 @@ namespace ICT4Events
             var eventGuest = SelectEvent(_user);
             var ev = eventGuest.Key;
             var guest = eventGuest.Value;
+
+            if (ev == null || guest == null) return;
            
             new SocialMediaSystemForm(guest, ev).ShowDialog();
         }

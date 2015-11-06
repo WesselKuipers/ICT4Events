@@ -65,7 +65,29 @@ namespace SharedModels.Logic
         /// <returns>true if succesfull</returns>
         public bool Like(Guest guest, Post post)
         {
-            return _context.AddLikeToPost(post, guest);
+            return _context.AddLikeToPost(post, guest.ID);
+        }
+
+        /// <summary>
+        /// Adds a like to the a post
+        /// </summary>
+        /// <param name="userid">GuestID of who liked the post</param>
+        /// <param name="post">Post that got liked</param>
+        /// <returns>true if succesfull</returns>
+        public bool Like(int userid, Post post)
+        {
+            return _context.AddLikeToPost(post, userid);
+        }
+
+        /// <summary>
+        /// Removes a like from a post
+        /// </summary>
+        /// <param name="userid">Guest that unliked the post</param>
+        /// <param name="post">Post that got unliked</param>
+        /// <returns>true if succesfull</returns>
+        public bool Unlike(int userid, Post post)
+        {
+            return _context.RemoveLikeFromPost(post, userid);
         }
 
         /// <summary>
@@ -74,31 +96,9 @@ namespace SharedModels.Logic
         /// <param name="guest">Guest that unliked the post</param>
         /// <param name="post">Post that got unliked</param>
         /// <returns>true if succesfull</returns>
-        public bool UnLike(Guest guest, Post post)
+        public bool Unlike(Guest guest, Post post)
         {
-            return _context.RemoveLikeFromPost(post, guest);
-        }
-
-        /// <summary>
-        /// Adds a like to the a post
-        /// </summary>
-        /// <param name="admin">Guest that liked the post</param>
-        /// <param name="post">Post that got liked</param>
-        /// <returns>true if succesfull</returns>
-        public bool Like(User admin, Post post)
-        {
-            return _context.AddLikeToPost(post, admin);
-        }
-
-        /// <summary>
-        /// Removes a like from a post
-        /// </summary>
-        /// <param name="admin">Guest that unliked the post</param>
-        /// <param name="post">Post that got unliked</param>
-        /// <returns>true if succesfull</returns>
-        public bool UnLike(User admin, Post post)
-        {
-            return _context.RemoveLikeFromPost(post, admin);
+            return _context.RemoveLikeFromPost(post, guest.ID);
         }
 
         /// <summary>

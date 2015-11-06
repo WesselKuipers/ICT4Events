@@ -81,6 +81,16 @@ namespace ICT4EventsTests.Data
             return _likes.Where(x => x.Key == post.ID).Select(y=> y.Value).ToList();
         }
 
+        public bool AddLikeToPost(Post post, int guestID)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool RemoveLikeFromPost(Post post, int guestID)
+        {
+            throw new NotImplementedException();
+        }
+
         public bool AddLikeToPost(Post post, Guest guest)
         {
             if (_likes.Any(x => x.Key == post.ID && x.Value == guest.ID)) return false;

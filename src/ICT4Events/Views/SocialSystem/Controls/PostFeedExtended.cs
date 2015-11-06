@@ -12,13 +12,12 @@ namespace ICT4Events.Views.SocialSystem.Controls
     {
         private readonly Post _post;
         private readonly Event _event;
-        private readonly Guest _activeUser;
-        private readonly User _admin;
+        private readonly User _activeUser;
         private readonly PostLogic _logicPost;
         private readonly ReportOracleContext _reportContext;
         private List<Reply> _replies;
 
-        public PostFeedExtended(Post post, Event ev, Guest active)
+        public PostFeedExtended(Post post, Event ev, User user)
         {
             InitializeComponent();
             _logicPost = new PostLogic();
@@ -27,26 +26,12 @@ namespace ICT4Events.Views.SocialSystem.Controls
             _post = post;
             _event = ev;
 
-            // Currently signed in guest
-            _activeUser = active;
-        }
-
-        public PostFeedExtended(Post post, Event ev, User admin)
-        {
-            InitializeComponent();
-            _logicPost = new PostLogic();
-            _reportContext = new ReportOracleContext();
-
-            _post = post;
-            _event = ev;
-            _admin = admin;
+            _activeUser = user;
         }
 
         private void PostFeedExtended_Load(object sender, EventArgs e)
         {
-            tbPanelMainPost.Controls.Add(_activeUser != null
-                ? new PostFeed(_post, _event, _activeUser, true)
-                : new PostFeed(_post, _event, _admin, true));
+            tbPanelMainPost.Controls.Add(new PostFeed(_post, _event, _activeUser, true));
 
             LoadReplies();
         }
@@ -70,13 +55,10 @@ namespace ICT4Events.Views.SocialSystem.Controls
         /// <param name="message">Content of the reply</param>
         private void AddReply(string message)
         {
-            Reply r;
-            r = _activeUser != null 
-                ? new Reply(0, _activeUser.ID, _event.ID, 0, _post.ID, DateTime.Now, true, message)
-                : new Reply(0, _admin.ID, _event.ID, 0, _post.ID, DateTime.Now, true, message);
+            var r = new Reply(0, _activeUser.ID, _event.ID, 0, _post.ID, DateTime.Now, true, message);
 
             if (_logicPost.InsertPost(r) == null)
-                MessageBox.Show(@"Er is iets misgegaan");
+                MessageBox.Show("Er is iets misgegaan");
             LoadReplies();
         }
         /// <summary>

@@ -36,7 +36,7 @@
             this.lbReaction = new System.Windows.Forms.LinkLabel();
             this.lbLike = new System.Windows.Forms.LinkLabel();
             this.lbReport = new System.Windows.Forms.LinkLabel();
-            this.lblUnLike = new System.Windows.Forms.LinkLabel();
+            this.lblLikeStatus = new System.Windows.Forms.LinkLabel();
             this.lblCountLikes = new System.Windows.Forms.Label();
             this.lblDeletePost = new System.Windows.Forms.LinkLabel();
             ((System.ComponentModel.ISupportInitialize)(this.pbMediaMessage)).BeginInit();
@@ -129,16 +129,16 @@
             this.lbReport.Text = "Rapporteren";
             this.lbReport.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lbReport_LinkClicked);
             // 
-            // lblUnLike
+            // lblLikeStatus
             // 
-            this.lblUnLike.AutoSize = true;
-            this.lblUnLike.Location = new System.Drawing.Point(409, 106);
-            this.lblUnLike.Name = "lblUnLike";
-            this.lblUnLike.Size = new System.Drawing.Size(82, 13);
-            this.lblUnLike.TabIndex = 14;
-            this.lblUnLike.TabStop = true;
-            this.lblUnLike.Text = "Vind ik niet leuk";
-            this.lblUnLike.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lblUnLike_LinkClicked);
+            this.lblLikeStatus.AutoSize = true;
+            this.lblLikeStatus.Location = new System.Drawing.Point(409, 106);
+            this.lblLikeStatus.Name = "lblLikeStatus";
+            this.lblLikeStatus.Size = new System.Drawing.Size(108, 13);
+            this.lblLikeStatus.TabIndex = 14;
+            this.lblLikeStatus.TabStop = true;
+            this.lblLikeStatus.Text = "Vind ik niet meer leuk";
+            this.lblLikeStatus.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lblUnLike_LinkClicked);
             // 
             // lblCountLikes
             // 
@@ -167,7 +167,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.lblDeletePost);
             this.Controls.Add(this.lblCountLikes);
-            this.Controls.Add(this.lblUnLike);
+            this.Controls.Add(this.lblLikeStatus);
             this.Controls.Add(this.lbReport);
             this.Controls.Add(this.lbLike);
             this.Controls.Add(this.lbReaction);
@@ -194,7 +194,7 @@
         private System.Windows.Forms.LinkLabel lbReaction;
         private System.Windows.Forms.LinkLabel lbLike;
         private System.Windows.Forms.LinkLabel lbReport;
-        private System.Windows.Forms.LinkLabel lblUnLike;
+        private System.Windows.Forms.LinkLabel lblLikeStatus;
         private System.Windows.Forms.Label lblCountLikes;
         private System.Windows.Forms.LinkLabel lblDeletePost;
     }

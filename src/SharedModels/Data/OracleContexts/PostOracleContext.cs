@@ -144,11 +144,28 @@ namespace SharedModels.Data.OracleContexts
 
         public bool AddLikeToPost(Post post, Guest guest)
         {
+            return AddLikeToPost(post, guest.ID);
+        }
+
+        public bool AddLikeToPost(Post post, int guestID)
+        {
             var query = "INSERT INTO likes (postid, userid) VALUES (:postid, :userid)";
             var parameters = new List<OracleParameter>
             {
                 new OracleParameter("postid", post.ID),
-                new OracleParameter("userid", guest.ID)
+                new OracleParameter("userid", guestID)
+            };
+
+            return Database.ExecuteNonQuery(query, parameters);
+        }
+
+        public bool RemoveLikeFromPost(Post post, int guestID)
+        {
+            var query = "DELETE FROM likes WHERE postid = :postid AND userid = :userid";
+            var parameters = new List<OracleParameter>
+            {
+                new OracleParameter("postid", post.ID),
+                new OracleParameter("userid", guestID)
             };
 
             return Database.ExecuteNonQuery(query, parameters);
@@ -156,37 +173,7 @@ namespace SharedModels.Data.OracleContexts
 
         public bool RemoveLikeFromPost(Post post, Guest guest)
         {
-            var query = "DELETE FROM likes WHERE postid = :postid AND userid = :userid";
-            var parameters = new List<OracleParameter>
-            {
-                new OracleParameter("postid", post.ID),
-                new OracleParameter("userid", guest.ID)
-            };
-
-            return Database.ExecuteNonQuery(query, parameters);
-        }
-        public bool AddLikeToPost(Post post, User admin)
-        {
-            var query = "INSERT INTO likes (postid, userid) VALUES (:postid, :userid)";
-            var parameters = new List<OracleParameter>
-            {
-                new OracleParameter("postid", post.ID),
-                new OracleParameter("userid", admin.ID)
-            };
-
-            return Database.ExecuteNonQuery(query, parameters);
-        }
-
-        public bool RemoveLikeFromPost(Post post, User admin)
-        {
-            var query = "DELETE FROM likes WHERE postid = :postid AND userid = :userid";
-            var parameters = new List<OracleParameter>
-            {
-                new OracleParameter("postid", post.ID),
-                new OracleParameter("userid", admin.ID)
-            };
-
-            return Database.ExecuteNonQuery(query, parameters);
+            return RemoveLikeFromPost(post, guest.ID);
         }
 
         public List<Post> GetPostsByTag(string tag)
