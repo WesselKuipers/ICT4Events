@@ -30,5 +30,7 @@ namespace SharedModels.Models
             LocationID = locationID;
             LeaderID = leaderID == 0 ? id : leaderID;
         }
+
+        
     }
 }

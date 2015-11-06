@@ -46,7 +46,7 @@ namespace SharedModels.Data.OracleContexts
         public MaterialType Insert(MaterialType entity)
         {
             var query =
-                "INSERT INTO materialtype (materialtypeid, name) VALUES (seq_materialtype.nextval, :name) RETURNING mediaid INTO :lastID";
+                "INSERT INTO materialtype (materialtypeid, name) VALUES (seq_materialtype.nextval, :name) RETURNING materialtypeid INTO :lastID";
             var parameters = new List<OracleParameter>
             {
                 new OracleParameter("name", entity.Name),

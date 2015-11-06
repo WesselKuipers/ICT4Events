@@ -27,5 +27,8 @@ namespace SharedModels.Logic
 
         private static PostLogic _postLogic;
         public static PostLogic PostLogic => _postLogic ?? (_postLogic = new PostLogic(new PostOracleContext()));
+
+        private static PostLogic _materialLogic;
+        public static PostLogic MaterialLogic => _postLogic ?? (_materialLogic = new PostLogic(new PostOracleContext()));
     }
 }

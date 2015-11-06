@@ -37,6 +37,9 @@
       <HintPath>..\..\lib\Oracle.DataAccess.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Phidget21.NET">
+      <HintPath>..\..\Phidget21.NET.dll</HintPath>
+    </Reference>
     <Reference Include="System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <Private>True</Private>
     </Reference>
@@ -83,6 +86,7 @@
     <Compile Include="Logic\GuestLogic.cs" />
     <Compile Include="Logic\LocationLogic.cs" />
     <Compile Include="Logic\LogicCollection.cs" />
+    <Compile Include="Logic\MaterialLogic.cs" />
     <Compile Include="Logic\PostLogic.cs" />
     <Compile Include="Models\Event.cs" />
     <Compile Include="Models\Guest.cs" />
