@@ -50,8 +50,7 @@ namespace ICT4Events.Views.SocialSystem.Controls
         }
 
         /// <summary>
-        /// opens file dialog to select the file to upload
-        /// TODO: Filter is not working correctly
+        /// Opens file dialog to select the file to upload
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>

@@ -49,5 +49,23 @@ namespace SharedModels.Properties {
                 return ((string)(this["FTPPassword"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("ict4events.s21a@gmail.com")]
+        public string Email {
+            get {
+                return ((string)(this["Email"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("ICT4Events")]
+        public string EmailPassword {
+            get {
+                return ((string)(this["EmailPassword"]));
+            }
+        }
     }
 }
