@@ -12,7 +12,7 @@ namespace SharedModels.Logic
         private readonly IMaterialTypeContext _contextMaterialType;
         private readonly IGuestContext _contextGuest;
 
-
+        
         public MaterialLogic()
         {
             _contextGuest = new GuestOracleContext();
@@ -26,7 +26,8 @@ namespace SharedModels.Logic
             _contextMaterial = context;
             _contextMaterialType = new MaterialTypeOracleContext();
         }
-
+        
+        #region Material
         public Material Insert(Material entity)
         {
             return _contextMaterial.Insert(entity);
@@ -71,7 +72,9 @@ namespace SharedModels.Logic
         {
             return _contextMaterial.RemoveReservation(material);
         }
+        #endregion
 
+        #region Material Type
         public List<MaterialType> GetAll()
         {
             return _contextMaterialType.GetAll();
@@ -101,5 +104,6 @@ namespace SharedModels.Logic
         {
             return _contextMaterialType.Delete(entity);
         }
+        #endregion
     }
 }

@@ -19,7 +19,10 @@ namespace ICT4Events.Views.MaterialSystem.Forms
         //private RFID rfid;
         #endregion
 
-
+        /// <summary>
+        /// Constructor of the material system
+        /// </summary>
+        /// <param name="ev"></param>
         public MaterialSystem(Event ev)
         {
             InitializeComponent();
@@ -28,7 +31,7 @@ namespace ICT4Events.Views.MaterialSystem.Forms
             _rfidScanned = true;
         }
 
-        #region RFID
+        #region RFID (Do not delete)
         /*
         private void frmToegang_Load(object sender, EventArgs e)
         {
@@ -96,8 +99,13 @@ namespace ICT4Events.Views.MaterialSystem.Forms
         */
         #endregion
 
-        #region Local Functions
+        #region Other Functions
 
+        /// <summary>
+        /// Checks if a list of textboxes are filled in
+        /// </summary>
+        /// <param name="TextBoxes"></param>
+        /// <returns></returns>
         private bool FieldsFilled(List<TextBox> TextBoxes)
         {
             var Check = true;
@@ -109,6 +117,9 @@ namespace ICT4Events.Views.MaterialSystem.Forms
             return Check;
         }
 
+        /// <summary>
+        /// Refreshes the article number and -name
+        /// </summary>
         private void UpdateArtNumberArtName()
         {
             if (MaterialStorageLB.SelectedIndex != -1)
@@ -130,10 +141,9 @@ namespace ICT4Events.Views.MaterialSystem.Forms
                 TypeNewTb.Text = "";
             }
         }
-        #endregion
 
         /// <summary>
-        /// Refreshes ListBoxes and Category
+        /// Refreshes listboxes and the category dropdownbox
         /// </summary>
         private void UpdateListBoxAndCategory()
         {
@@ -172,6 +182,9 @@ namespace ICT4Events.Views.MaterialSystem.Forms
             CategorieCb.SelectedIndex = savedIndex;
         }
 
+        /// <summary>
+        /// Refreshes listboxes based on category
+        /// </summary>
         private void UpdateListBox(string categorie)
         {
             //Refresh user listbox and category
@@ -201,6 +214,9 @@ namespace ICT4Events.Views.MaterialSystem.Forms
 
         }
 
+        /// <summary>
+        /// Refreshes listboxes
+        /// </summary>
         private void UpdateListBox()
         {
             //Refresh user listbox
@@ -218,7 +234,6 @@ namespace ICT4Events.Views.MaterialSystem.Forms
                         }
                     }
                 }
-                //_rfidScanned = false;
             }
 
             //Refresh storage listbox
@@ -228,10 +243,15 @@ namespace ICT4Events.Views.MaterialSystem.Forms
                 MaterialStorageLB.Items.Add(material.Name);
             }
         }
-
+        #endregion
 
         #region Eventhandlers
-        #region SelectedIndexChanged
+        #region Selected Index Changed
+        /// <summary>
+        /// Index changed of category dropdownbox
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CategorieCb_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (CategorieCb.Text == "Any" || CategorieCb.Text == "")
@@ -244,6 +264,11 @@ namespace ICT4Events.Views.MaterialSystem.Forms
             }
         }
 
+        /// <summary>
+        /// Index changed of material storage listbox
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MaterialStorageLB_SelectedIndexChanged(object sender, EventArgs e)
         {
             UpdateArtNumberArtName();
@@ -252,7 +277,7 @@ namespace ICT4Events.Views.MaterialSystem.Forms
 
         #region Click
         /// <summary>
-        /// TODO Summary
+        /// Moves material of a guest back to the storage
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -277,7 +302,7 @@ namespace ICT4Events.Views.MaterialSystem.Forms
         }
 
         /// <summary>
-        /// TODO Summary
+        /// Moves material of the storage back to a guest
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -305,51 +330,14 @@ namespace ICT4Events.Views.MaterialSystem.Forms
             UpdateArtNumberArtName();
         }
 
-        //Specify required textboxes
-            /*
-            var boxes = new List<TextBox>();
-            boxes.Add(GebruikersNummerTb);
-            boxes.Add(GebruikersNaamTb);
-            boxes.Add(ArtikelnummerTb);
-            boxes.Add(ProductTb);
 
-            if (FieldsFilled(boxes) && MaterialStorageLB.Items.Count > 0 && MaterialStorageLB.SelectedIndex != -1)
-            {
-                foreach (var material in _contextMaterial.GetAllByEvent(_event))
-                {
-                    if (material.Name == ProductTb.Text && material.ID.ToString() == ArtikelnummerTb.Text)
-                    {
-                        foreach (var guest in _contextGuest.GetAllByEvent(_event))
-                        {
-                            if (guest.PassID == GebruikersNummerTb.Text)
-                            {
-                                _rfidScanned = true; //Temporarily true for testing purposes
-
-                                //Associate a guest with a material
-                                material.GuestID = guest.ID;
-                                //MessageBox.Show(_event.StartDate.ToString() + " " + _event.EndDate.ToString());
-                                //Meningsverschil in startdate/now
-                                if (_event.StartDate != _event.EndDate)
-                                    _contextMaterial.AddReservation(material, guest.ID, _event.StartDate, _event.EndDate);
-                                else
-                                    _contextMaterial.AddReservation(material, guest.ID, _event.StartDate, _event.EndDate.AddDays(1));
-                                //UpdateListBox(guest);
-                            }
-                        }
-                    }
-                }
-            }
-            UpdateArtNumberArtName();
-                */
         /// <summary>
-        /// TODO Summary
+        /// Deletes a material from storage
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void VerwijderProductBtn_Click(object sender, EventArgs e)
         {
-            //MessageBox.Show(_contextMaterial.GetAllByEvent(_event).Count.ToString());
-
             var remove = new List<Material>();
             foreach (var material in LogicCollection.MaterialLogic.GetAllByEvent(_event))
             {
@@ -364,21 +352,18 @@ namespace ICT4Events.Views.MaterialSystem.Forms
             }
             foreach (var material in remove)
             {
-                //TODO Delete material from database
                 if (LogicCollection.MaterialLogic.Delete(material))
-                    MessageBox.Show(LogicCollection.MaterialLogic.GetAllByEvent(_event).Count.ToString());
+                    MessageBox.Show("Succesfully deleted material");
                 else
                 {
                     MessageBox.Show("Failed to delete material");
                 }
-                //End of TODO
                 LogicCollection.MaterialLogic.GetAllByEvent(_event).Remove(material);
             }
-            //MessageBox.Show(_contextMaterial.GetAllByEvent(_event).Count.ToString());
         }
 
         /// <summary>
-        /// TODO summary
+        /// Changes the values of a material in storage
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -437,7 +422,7 @@ namespace ICT4Events.Views.MaterialSystem.Forms
         }      
 */
         /// <summary>
-        /// TODO Summary
+        /// Adds a material to storage
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -486,12 +471,15 @@ namespace ICT4Events.Views.MaterialSystem.Forms
         }
         #endregion
 
+        /// <summary>
+        /// Calls to UpdateListBoxAndCategory() once the form has finished loading
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MaterialSystem_Load(object sender, EventArgs e)
         {
             UpdateListBoxAndCategory();
         }
         #endregion
-
-
     }
 }
