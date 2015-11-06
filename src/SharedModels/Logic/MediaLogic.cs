@@ -23,6 +23,16 @@ namespace SharedModels.Logic
             _context = context;
         }
 
+        public Media Insert(Media media)
+        {
+            return _context.Insert(media);
+        }
+
+        public Media GetById(int id)
+        {
+            return _context.GetById(id);
+        }
+
         public List<Media> GetAllByGuest(Guest guest)
         {
             return _context.GetAllByGuest(guest);
