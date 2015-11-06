@@ -111,6 +111,16 @@ namespace SharedModels.Logic
         }
 
         /// <summary>
+        /// Retrieves a user object based on user ID
+        /// </summary>
+        /// <param name="id">User ID to match on</param>
+        /// <returns>User associated with given username or null if nothing was found</returns>
+        public User GetById(int id)
+        {
+            return _context.GetById(id);
+        }
+
+        /// <summary>
         /// Retrieves a user object based on username
         /// </summary>
         /// <param name="username">Username to match on</param>

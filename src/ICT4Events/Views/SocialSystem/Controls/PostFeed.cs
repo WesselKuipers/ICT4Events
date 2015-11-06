@@ -18,7 +18,7 @@ namespace ICT4Events.Views.SocialSystem.Controls
     {
         private readonly Post _post;
         private readonly Event _event;
-        private readonly Guest _postGuest;
+        private readonly User _postUser;
         private readonly User _activeUser;
         private Media _media;
         private readonly MediaOracleContext _logicMedia;
@@ -44,7 +44,7 @@ namespace ICT4Events.Views.SocialSystem.Controls
             _activeUser = user;
 
             // Guest of the post
-            _postGuest = _logicGuest.GetGuestByEvent(_event, _post.GuestID);
+            _postUser = LogicCollection.UserLogic.GetById(_post.GuestID);
         }
 
         private void PostFeed_Load(object sender, EventArgs e)
@@ -147,8 +147,15 @@ namespace ICT4Events.Views.SocialSystem.Controls
                 lblCountLikes.Text = "0 mensen vinden dit leuk";
             }
 
+            if (_activeUser.Permission == PermissionType.Employee ||
+            _activeUser.Permission == PermissionType.Administrator)
+            {
+                lbReport.Visible = false;
+                lblDeletePost.Visible = true;
+            }
+
             tbMessage.Text = _post.Content;
-            lblAuteurNaam.Text = _postGuest.Name + @" " + _postGuest.Surname;
+            lblAuteurNaam.Text = _postUser.Name + @" " + _postUser.Surname;
             lblDatum.Text = @"Geplaatst op " + _post.Date.ToString("dd/MM/yyyy");
             ShowMedia(_post);
         }
