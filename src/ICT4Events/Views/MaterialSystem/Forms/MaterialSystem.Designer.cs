@@ -57,7 +57,7 @@
             this.GebruikersNummerTb.Name = "GebruikersNummerTb";
             this.GebruikersNummerTb.Size = new System.Drawing.Size(274, 22);
             this.GebruikersNummerTb.TabIndex = 0;
-            this.GebruikersNummerTb.Text = "dy0puc9oit";
+            this.GebruikersNummerTb.Text = "mwir9vmb14";
             // 
             // GebruikersNaamTb
             // 
@@ -65,7 +65,7 @@
             this.GebruikersNaamTb.Name = "GebruikersNaamTb";
             this.GebruikersNaamTb.Size = new System.Drawing.Size(274, 22);
             this.GebruikersNaamTb.TabIndex = 1;
-            this.GebruikersNaamTb.Text = "Stefano";
+            this.GebruikersNaamTb.Text = "Joakim Doest";
             // 
             // ProductTb
             // 

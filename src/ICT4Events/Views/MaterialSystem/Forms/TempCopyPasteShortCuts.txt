@@ -5,3 +5,19 @@ _contextGuest.GetById(material.GuestID)				=     material.Guest
 _contextMaterial.GetAllByEvent(_event)				=     _materials
 _contextGuest.GetAllByEvent(_event)					=     _guests
 _contextMaterialType.GetById(material.TypeID).Name	=	  material.Type
+
+//Checks wether a id already occurs in _materials
+        /*private bool UniqueID(int id)
+        {
+            var check = true;
+            foreach (var material in _contextMaterial.GetAllByEvent(_event))
+            {
+                if (material.ID == id)
+                {
+                    check = false;
+                }
+            }
+            if (!check)
+                MessageBox.Show("Artikelnummer zit al in de lijst van materialen");
+            return check;
+        }*/

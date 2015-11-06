@@ -32,6 +32,7 @@ namespace ICT4Events
             
             
             var btnMaterialSystem = new Button { Text = "Materiaal Verhuur", Dock = DockStyle.Fill};
+            var btnMaterialReservationSystem = new Button {Text = "Materiaal Reserveren", Dock = DockStyle.Fill};
 
             if (_user.Permission == PermissionType.User)
             {
@@ -45,6 +46,9 @@ namespace ICT4Events
                 tblSystemButtons.Controls.Add(btnSocialMediaSystem);
                 tblSystemButtons.Controls.Add(btnReservationSytem);
                 tblSystemButtons.Controls.Add(btnAccountManagementSystem);
+
+                btnMaterialReservationSystem.Click += OpenMaterialReservation;
+                tblSystemButtons.Controls.Add(btnMaterialReservationSystem);
 
             }
             if (_user.Permission == PermissionType.Employee || _user.Permission == PermissionType.Administrator)
@@ -89,6 +93,14 @@ namespace ICT4Events
         private void OpenEventManagement(object sender, EventArgs e)
         {
             new EventManagementForm().ShowDialog();
+        }
+
+        private void OpenMaterialReservation(object sender, EventArgs e)
+        {
+            var eventGuest = SelectEvent(_user);
+            var ev = eventGuest.Key;
+            var guest = eventGuest.Value;
+            new MaterialReservationSystem(ev, guest).ShowDialog();
         }
 
         private void OpenMaterialManagement(object sender, EventArgs e)

@@ -53,6 +53,9 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Phidget21.NET">
+      <HintPath>..\..\Phidget21.NET.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -92,6 +95,12 @@
     </Compile>
     <Compile Include="Views\EventSelectionForm.Designer.cs">
       <DependentUpon>EventSelectionForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MaterialSystem\Forms\MaterialReservationSystem.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\MaterialSystem\Forms\MaterialReservationSystem.Designer.cs">
+      <DependentUpon>MaterialReservationSystem.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\SocialSystem\Controls\PostFeedExtended.cs">
       <SubType>UserControl</SubType>
@@ -232,6 +241,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\EventSelectionForm.resx">
       <DependentUpon>EventSelectionForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\MaterialSystem\Forms\MaterialReservationSystem.resx">
+      <DependentUpon>MaterialReservationSystem.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\SocialSystem\Controls\PostFeedExtended.resx">
       <DependentUpon>PostFeedExtended.cs</DependentUpon>
