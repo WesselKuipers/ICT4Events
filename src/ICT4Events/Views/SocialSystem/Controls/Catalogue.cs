@@ -32,8 +32,9 @@ namespace ICT4Events.Views.SocialSystem.Controls
             _delete.Text = @"Verwijderen Media";
             _delete.Name = "lblDeleteMedia";
             _delete.Click += lblDeleteMedia_LinkClicked;
+            _delete.Dock = DockStyle.Left;
             _delete.Visible = false;
-            tbpLoadUcUpload.Controls.Add(_delete, 1, 1);
+            tbpButtons.Controls.Add(_delete, 0, 0);
         }
 
         private void trvCatalogue_AfterSelect(object sender, TreeViewEventArgs e)
@@ -58,6 +59,9 @@ namespace ICT4Events.Views.SocialSystem.Controls
         private void lblDeleteMedia_LinkClicked(object sender, EventArgs e)
         {
             MessageBox.Show(LogicCollection.MediaLogic.DeleteMedia(_media) ? "Verwijderd!" : "Verwijderen mislukt");
+            _delete.Visible = false;
+            picCatalogue.ImageLocation = null;
+            picCatalogue.Invalidate();
             LoadCatalogue();
         }
 
@@ -81,10 +85,25 @@ namespace ICT4Events.Views.SocialSystem.Controls
                     var mediaUser = LogicCollection.UserLogic.GetById(media.UserID);
                     TreeNode[] arrayofNodes = listMedia.Where(x => x.UserID == mediaUser.ID).Select(I => new TreeNode($"{I.ID} - {I.Path}")).ToArray();
                     TreeNode treeNode = new TreeNode($"{mediaUser.Name} {mediaUser.Surname}", arrayofNodes);
-                    trvCatalogue.Nodes.Add(treeNode);
+                    if (trvCatalogue.Nodes.Count >= 1)
+                    {
+                        if (trvCatalogue.Nodes.ContainsKey($"{mediaUser.Name} {mediaUser.Surname}"))
+                        {
+                            trvCatalogue.Nodes.Add(treeNode);
+                        }
+                    }
+                    else
+                    {
+                        trvCatalogue.Nodes.Add(treeNode);
+                    }
                 }
 
             }
+        }
+
+        private void btnReload_Click_1(object sender, EventArgs e)
+        {
+            LoadCatalogue();
         }
     }
 }

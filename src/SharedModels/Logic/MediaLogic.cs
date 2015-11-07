@@ -114,20 +114,8 @@ namespace SharedModels.Logic
 
         public bool DeleteMedia(Media media)
         {
-            // TODO: Empty post fix
-            if (LogicCollection.PostLogic.GetByMediaId(media) != null)
-            {
-                var post = LogicCollection.PostLogic.GetByMediaId(media);
-                post.MediaID = 0;
-                if (LogicCollection.PostLogic.UpdatePost(post))
-                {
-                    LogicCollection.MediaLogic.Delete(media);
-                    return true;
-                }
-            }
-            else
-            {
-                LogicCollection.MediaLogic.Delete(media);
+            if (LogicCollection.MediaLogic.Delete(media))
+            { 
                 return true;
             }
             return false;

@@ -45,7 +45,7 @@
             this.gbUpload.Controls.Add(this.btnUpload);
             this.gbUpload.Location = new System.Drawing.Point(3, 3);
             this.gbUpload.Name = "gbUpload";
-            this.gbUpload.Size = new System.Drawing.Size(446, 133);
+            this.gbUpload.Size = new System.Drawing.Size(482, 133);
             this.gbUpload.TabIndex = 8;
             this.gbUpload.TabStop = false;
             // 
@@ -93,7 +93,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.gbUpload);
             this.Name = "UcUpload";
-            this.Size = new System.Drawing.Size(462, 148);
+            this.Size = new System.Drawing.Size(500, 148);
             this.gbUpload.ResumeLayout(false);
             this.gbUpload.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbPreview)).EndInit();

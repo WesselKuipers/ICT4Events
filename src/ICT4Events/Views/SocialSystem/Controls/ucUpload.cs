@@ -49,12 +49,15 @@ namespace ICT4Events.Views.SocialSystem.Controls
             {
                 UploadedFile = LogicCollection.MediaLogic.UploadMedia(Filepath, _user, _event);
                     // Show errors
-                    if (UploadedFile != null)
-                        MessageBox.Show("Uw bestand is succesvol upgeload", "File successfully uploaded", MessageBoxButtons.OK,
-                            MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
-                    else
-                        MessageBox.Show("Er is iets misgegaan");
-             }
+                if (UploadedFile != null)
+                {
+                    MessageBox.Show("Uw bestand is succesvol upgeload", "File successfully uploaded",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+                }
+                else
+                    MessageBox.Show("Er is iets misgegaan");
+            }
          }
      }
 }
