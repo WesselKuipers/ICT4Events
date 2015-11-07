@@ -37,7 +37,8 @@ namespace ICT4Events.Views.SocialSystem.Controls
         private void CompareAndRefreshPosts()
         {
             var newListPosts = _logic.GetAllByEvent(_event).Where(p => p.Visible).OrderByDescending(x => x.Date).ToList();
-            if(!Equals(newListPosts.Count, Posts.Count))
+            bool equal = newListPosts.SequenceEqual(Posts, new PostComparer());
+            if(!equal)
             {
                 LoadAllPosts(newListPosts);
                 Posts = newListPosts;
@@ -50,12 +51,28 @@ namespace ICT4Events.Views.SocialSystem.Controls
         /// </summary>
         private void LoadAllPosts(List<Post> PostsList)
         {
+            tableLayoutPanel1.Controls.Clear();
             foreach (Reply post in PostsList)
             {
                // Post are getting loaded here on the timeline
                 tableLayoutPanel1.RowCount++;
                 tableLayoutPanel1.Controls.Add(new PostFeed(post, _event, _user, false), 0,
                     tableLayoutPanel1.RowCount + 1);
+            }
+        }
+
+        public class PostComparer : IEqualityComparer<Post>
+        {
+            public bool Equals(Post x, Post y)
+            {
+                return x.Visible == y.Visible &&
+                       x.MediaID == y.MediaID &&
+                       x.Content == y.Content;
+            }
+
+            public int GetHashCode(Post obj)
+            {
+                return obj.GetHashCode();
             }
         }
     }

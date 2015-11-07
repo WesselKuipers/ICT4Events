@@ -183,11 +183,13 @@ namespace ICT4Events.Views.SocialSystem.Controls
 
                 tbMessage.Width = 614;
 
-                lblLikeStatus.Location = new Point(569, lblLikeStatus.Location.Y);
-                lbLike.Location = new Point(584, lbLike.Location.Y);
-                lblDeletePost.Location = new Point(505, lblDeletePost.Location.Y);
-                lbReport.Location = new Point(505, lbReport.Location.Y);
-                lbReaction.Location = new Point(440, lbReaction.Location.Y);
+                lblLikeStatus.Location = new Point(545, lblLikeStatus.Location.Y);
+                lbLike.Location = new Point(560, lbLike.Location.Y);
+
+                lblDeletePost.Location = new Point(481, lblDeletePost.Location.Y);
+                lbReport.Location = new Point(481, lbReport.Location.Y);
+
+                lbReaction.Location = new Point(420, lbReaction.Location.Y);
             }
         }
         /// <summary>
