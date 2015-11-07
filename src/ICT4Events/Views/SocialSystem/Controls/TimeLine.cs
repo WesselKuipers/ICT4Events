@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using SharedModels.Logic;
 using SharedModels.Models;
@@ -13,7 +14,7 @@ namespace ICT4Events.Views.SocialSystem.Controls
         private readonly Event _event;
         private readonly PostLogic _logic;
 
-        private List<Post> Posts;
+        private List<Post> _posts;
 
         public TimeLine(User user, Event ev)
         {
@@ -25,8 +26,8 @@ namespace ICT4Events.Views.SocialSystem.Controls
 
         private void TimeLine_Load(object sender, EventArgs e)
         {
-            Posts = _logic.GetAllByEvent(_event).Where(p => p.Visible).OrderByDescending(x => x.Date).ToList();
-            LoadAllPosts(Posts);
+            _posts = _logic.GetAllByEvent(_event).Where(p => p.Visible).OrderByDescending(x => x.Date).ToList();
+            LoadAllPosts(_posts);
         }
 
         private void tmrRefresh_Tick(object sender, EventArgs e)
@@ -36,43 +37,39 @@ namespace ICT4Events.Views.SocialSystem.Controls
 
         private void CompareAndRefreshPosts()
         {
-            var newListPosts = _logic.GetAllByEvent(_event).Where(p => p.Visible).OrderByDescending(x => x.Date).ToList();
-            bool equal = newListPosts.SequenceEqual(Posts, new PostComparer());
-            if(!equal)
+            var newPosts = _logic.GetAllByEvent(_event).Where(p => p.Visible).OrderByDescending(x => x.Date).ToList();
+
+            if (_posts.SequenceEqual(newPosts, new PostComparer())) return;
+            var postIDs = _posts.Select(x => x.ID);
+
+            foreach (var post in newPosts.Where(post => !postIDs.Contains(post.ID))) // Adds all new posts to the timeline
             {
-                LoadAllPosts(newListPosts);
-                Posts = newListPosts;
+                tableLayoutPanel1.RowCount++;
+                tableLayoutPanel1.Controls.Add(new PostFeed(post, _event, _user, false), 0, 0);
             }
+
+            foreach (var feed in tableLayoutPanel1.Controls.OfType<PostFeed>().Where(feed => !newPosts.Select(y => y.ID).Contains(feed.Post.ID)))
+            {
+                // Removes all posts that aren't present in the new list of posts
+                tableLayoutPanel1.RowCount--;
+                tableLayoutPanel1.Controls.Remove(feed);
+            }
+
+            _posts = newPosts;
         }
 
         /// <summary>
-        /// Load the main post on the timeline 
-        /// Eerst even dit
+        /// Clears the timeline and populates it with posts
         /// </summary>
-        private void LoadAllPosts(List<Post> PostsList)
+        private void LoadAllPosts(IEnumerable<Post> postsList)
         {
             tableLayoutPanel1.Controls.Clear();
-            foreach (Reply post in PostsList)
+            foreach (var post in postsList)
             {
-               // Post are getting loaded here on the timeline
+                // Post are getting loaded here on the timeline
                 tableLayoutPanel1.RowCount++;
                 tableLayoutPanel1.Controls.Add(new PostFeed(post, _event, _user, false), 0,
                     tableLayoutPanel1.RowCount + 1);
-            }
-        }
-
-        public class PostComparer : IEqualityComparer<Post>
-        {
-            public bool Equals(Post x, Post y)
-            {
-                return x.Visible == y.Visible &&
-                       x.MediaID == y.MediaID &&
-                       x.Content == y.Content;
-            }
-
-            public int GetHashCode(Post obj)
-            {
-                return obj.GetHashCode();
             }
         }
     }

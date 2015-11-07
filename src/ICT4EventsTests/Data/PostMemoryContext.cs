@@ -71,6 +71,11 @@ namespace ICT4EventsTests.Data
             return _posts.Where(p => p.EventID == ev.ID).ToList();
         }
 
+        public Post GetByMediaId(Media media)
+        {
+            throw new NotImplementedException();
+        }
+
         public List<Reply> GetRepliesByPost(Post post)
         {
             return _replies.Where(r => r.MainPostID == post.ID).ToList();

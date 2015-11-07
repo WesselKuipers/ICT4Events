@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using SharedModels.Data.ContextInterfaces;
 using SharedModels.Data.OracleContexts;
+using SharedModels.Logic;
 using SharedModels.Models;
 
 namespace ICT4Events.Views.MaterialSystem.Forms
@@ -19,9 +20,6 @@ namespace ICT4Events.Views.MaterialSystem.Forms
 
         private readonly Event _event;
         private readonly Guest _guest;
-        private readonly IGuestContext _contextGuest;
-        private readonly IMaterialContext _contextMaterial;
-        private readonly IMaterialTypeContext _contextMaterialType;
 
         #endregion
 
@@ -31,44 +29,39 @@ namespace ICT4Events.Views.MaterialSystem.Forms
             InitializeComponent();
             _event = ev;
             _guest = guest;
-            _contextGuest = new GuestOracleContext();
-            _contextMaterial = new MaterialOracleContext();
-            _contextMaterialType = new MaterialTypeOracleContext();
         }
 
         private void reserveBtn_Click(object sender, EventArgs e)
         {
-            if (MaterialUserLB.SelectedIndex != -1 && MaterialUserLB.Items.Count > 0)
+            if (lsbUserMaterials.SelectedIndex == -1 || lsbUserMaterials.Items.Count <= 0) return;
+
+            foreach (
+                var material in
+                    LogicCollection.MaterialLogic.GetAllByEventAndNonReserved(_event)
+                        .Where(material => material.Name == lsbUserMaterials.SelectedItem.ToString()))
             {
-                foreach (var material in _contextMaterial.GetAllByEventAndNonReserved(_event))
-                {
-                    if (material.Name == MaterialUserLB.SelectedItem.ToString())
-                    {
-                        _contextMaterial.AddReservation(material, _guest.ID, _event.StartDate, _event.EndDate);
-                    }
-                }
-                UpdateListBox();
+                LogicCollection.MaterialLogic.AddReservation(material, _guest.ID, _event.StartDate, _event.EndDate);
             }
 
+            UpdateListBox();
         }
 
 
         private void UpdateListBox()
         {
-            MaterialUserLB.Items.Clear();
-            if (string.IsNullOrEmpty(searchTb.Text))
+            lsbUserMaterials.Items.Clear();
+            if (string.IsNullOrEmpty(txtSearch.Text))
             {
-                foreach (var material in _contextMaterial.GetAllByEventAndNonReserved(_event))
+                foreach (var material in LogicCollection.MaterialLogic.GetAllByEventAndNonReserved(_event))
                 {
-                    MaterialUserLB.Items.Add(material.Name);
+                    lsbUserMaterials.Items.Add(material.Name);
                 }
             }
             else
             {
-                foreach (var material in _contextMaterial.GetAllByEventAndNonReserved(_event))
+                foreach (var material in LogicCollection.MaterialLogic.GetAllByEventAndNonReserved(_event).Where(material => txtSearch.Text == material.Name))
                 {
-                    if(searchTb.Text == material.Name)
-                        MaterialUserLB.Items.Add(material.Name);
+                    lsbUserMaterials.Items.Add(material.Name);
                 }
             }
         }

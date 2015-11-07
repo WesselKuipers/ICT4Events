@@ -17,9 +17,6 @@ namespace SharedModels.Models
         public DateTime Date { get; set; }
         public bool Visible { get; set; }
         public string Content { get; set; }
-
-        // TODO: Check if it's more desired to do a more accurate split like:
-        // http://stackoverflow.com/questions/16725848/how-to-split-text-into-words
         public List<string> Tags => Content.Split(' ').Where(word => word.StartsWith("#")).ToList();
 
         public Post(int id, int guestId, int eventId, int mediaId, DateTime date, bool visible, string content)
@@ -36,6 +33,21 @@ namespace SharedModels.Models
         public override string ToString()
         {
             return $"PostID: {ID} - Visible: {Visible}";
+        }
+    }
+
+    public class PostComparer : IEqualityComparer<Post>
+    {
+        public bool Equals(Post x, Post y)
+        {
+            return x.Visible == y.Visible &&
+                   x.MediaID == y.MediaID &&
+                   x.Content == y.Content;
+        }
+
+        public int GetHashCode(Post obj)
+        {
+            return obj.GetHashCode();
         }
     }
 }
