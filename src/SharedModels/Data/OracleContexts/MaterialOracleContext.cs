@@ -21,6 +21,37 @@ namespace SharedModels.Data.OracleContexts
             return res.Select(GetEntityFromRecord).ToList();
         }
 
+        public List<Material> GetAllByEventAndNonReserved(Event ev)
+        {
+            var query = 
+                "SELECT m.*, r.userid, r.datestart, r.dateend " +
+                "FROM material m " +
+                "LEFT OUTER JOIN reservation r ON m.materialid = r.materialid " +
+                "WHERE eventid = :eventid AND r.userid IS NULL"
+                ;
+            var parameters = new List<OracleParameter>
+            {
+                new OracleParameter("eventid", (int) ev.ID)
+            };
+
+            var res = Database.ExecuteReader(query, parameters);
+            return res.Select(GetEntityFromRecord).ToList();
+        }
+
+        public List<Material> GetReservedMaterialsByGuest(Guest guest)
+        {
+            var query =
+                "SELECT m.*, r.userid, r.datestart, r.dateend FROM material m LEFT OUTER JOIN reservation r ON m.materialid = r.materialid WHERE eventid = :eventid AND userid = :userid";
+            var parameters = new List<OracleParameter>
+            {
+                new OracleParameter("eventid", guest.EventID),
+                new OracleParameter("userid", guest.ID)
+            };
+
+            var res = Database.ExecuteReader(query, parameters);
+            return res.Select(GetEntityFromRecord).ToList();
+        }
+
         public Material GetById(object id)
         {
             var query =
@@ -38,8 +69,7 @@ namespace SharedModels.Data.OracleContexts
             var query =
                 "INSERT INTO material (materialid, eventid, materialtypeid, name) VALUES (seq_material.nextval, :eventid, :materialtypeid, :name) RETURNING materialid INTO :lastID";
             var parameters = new List<OracleParameter>
-            {
-                new OracleParameter("locationid", entity.ID),
+            { 
                 new OracleParameter("eventid", entity.EventID),
                 new OracleParameter("materialtypeid", entity.TypeID),
                 new OracleParameter("name", entity.Name),
@@ -51,6 +81,7 @@ namespace SharedModels.Data.OracleContexts
             return GetById(Convert.ToInt32(newID));
         }
 
+        
         public bool Update(Material entity)
         {
             const string query = "UPDATE material SET name = :name, materialtypeid = :materialtypeid WHERE materialid = :materialid";
@@ -142,7 +173,7 @@ namespace SharedModels.Data.OracleContexts
             var material = new Material(Convert.ToInt32(record[0]), record[3], Convert.ToInt32(record[1]),
                 Convert.ToInt32(record[2]));
 
-            if (!string.IsNullOrWhiteSpace(record[4]))
+            if (!string.IsNullOrWhiteSpace(record[4]) && record[4] != "0")
             {
                 material.GuestID = Convert.ToInt32(record[4]);
                 material.StartDate = DateTime.Parse(record[5]);

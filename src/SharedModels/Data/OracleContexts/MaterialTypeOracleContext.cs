@@ -32,10 +32,21 @@ namespace SharedModels.Data.OracleContexts
             return GetEntityFromRecord(Database.ExecuteReader(query, parameters).First());
         }
 
+        public MaterialType GetByName(string name)
+        {
+            var query = "SELECT * FROM materialtype WHERE name = :name ORDER BY materialtypeid";
+            var parameters = new List<OracleParameter>
+            {
+                new OracleParameter("name", name)
+            };
+
+            return GetEntityFromRecord(Database.ExecuteReader(query, parameters).First());
+        }
+
         public MaterialType Insert(MaterialType entity)
         {
             var query =
-                "INSERT INTO materialtype (materialtypeid, name) VALUES (seq_materialtype.nextval, :name) RETURNING mediaid INTO :lastID";
+                "INSERT INTO materialtype (materialtypeid, name) VALUES (seq_materialtype.nextval, :name) RETURNING materialtypeid INTO :lastID";
             var parameters = new List<OracleParameter>
             {
                 new OracleParameter("name", entity.Name),

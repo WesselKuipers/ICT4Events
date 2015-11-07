@@ -7,7 +7,9 @@ namespace SharedModels.Data.ContextInterfaces
     public interface IMaterialContext : IRepositoryContext<Material>
     {
         List<Material> GetAllByEvent(Event ev);
-        Material AddReservation(Material material, int guestID, DateTime startDate, DateTime endDate);
+        List<Material> GetAllByEventAndNonReserved(Event ev);
+        List<Material> GetReservedMaterialsByGuest(Guest guest);
+        Material AddReservation(Material material, int guestId, DateTime startDate, DateTime endDate);
         bool UpdateReservation(Material material, DateTime startDate, DateTime endDate);
         bool RemoveReservation(Material material);
     }
