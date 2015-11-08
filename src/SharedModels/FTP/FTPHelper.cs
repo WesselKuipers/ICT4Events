@@ -86,43 +86,59 @@ namespace SharedModels.FTP
 
         public static byte[] DownloadFile(string filepath)
         {
-            var request = (FtpWebRequest)WebRequest.Create(new Uri($"ftp://{ServerAddress}/{filepath}"));
-            request.Method = WebRequestMethods.Ftp.DownloadFile;
-
-            request.Credentials = DefaultCredentials;
-
-            using (var response = (FtpWebResponse) request.GetResponse())
+            try
             {
+                var request = (FtpWebRequest) WebRequest.Create(new Uri($"ftp://{ServerAddress}/{filepath}"));
+                request.Method = WebRequestMethods.Ftp.DownloadFile;
 
+                request.Credentials = DefaultCredentials;
 
-
-                var responseStream = response.GetResponseStream();
-                var buffer = new byte[responseStream.Length + 16];
-                var bytesRead = 0;
-                var bytesToRead = (int) responseStream.Length;
-
-                do
+                using (var response = (FtpWebResponse) request.GetResponse())
                 {
-                    var readCount = responseStream.Read(buffer, bytesRead, 16);
-                    bytesRead += readCount;
-                    bytesToRead -= readCount;
 
-                } while (bytesToRead > 0);
 
-                return buffer;
+
+                    var responseStream = response.GetResponseStream();
+                    var buffer = new byte[responseStream.Length + 16];
+                    var bytesRead = 0;
+                    var bytesToRead = (int) responseStream.Length;
+
+                    do
+                    {
+                        var readCount = responseStream.Read(buffer, bytesRead, 16);
+                        bytesRead += readCount;
+                        bytesToRead -= readCount;
+
+                    } while (bytesToRead > 0);
+
+                    return buffer;
+                }
+            }
+            catch (WebException e)
+            {
+                Logger.Write(e.Message);
+                return null;
             }
         }
 
         public static bool DeleteFile(string filepath)
         {
-            var request = (FtpWebRequest)WebRequest.Create(new Uri($"ftp://{ServerAddress}/{filepath}"));
-            request.Method = WebRequestMethods.Ftp.DeleteFile;
-
-            request.Credentials = DefaultCredentials;
-            using (var response = (FtpWebResponse)request.GetResponse())
+            try
             {
-                Console.WriteLine(response.StatusDescription);
-                return true;
+                var request = (FtpWebRequest) WebRequest.Create(new Uri($"ftp://{ServerAddress}/{filepath}"));
+                request.Method = WebRequestMethods.Ftp.DeleteFile;
+
+                request.Credentials = DefaultCredentials;
+                using (var response = (FtpWebResponse) request.GetResponse())
+                {
+                    Console.WriteLine(response.StatusDescription);
+                    return true;
+                }
+            }
+            catch (WebException e) // Usually this is a file not found error which can safely be ignored
+            {
+                Logger.Write(e.Message);
+                return false;
             }
         }
     }
