@@ -69,7 +69,8 @@ namespace SharedModels.Data
                             var val = queryResult.GetValue(i);
                             if (DBNull.Value.Equals(val))
                             {
-                                if (val is string || val is DateTime)
+                                var type = queryResult.GetFieldType(i);
+                                if (type == typeof(string) || type == typeof(DateTime))
                                 {
                                     record[i] = string.Empty;
                                 }
