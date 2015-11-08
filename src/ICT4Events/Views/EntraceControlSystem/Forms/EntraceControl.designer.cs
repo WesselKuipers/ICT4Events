@@ -38,6 +38,7 @@
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.btnSearch = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btnPay = new System.Windows.Forms.Button();
             this.btnCheckOut = new System.Windows.Forms.Button();
             this.btnCheckIn = new System.Windows.Forms.Button();
             this.txtEmail = new System.Windows.Forms.TextBox();
@@ -55,7 +56,6 @@
             this.txtRFIDIDSearch = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.btnPay = new System.Windows.Forms.Button();
             this.tabPage2.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -167,6 +167,18 @@
             this.groupBox1.Size = new System.Drawing.Size(513, 310);
             this.groupBox1.TabIndex = 15;
             this.groupBox1.TabStop = false;
+            // 
+            // btnPay
+            // 
+            this.btnPay.Enabled = false;
+            this.btnPay.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnPay.Location = new System.Drawing.Point(312, 277);
+            this.btnPay.Name = "btnPay";
+            this.btnPay.Size = new System.Drawing.Size(94, 27);
+            this.btnPay.TabIndex = 27;
+            this.btnPay.Text = "Betalen";
+            this.btnPay.UseVisualStyleBackColor = true;
+            this.btnPay.Click += new System.EventHandler(this.btnPay_Click);
             // 
             // btnCheckOut
             // 
@@ -316,6 +328,7 @@
             this.txtRFIDIDSearch.Name = "txtRFIDIDSearch";
             this.txtRFIDIDSearch.Size = new System.Drawing.Size(207, 20);
             this.txtRFIDIDSearch.TabIndex = 14;
+            this.txtRFIDIDSearch.TextChanged += new System.EventHandler(this.txtRFIDIDSearch_TextChanged);
             // 
             // label3
             // 
@@ -337,18 +350,6 @@
             this.tabControl1.Size = new System.Drawing.Size(538, 401);
             this.tabControl1.TabIndex = 0;
             this.tabControl1.Click += new System.EventHandler(this.tabControl1_Click);
-            // 
-            // btnPay
-            // 
-            this.btnPay.Enabled = false;
-            this.btnPay.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnPay.Location = new System.Drawing.Point(312, 277);
-            this.btnPay.Name = "btnPay";
-            this.btnPay.Size = new System.Drawing.Size(94, 27);
-            this.btnPay.TabIndex = 27;
-            this.btnPay.Text = "Betalen";
-            this.btnPay.UseVisualStyleBackColor = true;
-            this.btnPay.Click += new System.EventHandler(this.btnPay_Click);
             // 
             // EntraceControl
             // 

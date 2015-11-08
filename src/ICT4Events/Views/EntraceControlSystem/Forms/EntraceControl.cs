@@ -58,6 +58,13 @@ namespace ICT4Events.Views.EntraceControlSystem.Forms
         private void btnZoeken_Click(object sender, EventArgs e)
         {
             var id = txtRFIDIDSearch.Text;
+
+            if (string.IsNullOrWhiteSpace(id))
+            {
+                MessageBox.Show("ID is leeg");
+                return;
+            }
+
             LoadSearchGuest(id);
         }
 
@@ -284,6 +291,11 @@ namespace ICT4Events.Views.EntraceControlSystem.Forms
                 LogicCollection.GuestLogic.UpdateGuest(_searchGuest);
 
             btnPay.Enabled = false;
+        }
+
+        private void txtRFIDIDSearch_TextChanged(object sender, EventArgs e)
+        {
+            btnSearch.Enabled = !string.IsNullOrWhiteSpace(txtRFIDIDSearch.Text);
         }
     }
 }
