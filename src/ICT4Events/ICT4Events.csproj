@@ -53,7 +53,8 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Phidget21.NET">
+    <Reference Include="Phidget21.NET, Version=2.1.8.205, Culture=neutral, PublicKeyToken=c2b1f2a3594bce52, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\Phidget21.NET.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
@@ -72,6 +73,12 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Views\EntraceControlSystem\Forms\EntraceControl.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\EntraceControlSystem\Forms\EntraceControl.designer.cs">
+      <DependentUpon>EntraceControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\EventManagementSystem\Controls\ucEventEdit.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -242,6 +249,9 @@
     <Compile Include="Views\SocialSystem\Forms\SocialMediaSystemForm.designer.cs">
       <DependentUpon>SocialMediaSystemForm.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Views\EntraceControlSystem\Forms\EntraceControl.resx">
+      <DependentUpon>EntraceControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\EventManagementSystem\Controls\ucEventEdit.resx">
       <DependentUpon>ucEventEdit.cs</DependentUpon>
     </EmbeddedResource>
@@ -356,6 +366,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Views\EntraceControlSystem\Controls\" />
     <Folder Include="Views\MaterialSystem\Controls\" />
     <Folder Include="Views\Reservation System\Controls\" />
   </ItemGroup>

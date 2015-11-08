@@ -69,12 +69,13 @@ namespace SharedModels.Data.OracleContexts
         public bool Update(Guest entity)
         {
             var query =
-                "UPDATE guest SET locationid = :locationid, passid = :passid, paid = :paid, datestart = :datestart, dateend = :dateend, leaderid = :leaderid WHERE eventid = :eventid AND userid = :userid";
+                "UPDATE guest SET locationid = :locationid, passid = :passid, paid = :paid, present = :present, datestart = :datestart, dateend = :dateend, leaderid = :leaderid WHERE eventid = :eventid AND userid = :userid";
             var parameters = new List<OracleParameter>
             {
                 new OracleParameter("locationid", entity.LocationID),
                 new OracleParameter("passid", entity.PassID),
                 new OracleParameter("paid", Convert.ToInt32(entity.Paid)),
+                new OracleParameter("present", Convert.ToInt32(entity.Present)),
                 new OracleParameter("datestart", entity.StartDate),
                 new OracleParameter("dateend", entity.EndDate),
                 new OracleParameter("eventid", entity.EventID),

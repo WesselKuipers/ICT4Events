@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 using ICT4Events.Views;
 using ICT4Events.Views.Accountsystem;
+using ICT4Events.Views.EntraceControlSystem.Forms;
 using ICT4Events.Views.EventManagementSystem;
 using ICT4Events.Views.MaterialSystem.Forms;
 using ICT4Events.Views.Reservation_System;
@@ -29,8 +30,9 @@ namespace ICT4Events
             btnAccountManagementSystem.Click += OpenAccountManagement;
 
             var btnSocialMediaSystem = new Button {Text = "Tijdlijn bekijken", Dock = DockStyle.Fill };
-            
-            
+
+            var btnEntraceControlSystem = new Button { Text = "Toegangscontrole", Dock = DockStyle.Fill };
+
             var btnMaterialSystem = new Button { Text = "Materiaal Verhuur", Dock = DockStyle.Fill};
             var btnMaterialReservationSystem = new Button {Text = "Materiaal Reserveren", Dock = DockStyle.Fill};
 
@@ -63,6 +65,9 @@ namespace ICT4Events
                 
                 btnMaterialSystem.Click += OpenMaterialManagement;
                 tblSystemButtons.Controls.Add(btnMaterialSystem);
+
+                btnEntraceControlSystem.Click += OpenEntranceControl;
+                tblSystemButtons.Controls.Add(btnEntraceControlSystem);
             }
             if (_user.Permission == PermissionType.Administrator)
             {
@@ -107,6 +112,12 @@ namespace ICT4Events
         {
             var ev = SelectEvent(LogicCollection.EventLogic.GetAllEvents());
             new MaterialSystem(ev).ShowDialog();
+        }
+
+        private void OpenEntranceControl(object sender, EventArgs e)
+        {
+            var ev = SelectEvent(LogicCollection.EventLogic.GetAllEvents());
+            new EntraceControl(ev).ShowDialog();
         }
 
         private void OpenSocialMediaUser(object sender, EventArgs e)
