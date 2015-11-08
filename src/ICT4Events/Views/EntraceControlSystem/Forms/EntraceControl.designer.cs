@@ -34,7 +34,7 @@
             this.chrUsername = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chrAddress = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chrTelephone = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.btnEventGegevensTonen = new System.Windows.Forms.Button();
+            this.btnShowPresentGuests = new System.Windows.Forms.Button();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.btnSearch = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -65,7 +65,7 @@
             // tabPage2
             // 
             this.tabPage2.Controls.Add(this.lsvPresentGuests);
-            this.tabPage2.Controls.Add(this.btnEventGegevensTonen);
+            this.tabPage2.Controls.Add(this.btnShowPresentGuests);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
@@ -109,15 +109,15 @@
             this.chrTelephone.Text = "Telefoonnummer";
             this.chrTelephone.Width = 99;
             // 
-            // btnEventGegevensTonen
+            // btnShowPresentGuests
             // 
-            this.btnEventGegevensTonen.Location = new System.Drawing.Point(8, 6);
-            this.btnEventGegevensTonen.Name = "btnEventGegevensTonen";
-            this.btnEventGegevensTonen.Size = new System.Drawing.Size(131, 23);
-            this.btnEventGegevensTonen.TabIndex = 8;
-            this.btnEventGegevensTonen.Text = "Herladen";
-            this.btnEventGegevensTonen.UseVisualStyleBackColor = true;
-            this.btnEventGegevensTonen.Click += new System.EventHandler(this.btnEventGegevensTonen_Click);
+            this.btnShowPresentGuests.Location = new System.Drawing.Point(8, 6);
+            this.btnShowPresentGuests.Name = "btnShowPresentGuests";
+            this.btnShowPresentGuests.Size = new System.Drawing.Size(131, 23);
+            this.btnShowPresentGuests.TabIndex = 8;
+            this.btnShowPresentGuests.Text = "Herladen";
+            this.btnShowPresentGuests.UseVisualStyleBackColor = true;
+            this.btnShowPresentGuests.Click += new System.EventHandler(this.btnShowPresentGuests_Click);
             // 
             // tabPage1
             // 
@@ -374,7 +374,7 @@
         #endregion
 
         private System.Windows.Forms.TabPage tabPage2;
-        private System.Windows.Forms.Button btnEventGegevensTonen;
+        private System.Windows.Forms.Button btnShowPresentGuests;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.Button btnSearch;
         private System.Windows.Forms.GroupBox groupBox1;

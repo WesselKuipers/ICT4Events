@@ -31,7 +31,7 @@ namespace SharedModels.Data.OracleContexts
             };
 
             if (rfid == null) return null;
-            return GetEntityFromRecord(Database.ExecuteReader(query, parameters).First());
+            return GetEntityFromRecord(Database.ExecuteReader(query, parameters).FirstOrDefault());
         }
 
         public Guest GetById(object id)

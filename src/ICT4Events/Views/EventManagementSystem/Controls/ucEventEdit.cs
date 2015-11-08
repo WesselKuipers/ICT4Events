@@ -82,7 +82,7 @@ namespace ICT4Events.Views.EventManagementSystem.Controls
 
                 if (_ev == null)
                 {
-                    MessageBox.Show("ERROR 42352347dEr3f2f26Fx08: Er is iets misgegaan.");
+                    MessageBox.Show("ERROR: Er is iets misgegaan.");
                     return;
                 }
 

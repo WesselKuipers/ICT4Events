@@ -68,7 +68,7 @@ namespace ICT4Events.Views.EntraceControlSystem.Forms
             LoadSearchGuest(id);
         }
 
-        public void btnEventGegevensTonen_Click(object sender, EventArgs e)
+        public void btnShowPresentGuests_Click(object sender, EventArgs e)
         {
             LoadListPresentGuests();
             Refresh();
