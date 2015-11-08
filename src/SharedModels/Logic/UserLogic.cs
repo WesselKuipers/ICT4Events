@@ -81,7 +81,7 @@ namespace SharedModels.Logic
             {
                 SendConfirmationEmail(registeredUser, generated, password);
             }
-            catch
+            catch (MailWasNotSentException e)
             {
                 throw new MailWasNotSentException();
             }

@@ -95,9 +95,6 @@ namespace SharedModels.FTP
 
                 using (var response = (FtpWebResponse) request.GetResponse())
                 {
-
-
-
                     var responseStream = response.GetResponseStream();
                     var buffer = new byte[responseStream.Length + 16];
                     var bytesRead = 0;
