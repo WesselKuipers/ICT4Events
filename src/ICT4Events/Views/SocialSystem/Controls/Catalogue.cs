@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -71,7 +72,7 @@ namespace ICT4Events.Views.SocialSystem.Controls
             // User
             if (_user.Permission == PermissionType.User)
             {
-                var listMedia = LogicCollection.MediaLogic.GetAllByGuest((Guest)_user);
+                var listMedia = LogicCollection.MediaLogic.GetAllById(_user.ID, _event);
                 TreeNode[] arrayofNodes = listMedia.Select(I => new TreeNode($"{I.ID} - {I.Path}")).ToArray();
                 TreeNode treeNode = new TreeNode($"{_user.Name} {_user.Surname}", arrayofNodes);
                 trvCatalogue.Nodes.Add(treeNode);
@@ -80,22 +81,21 @@ namespace ICT4Events.Views.SocialSystem.Controls
             {
                 // Admin
                 var listMedia = LogicCollection.MediaLogic.GetAllMedia(_event);
-                foreach (Media media in listMedia)
+                var listGuests = new List<int>();
+                foreach (Media media in listMedia.Where(media => !listGuests.Contains(media.UserID)))
                 {
-                    var mediaUser = LogicCollection.UserLogic.GetById(media.UserID);
-                    TreeNode[] arrayofNodes = listMedia.Where(x => x.UserID == mediaUser.ID).Select(I => new TreeNode($"{I.ID} - {I.Path}")).ToArray();
+                    listGuests.Add(media.UserID);
+                }
+
+                foreach (int i in listGuests)
+                {
+                    var mediaUser = LogicCollection.UserLogic.GetById(i);
+                        TreeNode[] arrayofNodes =
+                            listMedia.Where(x => x.UserID == mediaUser.ID)
+                                .Select(I => new TreeNode($"{I.ID} - {I.Path}"))
+                                .ToArray();
                     TreeNode treeNode = new TreeNode($"{mediaUser.Name} {mediaUser.Surname}", arrayofNodes);
-                    if (trvCatalogue.Nodes.Count >= 1)
-                    {
-                        if (trvCatalogue.Nodes.ContainsKey($"{mediaUser.Name} {mediaUser.Surname}"))
-                        {
-                            trvCatalogue.Nodes.Add(treeNode);
-                        }
-                    }
-                    else
-                    {
-                        trvCatalogue.Nodes.Add(treeNode);
-                    }
+                    trvCatalogue.Nodes.Add(treeNode);
                 }
 
             }

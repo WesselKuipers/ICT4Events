@@ -42,9 +42,9 @@ namespace SharedModels.Logic
             return _context.GetById(id);
         }
 
-        public List<Media> GetAllByGuest(Guest guest)
+        public List<Media> GetAllById(int id, Event ev)
         {
-            return _context.GetAllByGuest(guest);
+            return _context.GetAllById(id, ev);
         }
 
         public List<Media> GetAllMedia(Event ev)
