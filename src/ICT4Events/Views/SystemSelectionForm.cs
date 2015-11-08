@@ -102,7 +102,7 @@ namespace ICT4Events
 
         private void OpenMaterialReservation(object sender, EventArgs e)
         {
-            var eventGuest = SelectEvent(_user);
+            var eventGuest = SelectEvent();
             var ev = eventGuest.Key;
             var guest = eventGuest.Value;
             new MaterialReservationSystem(ev, guest).ShowDialog();
@@ -122,7 +122,7 @@ namespace ICT4Events
 
         private void OpenSocialMediaUser(object sender, EventArgs e)
         {
-            var eventGuest = SelectEvent(_user);
+            var eventGuest = SelectEvent();
             var ev = eventGuest.Key;
             var guest = eventGuest.Value;
 
@@ -151,7 +151,7 @@ namespace ICT4Events
             return result;
         }
 
-        private KeyValuePair<Event, Guest> SelectEvent(User user)
+        private KeyValuePair<Event, Guest> SelectEvent()
         {
             Event ev;
             Guest guest;
