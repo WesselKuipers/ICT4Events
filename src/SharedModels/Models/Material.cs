@@ -8,10 +8,6 @@ namespace SharedModels.Models
 {
     public class Material
     {
-        private int v;
-        private string text;
-        private int iD;
-
         public int ID { get; }
         public string Name { get; set; }
         public int EventID { get; }

@@ -17,7 +17,7 @@ namespace ICT4Events.Views.EntraceControlSystem.Forms
     /// </summary>
     public partial class EntraceControl : Form
     {
-        private RFID rfid;
+        private RFID _rfid;
         private List<Guest> _guests;
         private readonly Event _event;
         private Guest _searchGuest;
@@ -27,50 +27,49 @@ namespace ICT4Events.Views.EntraceControlSystem.Forms
         /// </summary>
         public EntraceControl(Event ev)
         {
-            this.InitializeComponent();
+            InitializeComponent();
             _event = ev;
             _guests = LogicCollection.GuestLogic.GetGuestsByEvent(_event);
         }
 
         private void EntraceControl_Load(object sender, EventArgs e)
         {
-            this.rfid = new RFID();
-            this.rfid.Attach += new AttachEventHandler(this.rfid_Attach);
-            this.rfid.Detach += new DetachEventHandler(this.rfid_Detach);
-            this.rfid.Tag += new TagEventHandler(this.rfid_Tag);
-            this.rfid.TagLost += new TagEventHandler(this.rfid_TagLost);
-            this.openCmdLine(this.rfid);
+            _rfid = new RFID();
+            _rfid.Attach += rfid_Attach;
+            _rfid.Detach += rfid_Detach;
+            _rfid.Tag += rfid_Tag;
+            _rfid.TagLost += rfid_TagLost;
+            openCmdLine(_rfid);
         }
 
         private void rfid_Attach(object sender, AttachEventArgs e)
         {
-            RFID attached = (RFID)sender;
-            if (this.rfid.outputs.Count > 0)
+            if (_rfid.outputs.Count > 0)
             {
-                this.rfid.Antenna = true;
+                _rfid.Antenna = true;
             }
         }
 
         private void rfid_Detach(object sender, DetachEventArgs e)
         {
-            RFID detached = (RFID)sender;
+            var detached = (RFID)sender;
         }
 
         private void btnZoeken_Click(object sender, EventArgs e)
         {
-            string id = txtRFIDIDSearch.Text;
+            var id = txtRFIDIDSearch.Text;
             LoadSearchGuest(id);
         }
 
         public void btnEventGegevensTonen_Click(object sender, EventArgs e)
         {
             LoadListPresentGuests();
-            this.Refresh();
+            Refresh();
         }
 
         private void rfid_Tag(object sender, TagEventArgs e)
         {
-            string id = txtRFIDIDSearch.Text;
+            var id = txtRFIDIDSearch.Text;
             LoadSearchGuest(id);
         }
 
@@ -87,22 +86,22 @@ namespace ICT4Events.Views.EntraceControlSystem.Forms
         #region Command line open functions
         private void openCmdLine(Phidget p)
         {
-            this.openCmdLine(p, null);
+            openCmdLine(p, null);
         }
 
         private void openCmdLine(Phidget p, string pass)
         {
-            int serial = -1;
+            var serial = -1;
             string logFile = null;
-            int port = 5001;
+            var port = 5001;
             string host = null;
-            bool remote = false, remoteIP = false;
-            string[] args = Environment.GetCommandLineArgs();
-            string appName = args[0];
+            bool remote = false, remoteIp = false;
+            var args = Environment.GetCommandLineArgs();
+            var appName = args[0];
 
             try
             {
-                for (int i = 1; i < args.Length; i++)
+                for (var i = 1; i < args.Length; i++)
                 {
                     if (args[i].StartsWith("-"))
                     {
@@ -125,7 +124,7 @@ namespace ICT4Events.Views.EntraceControlSystem.Forms
                                 pass = args[++i];
                                 break;
                             case "i":
-                                remoteIP = true;
+                                remoteIp = true;
                                 host = args[++i];
                                 if (host.Contains(":"))
                                 {
@@ -149,7 +148,7 @@ namespace ICT4Events.Views.EntraceControlSystem.Forms
                     Phidget.enableLogging(Phidget.LogLevel.PHIDGET_LOG_INFO, logFile);
                 }
 
-                if (remoteIP)
+                if (remoteIp)
                 {
                     p.open(serial, host, port, pass);
                 }
@@ -170,7 +169,7 @@ namespace ICT4Events.Views.EntraceControlSystem.Forms
             }
 
         usage:
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder();
             sb.AppendLine("Invalid Command line arguments." + Environment.NewLine);
             sb.AppendLine("Usage: " + appName + " [Flags...]");
             sb.AppendLine("Flags:\t-n   serialNumber\tSerial Number, omit for any serial");
@@ -192,22 +191,22 @@ namespace ICT4Events.Views.EntraceControlSystem.Forms
 
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
-            this.rfid.Attach -= new AttachEventHandler(this.rfid_Attach);
-            this.rfid.Detach -= new DetachEventHandler(this.rfid_Detach);
-            this.rfid.Tag -= new TagEventHandler(this.rfid_Tag);
-            this.rfid.TagLost -= new TagEventHandler(this.rfid_TagLost);
+            _rfid.Attach -= rfid_Attach;
+            _rfid.Detach -= rfid_Detach;
+            _rfid.Tag -= rfid_Tag;
+            _rfid.TagLost -= rfid_TagLost;
             Application.DoEvents();
-            this.rfid.close();
+            _rfid.close();
         }
 
         private void tabControl1_Click(object sender, EventArgs e)
         {
             LoadListPresentGuests();
-            this.Refresh();
+            Refresh();
         }
-        private void LoadSearchGuest(string RFID)
+        private void LoadSearchGuest(string rfid)
         {
-            _searchGuest = LogicCollection.GuestLogic.GetByRfid(RFID);
+            _searchGuest = LogicCollection.GuestLogic.GetByRfid(rfid);
             if (_searchGuest != null)
             {
                 txtName.Text = _searchGuest.Name;
@@ -221,13 +220,13 @@ namespace ICT4Events.Views.EntraceControlSystem.Forms
                 btnCheckOut.Enabled = _searchGuest.Present;
             }
 
-            this.Refresh();
+            Refresh();
         }
         private void LoadListPresentGuests()
         {
             lsvPresentGuests.Items.Clear();
             _guests = LogicCollection.GuestLogic.GetGuestsByEvent(_event);
-            foreach (Guest guest in _guests.Where(x => x.Present))
+            foreach (var guest in _guests.Where(x => x.Present))
             {
                 string[] row = { $"{guest.Name} {guest.Surname}", guest.Username, guest.Address, guest.Telephone };
                 var item = new ListViewItem(row);
