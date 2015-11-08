@@ -58,6 +58,11 @@ namespace SharedModels.Logic
             return _contextMaterial.GetReservedMaterialsByGuest(guest);
         }
 
+        public List<Material> GetAllReservedMaterials(Event ev)
+        {
+            return _contextMaterial.GetAllReservedMaterials(ev);
+        }
+
         public Material AddReservation(Material material, int guestId, DateTime startDate, DateTime endDate)
         {
             return _contextMaterial.AddReservation(material, guestId, startDate, endDate);

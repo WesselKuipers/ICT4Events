@@ -52,6 +52,23 @@ namespace SharedModels.Data.OracleContexts
             return res.Select(GetEntityFromRecord).ToList();
         }
 
+        public List<Material> GetAllReservedMaterials(Event ev)
+        {
+            var query =
+                "SELECT m.*, r.userid, r.datestart, r.dateend " +
+                "FROM material m " +
+                "LEFT OUTER JOIN reservation r ON m.materialid = r.materialid " +
+                "WHERE eventid = :eventid AND r.userid IS NOT NULL"
+                ;
+            var parameters = new List<OracleParameter>
+            {
+                new OracleParameter("eventid", (int) ev.ID)
+            };
+
+            var res = Database.ExecuteReader(query, parameters);
+            return res.Select(GetEntityFromRecord).ToList();
+        }
+
         public Material GetById(object id)
         {
             var query =
