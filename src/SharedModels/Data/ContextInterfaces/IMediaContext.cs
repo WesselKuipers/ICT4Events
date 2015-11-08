@@ -10,7 +10,7 @@ namespace SharedModels.Data.ContextInterfaces
 {
     public interface IMediaContext : IRepositoryContext<Media>
     {
-        List<Media> GetAllById(int id, Event ev);
+        List<Media> GetAllById(int guestId, Event ev);
         List<Media> GetAllMedia(Event ev);
     }
 }

@@ -145,11 +145,6 @@ namespace SharedModels.Logic
             return _context.AddTagToPost(post, tag);
         }
 
-        public bool AddTagToEvent(Event ev, string tag)
-        {
-            return _context.AddTagToEvent(ev, tag);
-        }
-
         public bool CheckReportStatus(Post post)
         {
             var allReportsByPost = LogicCollection.PostLogic.GetReportsByPost(post);

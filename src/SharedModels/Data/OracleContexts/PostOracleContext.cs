@@ -227,19 +227,6 @@ namespace SharedModels.Data.OracleContexts
             return Database.ExecuteNonQuery(query, parameters);
         }
 
-        public bool AddTagToEvent(Event ev, string tag)
-        {
-            tag = tag.Trim('#');
-            var query = "INSERT INTO tag (tagname, eventid) VALUES (:tagname, :eventid)";
-            var parameters = new List<OracleParameter>
-            {
-                new OracleParameter("tagname", tag),
-                new OracleParameter("eventid", ev.ID)
-            };
-
-            return Database.ExecuteNonQuery(query, parameters);
-        }
-
         public bool RemoveTagFromPost(Post post, string tag)
         {
             var query = "DELETE FROM posttags WHERE postid = :postid AND tagname = :tagname)";

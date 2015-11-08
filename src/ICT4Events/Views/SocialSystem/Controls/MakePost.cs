@@ -69,7 +69,6 @@ namespace ICT4Events.Views.SocialSystem.Controls
                     {
                         foreach (var tag in addedPost.Tags)
                         {
-                            _logicPost.AddTagToEvent(_event, tag.ToLower());
                             _logicPost.AddTagToPost(addedPost, tag.ToLower());
                         }
                         MessageBox.Show("Je bericht is gepubliceerd op je tijdlijn");
