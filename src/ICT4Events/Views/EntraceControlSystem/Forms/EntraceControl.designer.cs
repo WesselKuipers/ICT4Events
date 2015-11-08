@@ -56,10 +56,17 @@
             this.txtRFIDIDSearch = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.lsvReserved = new System.Windows.Forms.ListView();
+            this.clhName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.clhMaterial = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.clhDateStart = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.clhDateEnd = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tabPage2.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tabControl1.SuspendLayout();
+            this.tabPage3.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabPage2
@@ -344,12 +351,58 @@
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Location = new System.Drawing.Point(0, 3);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(538, 401);
             this.tabControl1.TabIndex = 0;
             this.tabControl1.Click += new System.EventHandler(this.tabControl1_Click);
+            // 
+            // tabPage3
+            // 
+            this.tabPage3.Controls.Add(this.lsvReserved);
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage3.Size = new System.Drawing.Size(530, 375);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "Reserveringen";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // lsvReserved
+            // 
+            this.lsvReserved.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.clhName,
+            this.clhMaterial,
+            this.clhDateStart,
+            this.clhDateEnd});
+            this.lsvReserved.Location = new System.Drawing.Point(7, 3);
+            this.lsvReserved.Name = "lsvReserved";
+            this.lsvReserved.Size = new System.Drawing.Size(517, 362);
+            this.lsvReserved.TabIndex = 0;
+            this.lsvReserved.UseCompatibleStateImageBehavior = false;
+            this.lsvReserved.View = System.Windows.Forms.View.Details;
+            // 
+            // clhName
+            // 
+            this.clhName.Text = "Name";
+            this.clhName.Width = 131;
+            // 
+            // clhMaterial
+            // 
+            this.clhMaterial.Text = "Materiaal";
+            this.clhMaterial.Width = 101;
+            // 
+            // clhDateStart
+            // 
+            this.clhDateStart.Text = "Datum uitgeleend";
+            this.clhDateStart.Width = 124;
+            // 
+            // clhDateEnd
+            // 
+            this.clhDateEnd.Text = "Datum terugbrengen";
+            this.clhDateEnd.Width = 153;
             // 
             // EntraceControl
             // 
@@ -367,6 +420,7 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.tabControl1.ResumeLayout(false);
+            this.tabPage3.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -401,5 +455,11 @@
         private System.Windows.Forms.Button btnCheckOut;
         private System.Windows.Forms.Button btnCheckIn;
         private System.Windows.Forms.Button btnPay;
+        private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.ListView lsvReserved;
+        private System.Windows.Forms.ColumnHeader clhName;
+        private System.Windows.Forms.ColumnHeader clhMaterial;
+        private System.Windows.Forms.ColumnHeader clhDateStart;
+        private System.Windows.Forms.ColumnHeader clhDateEnd;
     }
 }

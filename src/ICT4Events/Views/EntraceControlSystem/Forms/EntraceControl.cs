@@ -70,7 +70,7 @@ namespace ICT4Events.Views.EntraceControlSystem.Forms
 
         public void btnShowPresentGuests_Click(object sender, EventArgs e)
         {
-            LoadListPresentGuests();
+            LoadListPresentGuestsAndReservations();
             Refresh();
         }
 
@@ -208,7 +208,7 @@ namespace ICT4Events.Views.EntraceControlSystem.Forms
 
         private void tabControl1_Click(object sender, EventArgs e)
         {
-            LoadListPresentGuests();
+            LoadListPresentGuestsAndReservations();
             Refresh();
         }
         private void LoadSearchGuest(string rfid)
@@ -229,7 +229,7 @@ namespace ICT4Events.Views.EntraceControlSystem.Forms
 
             Refresh();
         }
-        private void LoadListPresentGuests()
+        private void LoadListPresentGuestsAndReservations()
         {
             lsvPresentGuests.Items.Clear();
             _guests = LogicCollection.GuestLogic.GetGuestsByEvent(_event);
@@ -238,6 +238,27 @@ namespace ICT4Events.Views.EntraceControlSystem.Forms
                 string[] row = { $"{guest.Name} {guest.Surname}", guest.Username, guest.Address, guest.Telephone };
                 var item = new ListViewItem(row);
                 lsvPresentGuests.Items.Add(item);
+            }
+
+            lsvReserved.Items.Clear();
+            var reservedItems = LogicCollection.MaterialLogic.GetAllReservedMaterials(_event);
+            foreach (var reserverd in reservedItems)
+            {
+                var guestId = 0;
+                if (reserverd.GuestID.HasValue)
+                {
+                    guestId = reserverd.GuestID.Value;
+                    var user = LogicCollection.UserLogic.GetById(guestId);
+                    Material material = null;
+                    foreach (var m in LogicCollection.MaterialLogic.GetAllByEvent(_event).Where(m => m.ID == reserverd.ID))
+                        material = m;
+
+                    if (material == null) continue;
+                    
+                    string[] row = { $"{user.Name} {user.Surname}", material.Name, reserverd.StartDate.ToString(), reserverd.EndDate.ToString() };
+                    var item = new ListViewItem(row);
+                    lsvReserved.Items.Add(item);
+                }
             }
         }
 
