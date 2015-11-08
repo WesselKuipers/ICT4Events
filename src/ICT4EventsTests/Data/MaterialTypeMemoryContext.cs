@@ -22,6 +22,11 @@ namespace ICT4EventsTests.Data
             return _materialTypes.FirstOrDefault(m => m.ID == (int) id);
         }
 
+        public MaterialType GetByName(string name)
+        {
+            throw new NotImplementedException();
+        }
+
         public MaterialType Insert(MaterialType entity)
         {
             if (GetById(entity.ID) != null) return null;

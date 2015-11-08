@@ -57,6 +57,16 @@ namespace ICT4EventsTests.Data
             return _materials.Where(m => m.EventID == ev.ID).ToList();
         }
 
+        public List<Material> GetAllByEventAndNonReserved(Event ev)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Material> GetReservedMaterialsByGuest(Guest guest)
+        {
+            throw new NotImplementedException();
+        }
+
         public Material AddReservation(Material material, int guestID, DateTime startDate, DateTime endDate)
         {
             material.GuestID = guestID;

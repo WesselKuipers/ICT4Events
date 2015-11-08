@@ -14,18 +14,19 @@ namespace ICT4Events.Views.SocialSystem.Controls
 {
     public partial class PostFeed : UserControl
     {
-        private readonly Post _post;
         private readonly Event _event;
         private readonly User _postUser;
         private readonly User _activeUser;
         private Media _media;
         private PostFeedExtended extended;
 
+        public Post Post { get; }
+
         public PostFeed(Post post, Event ev, User user, bool reply)
         {
             InitializeComponent();
 
-            _post = post;
+            Post = post;
             _event = ev;
 
             lbReaction.Visible = !reply;
@@ -34,7 +35,7 @@ namespace ICT4Events.Views.SocialSystem.Controls
             _activeUser = user;
 
             // Guest of the post
-            _postUser = LogicCollection.UserLogic.GetById(_post.GuestID);
+            _postUser = LogicCollection.UserLogic.GetById(Post.GuestID);
         }
 
         private void PostFeed_Load(object sender, EventArgs e)
@@ -44,12 +45,12 @@ namespace ICT4Events.Views.SocialSystem.Controls
 
         private void lblDownloadMedia_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            DownloadMedia(_post);
+            DownloadMedia(Post);
         }
 
         private void lbReport_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            if (LogicCollection.PostLogic.CheckReportStatus(_post))
+            if (LogicCollection.PostLogic.CheckReportStatus(Post))
             {
                 MessageBox.Show("Bericht is verborgen. Je kunt geen rapport meer insturen.");
                 return;
@@ -60,7 +61,7 @@ namespace ICT4Events.Views.SocialSystem.Controls
             if (result != DialogResult.OK) return;
 
             // Try to add report to database and show appropriate message
-            MessageBox.Show(LogicCollection.PostLogic.Report(LogicCollection.GuestLogic.GetGuestByEvent(_event, _activeUser.ID), _post,
+            MessageBox.Show(LogicCollection.PostLogic.Report(LogicCollection.GuestLogic.GetGuestByEvent(_event, _activeUser.ID), Post,
                 reportForm.ReasonReturnValue)
                 ? "Rapport succesvol verzonden. Bedankt voor u feedback!"
                 : "Er is iets fout gegaan met het doorvoeren van dit rapport, onze excuses hiervoor.");
@@ -69,20 +70,20 @@ namespace ICT4Events.Views.SocialSystem.Controls
         private void lbLike_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             if (_activeUser != null)
-                LogicCollection.PostLogic.Like(_activeUser.ID, _post);
+                LogicCollection.PostLogic.Like(_activeUser.ID, Post);
 
             RefreshSocialSystem();
         }
         private void lblUnLike_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             if(_activeUser != null)
-                LogicCollection.PostLogic.Unlike(_activeUser.ID, _post);
+                LogicCollection.PostLogic.Unlike(_activeUser.ID, Post);
 
             RefreshSocialSystem();
         }
         private void lblDeletePost_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            MessageBox.Show(LogicCollection.PostLogic.DeletePost(_post)
+            MessageBox.Show(LogicCollection.PostLogic.DeletePost(Post)
                 ? "Post of reactie succesvol verwijderd"
                 : "Er is iets mis gegaan");
 
@@ -91,7 +92,7 @@ namespace ICT4Events.Views.SocialSystem.Controls
 
         private void lbReaction_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            extended = new PostFeedExtended(_post, _event, _activeUser);
+            extended = new PostFeedExtended(Post, _event, _activeUser);
 
             var extendedPostform = new ExtendedForm();
             extendedPostform.tbpPostWatch.Controls.Add(extended);
@@ -102,14 +103,14 @@ namespace ICT4Events.Views.SocialSystem.Controls
         /// </summary>
         private void RefreshSocialSystem()
         {
-            var reports = LogicCollection.PostLogic.GetReportsByPost(_post);
-            var likes = LogicCollection.PostLogic.GetAllLikes(_post);
+            var reports = LogicCollection.PostLogic.GetReportsByPost(Post);
+            var likes = LogicCollection.PostLogic.GetAllLikes(Post);
 
             lbLike.Visible = true;
             lblLikeStatus.Visible = false;
 
             // Guest rights
-            if (_post.GuestID == _activeUser.ID)
+            if (Post.GuestID == _activeUser.ID)
             {
                 lbReport.Visible = false;
                 lblDeletePost.Visible = true;
@@ -145,10 +146,10 @@ namespace ICT4Events.Views.SocialSystem.Controls
                 lblDeletePost.Visible = true;
             }
 
-            tbMessage.Text = _post.Content;
+            tbMessage.Text = Post.Content;
             lblAuteurNaam.Text = _postUser.Name + @" " + _postUser.Surname;
-            lblDatum.Text = @"Geplaatst op " + _post.Date.ToString("dd/MM/yyyy");
-            ShowMedia(_post);
+            lblDatum.Text = @"Geplaatst op " + Post.Date.ToString("dd/MM/yyyy");
+            ShowMedia(Post);
         }
         /// <summary>
         /// This method is use to load image from FTP server
