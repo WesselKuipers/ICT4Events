@@ -74,13 +74,13 @@ namespace SharedModels.Data.OracleContexts
             return Database.ExecuteNonQuery(query, parameters);
         }
 
-        public List<Media> GetAllByGuest(Guest guest)
+        public List<Media> GetAllById(int id, Event ev)
         {
             var query = "SELECT * FROM media WHERE eventid = :eventid AND userid = :userid ORDER BY mediaid";
             var parameters = new List<OracleParameter>
             {
-                new OracleParameter("eventid", guest.EventID),
-                new OracleParameter("userid", guest.ID)
+                new OracleParameter("eventid", ev.ID),
+                new OracleParameter("userid", id)
             };
 
             var res = Database.ExecuteReader(query, parameters);
