@@ -118,7 +118,7 @@ namespace ICT4Events
             var ev = SelectEvent(LogicCollection.EventLogic.GetAllEvents());
             if (ev == null) { return; }
 
-            new MaterialSystem(ev).ShowDialog();
+            new MaterialSystem(ev, _user).ShowDialog();
         }
 
         private void OpenEntranceControl(object sender, EventArgs e)

@@ -5,6 +5,9 @@ using System.Text;
 using System.Windows.Forms;
 using Phidgets;
 using Phidgets.Events;
+using SharedModels.Data.ContextInterfaces;
+using SharedModels.Data.OracleContexts;
+using SharedModels.Enums;
 using SharedModels.Logic;
 using SharedModels.Models;
 
@@ -14,6 +17,8 @@ namespace ICT4Events.Views.MaterialSystem.Forms
     public partial class MaterialSystem : Form
     {
         #region Local Variables
+
+        private readonly User _user;
         private readonly Event _event;
         private bool _rfidScanned;
         private RFID _rfid;
@@ -23,11 +28,11 @@ namespace ICT4Events.Views.MaterialSystem.Forms
         /// Constructor of the material system
         /// </summary>
         /// <param name="ev"></param>
-        public MaterialSystem(Event ev)
+        public MaterialSystem(Event ev, User user)
         {
             InitializeComponent();
             _event = ev;
-
+            _user = user;
             _rfidScanned = true;
         }
 
@@ -35,17 +40,18 @@ namespace ICT4Events.Views.MaterialSystem.Forms
 
         private void rfid_Attach(object sender, AttachEventArgs e)
         {
-            RFID attached = (RFID)sender;
-            if (this._rfid.outputs.Count > 0)
+            var attached = (RFID)sender;
+            if (_rfid.outputs.Count > 0)
             {
-                this._rfid.Antenna = true;
+                _rfid.Antenna = true;
             }
         }
 
         private void rfid_Detach(object sender, DetachEventArgs e)
         {
-            RFID detached = (RFID)sender;
+            var detached = (RFID)sender;
         }
+
         private void rfid_Tag(object sender, TagEventArgs e)
         {
             //Refresh user listbox
@@ -57,7 +63,7 @@ namespace ICT4Events.Views.MaterialSystem.Forms
                         LogicCollection.GuestLogic.GetGuestsByEvent(_event)
                             .Where(guest => guest.PassID == e.Tag)
                             .SelectMany(guest => LogicCollection.MaterialLogic.GetReservedMaterialsByGuest(guest)))
-                {
+            {
                     lsbUserMaterial.Items.Add(material.Name);
                 }
 
@@ -71,7 +77,7 @@ namespace ICT4Events.Views.MaterialSystem.Forms
                 MessageBox.Show("Niemand gevonden.");
             }
 
-            this.Refresh();
+            Refresh();
         }
 
         private void rfid_TagLost(object sender, TagEventArgs e)
@@ -423,6 +429,7 @@ namespace ICT4Events.Views.MaterialSystem.Forms
         /// <param name="e"></param>
         private void MaterialSystem_Load(object sender, EventArgs e)
         {
+            btnRemoveMaterial.Enabled = btnMaterialAdd.Enabled = _user.Permission == PermissionType.Administrator;
             UpdateListBoxAndCategory();
             _rfid = new RFID();
             _rfid.Attach += rfid_Attach;
