@@ -1,6 +1,6 @@
-﻿namespace ICT4Events.Views.EntraceControlSystem.Forms
+﻿namespace ICT4Events.Views.EntranceControlSystem.Forms
 {
-    partial class EntraceControl
+    partial class EntranceControl
     {
         /// <summary>
         /// Required designer variable.

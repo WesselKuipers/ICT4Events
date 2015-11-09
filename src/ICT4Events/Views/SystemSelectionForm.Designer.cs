@@ -1,4 +1,4 @@
-﻿namespace ICT4Events
+﻿namespace ICT4Events.Views
 {
     partial class SystemSelectionForm
     {

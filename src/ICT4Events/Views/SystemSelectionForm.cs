@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
-using System.Windows.Forms.VisualStyles;
-using ICT4Events.Views;
 using ICT4Events.Views.Accountsystem;
-using ICT4Events.Views.EntraceControlSystem.Forms;
+using ICT4Events.Views.EntranceControlSystem.Forms;
 using ICT4Events.Views.EventManagementSystem;
 using ICT4Events.Views.MaterialSystem.Forms;
 using ICT4Events.Views.Reservation_System;
@@ -16,7 +13,7 @@ using SharedModels.Enums;
 using SharedModels.Logic;
 using SharedModels.Models;
 
-namespace ICT4Events
+namespace ICT4Events.Views
 {
     public partial class SystemSelectionForm : Form
     {
@@ -118,7 +115,7 @@ namespace ICT4Events
             var ev = SelectEvent(LogicCollection.EventLogic.GetAllEvents());
             if (ev == null) { return; }
 
-            new MaterialSystem(ev, _user).ShowDialog();
+            new MaterialSystem.Forms.MaterialSystem(ev, _user).ShowDialog();
         }
 
         private void OpenEntranceControl(object sender, EventArgs e)
@@ -126,7 +123,7 @@ namespace ICT4Events
             var ev = SelectEvent(LogicCollection.EventLogic.GetAllEvents());
             if (ev == null) { return; }
 
-            new EntraceControl(ev).ShowDialog();
+            new EntranceControl(ev).ShowDialog();
         }
 
         private void OpenSocialMediaUser(object sender, EventArgs e)

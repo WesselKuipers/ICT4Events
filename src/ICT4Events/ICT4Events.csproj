@@ -73,11 +73,11 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Views\EntraceControlSystem\Forms\EntraceControl.cs">
+    <Compile Include="Views\EntranceControlSystem\Forms\EntranceControl.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Views\EntraceControlSystem\Forms\EntraceControl.designer.cs">
-      <DependentUpon>EntraceControl.cs</DependentUpon>
+    <Compile Include="Views\EntranceControlSystem\Forms\EntranceControl.designer.cs">
+      <DependentUpon>EntranceControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\EventManagementSystem\Controls\ucEventEdit.cs">
       <SubType>UserControl</SubType>
@@ -249,8 +249,8 @@
     <Compile Include="Views\SocialSystem\Forms\SocialMediaSystemForm.designer.cs">
       <DependentUpon>SocialMediaSystemForm.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="Views\EntraceControlSystem\Forms\EntraceControl.resx">
-      <DependentUpon>EntraceControl.cs</DependentUpon>
+    <EmbeddedResource Include="Views\EntranceControlSystem\Forms\EntranceControl.resx">
+      <DependentUpon>EntranceControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\EventManagementSystem\Controls\ucEventEdit.resx">
       <DependentUpon>ucEventEdit.cs</DependentUpon>
@@ -366,7 +366,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Views\EntraceControlSystem\Controls\" />
+    <Folder Include="Views\EntranceControlSystem\Controls\" />
     <Folder Include="Views\MaterialSystem\Controls\" />
     <Folder Include="Views\Reservation System\Controls\" />
   </ItemGroup>

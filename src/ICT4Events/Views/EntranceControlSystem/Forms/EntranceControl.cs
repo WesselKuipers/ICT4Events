@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -10,12 +9,12 @@ using Phidgets.Events;
 using SharedModels.Logic;
 using SharedModels.Models;
 
-namespace ICT4Events.Views.EntraceControlSystem.Forms
+namespace ICT4Events.Views.EntranceControlSystem.Forms
 {
     /// <summary>
     /// Main Form
     /// </summary>
-    public partial class EntraceControl : Form
+    public partial class EntranceControl : Form
     {
         private RFID _rfid;
         private List<Guest> _guests;
@@ -23,9 +22,9 @@ namespace ICT4Events.Views.EntraceControlSystem.Forms
         private Guest _searchGuest;
 
         /// <summary>
-        /// Initialize a new instance of the <see cref="EntraceControl"/> class.
+        /// Initialize a new instance of the <see cref="EntranceControl"/> class.
         /// </summary>
-        public EntraceControl(Event ev)
+        public EntranceControl(Event ev)
         {
             InitializeComponent();
             _event = ev;
