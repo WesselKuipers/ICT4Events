@@ -39,7 +39,6 @@ namespace ICT4Events
             if (_user.Permission == PermissionType.User)
             {
                 // Systems available for regular users
-
                 var btnReservationSytem = new Button { Text = "Inschrijven voor evenementen", Dock = DockStyle.Fill };
                 btnReservationSytem.Click += OpenReservationSystem;
 
@@ -56,7 +55,6 @@ namespace ICT4Events
             if (_user.Permission == PermissionType.Employee || _user.Permission == PermissionType.Administrator)
             {
                 // Systems only for employees
-
                 btnSocialMediaSystem.Click += OpenSocialMediaEmployee;
 
                 tblSystemButtons.Controls.Add(btnSocialMediaSystem);

@@ -54,7 +54,7 @@
             // txtUserNumber
             // 
             this.txtUserNumber.Location = new System.Drawing.Point(113, 8);
-            this.txtUserNumber.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtUserNumber.Margin = new System.Windows.Forms.Padding(2);
             this.txtUserNumber.Name = "txtUserNumber";
             this.txtUserNumber.Size = new System.Drawing.Size(206, 20);
             this.txtUserNumber.TabIndex = 0;
@@ -63,7 +63,7 @@
             // txtUserName
             // 
             this.txtUserName.Location = new System.Drawing.Point(113, 32);
-            this.txtUserName.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtUserName.Margin = new System.Windows.Forms.Padding(2);
             this.txtUserName.Name = "txtUserName";
             this.txtUserName.Size = new System.Drawing.Size(206, 20);
             this.txtUserName.TabIndex = 1;
@@ -72,7 +72,7 @@
             // txtMaterialName
             // 
             this.txtMaterialName.Location = new System.Drawing.Point(408, 158);
-            this.txtMaterialName.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtMaterialName.Margin = new System.Windows.Forms.Padding(2);
             this.txtMaterialName.Name = "txtMaterialName";
             this.txtMaterialName.Size = new System.Drawing.Size(316, 20);
             this.txtMaterialName.TabIndex = 2;
@@ -80,7 +80,7 @@
             // txtMaterialID
             // 
             this.txtMaterialID.Location = new System.Drawing.Point(408, 136);
-            this.txtMaterialID.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtMaterialID.Margin = new System.Windows.Forms.Padding(2);
             this.txtMaterialID.Name = "txtMaterialID";
             this.txtMaterialID.Size = new System.Drawing.Size(316, 20);
             this.txtMaterialID.TabIndex = 3;
@@ -138,7 +138,7 @@
             // btnRentMaterial
             // 
             this.btnRentMaterial.Location = new System.Drawing.Point(408, 181);
-            this.btnRentMaterial.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnRentMaterial.Margin = new System.Windows.Forms.Padding(2);
             this.btnRentMaterial.Name = "btnRentMaterial";
             this.btnRentMaterial.Size = new System.Drawing.Size(148, 25);
             this.btnRentMaterial.TabIndex = 13;
@@ -149,7 +149,7 @@
             // btnReturn
             // 
             this.btnReturn.Location = new System.Drawing.Point(170, 133);
-            this.btnReturn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnReturn.Margin = new System.Windows.Forms.Padding(2);
             this.btnReturn.Name = "btnReturn";
             this.btnReturn.Size = new System.Drawing.Size(148, 24);
             this.btnReturn.TabIndex = 14;
@@ -161,7 +161,7 @@
             // 
             this.lsbMaterialStorage.FormattingEnabled = true;
             this.lsbMaterialStorage.Location = new System.Drawing.Point(332, 32);
-            this.lsbMaterialStorage.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.lsbMaterialStorage.Margin = new System.Windows.Forms.Padding(2);
             this.lsbMaterialStorage.Name = "lsbMaterialStorage";
             this.lsbMaterialStorage.Size = new System.Drawing.Size(392, 95);
             this.lsbMaterialStorage.TabIndex = 15;
@@ -171,7 +171,7 @@
             // 
             this.lsbUserMaterial.FormattingEnabled = true;
             this.lsbUserMaterial.Location = new System.Drawing.Point(11, 55);
-            this.lsbUserMaterial.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.lsbUserMaterial.Margin = new System.Windows.Forms.Padding(2);
             this.lsbUserMaterial.Name = "lsbUserMaterial";
             this.lsbUserMaterial.Size = new System.Drawing.Size(308, 69);
             this.lsbUserMaterial.TabIndex = 16;
@@ -182,7 +182,7 @@
             this.cbCategory.Items.AddRange(new object[] {
             "Any"});
             this.cbCategory.Location = new System.Drawing.Point(390, 6);
-            this.cbCategory.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cbCategory.Margin = new System.Windows.Forms.Padding(2);
             this.cbCategory.Name = "cbCategory";
             this.cbCategory.Size = new System.Drawing.Size(334, 21);
             this.cbCategory.TabIndex = 17;
@@ -192,7 +192,7 @@
             // btnRemoveMaterial
             // 
             this.btnRemoveMaterial.Location = new System.Drawing.Point(574, 181);
-            this.btnRemoveMaterial.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnRemoveMaterial.Margin = new System.Windows.Forms.Padding(2);
             this.btnRemoveMaterial.Name = "btnRemoveMaterial";
             this.btnRemoveMaterial.Size = new System.Drawing.Size(148, 25);
             this.btnRemoveMaterial.TabIndex = 18;
@@ -203,7 +203,7 @@
             // btnMaterialAdd
             // 
             this.btnMaterialAdd.Location = new System.Drawing.Point(408, 259);
-            this.btnMaterialAdd.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnMaterialAdd.Margin = new System.Windows.Forms.Padding(2);
             this.btnMaterialAdd.Name = "btnMaterialAdd";
             this.btnMaterialAdd.Size = new System.Drawing.Size(148, 25);
             this.btnMaterialAdd.TabIndex = 19;
@@ -214,7 +214,7 @@
             // btnMaterialEdit
             // 
             this.btnMaterialEdit.Location = new System.Drawing.Point(574, 259);
-            this.btnMaterialEdit.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnMaterialEdit.Margin = new System.Windows.Forms.Padding(2);
             this.btnMaterialEdit.Name = "btnMaterialEdit";
             this.btnMaterialEdit.Size = new System.Drawing.Size(148, 25);
             this.btnMaterialEdit.TabIndex = 20;
@@ -245,7 +245,7 @@
             // txtNewMaterialName
             // 
             this.txtNewMaterialName.Location = new System.Drawing.Point(408, 211);
-            this.txtNewMaterialName.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtNewMaterialName.Margin = new System.Windows.Forms.Padding(2);
             this.txtNewMaterialName.Name = "txtNewMaterialName";
             this.txtNewMaterialName.Size = new System.Drawing.Size(316, 20);
             this.txtNewMaterialName.TabIndex = 25;
@@ -253,7 +253,7 @@
             // txtNewMaterialType
             // 
             this.txtNewMaterialType.Location = new System.Drawing.Point(408, 236);
-            this.txtNewMaterialType.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtNewMaterialType.Margin = new System.Windows.Forms.Padding(2);
             this.txtNewMaterialType.Name = "txtNewMaterialType";
             this.txtNewMaterialType.Size = new System.Drawing.Size(316, 20);
             this.txtNewMaterialType.TabIndex = 26;
@@ -284,7 +284,7 @@
             this.Controls.Add(this.txtMaterialName);
             this.Controls.Add(this.txtUserName);
             this.Controls.Add(this.txtUserNumber);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "MaterialSystem";
             this.Text = "MateriaalVerhuurSysteem";
             this.Load += new System.EventHandler(this.MaterialSystem_Load);
