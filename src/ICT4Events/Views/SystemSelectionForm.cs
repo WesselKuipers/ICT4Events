@@ -111,12 +111,16 @@ namespace ICT4Events
         private void OpenMaterialManagement(object sender, EventArgs e)
         {
             var ev = SelectEvent(LogicCollection.EventLogic.GetAllEvents());
+            if (ev == null) { return; }
+
             new MaterialSystem(ev).ShowDialog();
         }
 
         private void OpenEntranceControl(object sender, EventArgs e)
         {
             var ev = SelectEvent(LogicCollection.EventLogic.GetAllEvents());
+            if (ev == null) { return; }
+
             new EntraceControl(ev).ShowDialog();
         }
 
@@ -134,6 +138,7 @@ namespace ICT4Events
         private void OpenSocialMediaEmployee(object sender, EventArgs e)
         {
             var ev = SelectEvent(LogicCollection.EventLogic.GetAllEvents());
+            if (ev == null) { return; }
 
             new SocialMediaSystemForm(_user, ev).ShowDialog();
         }
@@ -164,7 +169,8 @@ namespace ICT4Events
             {
                 MessageBox.Show("Er zijn geen actieve evenementen gevonden");
                 return default(KeyValuePair<Event, Guest>);
-            };
+            }
+            ;
 
             // If user is a guest in multiple active events..
             if (guests.Count > 1)
@@ -181,7 +187,5 @@ namespace ICT4Events
 
             return new KeyValuePair<Event, Guest>(ev, guest);
         }
-
-        
     }
 }
