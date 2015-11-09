@@ -76,6 +76,8 @@ namespace ICT4Events.Views.EntraceControlSystem.Forms
 
         private void rfid_Tag(object sender, TagEventArgs e)
         {
+            txtRFIDIDSearch.Text = e.Tag;
+            txtRFIDPassCode.Text = e.Tag;
             var id = txtRFIDIDSearch.Text;
             LoadSearchGuest(id);
         }
@@ -85,9 +87,14 @@ namespace ICT4Events.Views.EntraceControlSystem.Forms
             txtRFIDIDSearch.Text = string.Empty;
             txtName.Text = string.Empty;
             txtLastName.Text = string.Empty;
+            txtEmail.Text = string.Empty;
             txtPhoneNumber.Text = string.Empty;
             txtLocationId.Text = string.Empty;
             chbPaid.Checked = false;
+
+            btnCheckIn.Enabled = false;
+            btnCheckOut.Enabled = false;
+            btnPay.Enabled = false;
         }
 
         #region Command line open functions
@@ -260,6 +267,13 @@ namespace ICT4Events.Views.EntraceControlSystem.Forms
                     lsvReserved.Items.Add(item);
                 }
             }
+
+            cmbListOfGuest.Items.Clear();
+            var listofGuestWithoutPass = LogicCollection.GuestLogic.GetGuestsByEvent(_event).Where(x => string.IsNullOrWhiteSpace(x.PassID));
+            foreach (var guestPass in listofGuestWithoutPass)  
+            {
+                cmbListOfGuest.Items.Add(guestPass);
+            }
         }
 
         private void btnCheckIn_Click(object sender, EventArgs e)
@@ -271,7 +285,7 @@ namespace ICT4Events.Views.EntraceControlSystem.Forms
                 // Update check
                 if (LogicCollection.GuestLogic.UpdateGuest(_searchGuest))
                 {
-                    MessageBox.Show($"Welkom op het evenement {_searchGuest.Name}");
+                    //MessageBox.Show($"Welkom op het evenement {_searchGuest.Name}");
                     btnCheckOut.Enabled = true;
                     btnCheckIn.Enabled = false;
                 }
@@ -291,7 +305,7 @@ namespace ICT4Events.Views.EntraceControlSystem.Forms
             // Update guest
             if (LogicCollection.GuestLogic.UpdateGuest(_searchGuest))
             {
-                MessageBox.Show($"We gaan je missen {_searchGuest.Name}");
+                //MessageBox.Show($"We gaan je missen {_searchGuest.Name}");
                 btnCheckOut.Enabled = false;
                 btnCheckIn.Enabled = true;
             }
@@ -317,6 +331,24 @@ namespace ICT4Events.Views.EntraceControlSystem.Forms
         private void txtRFIDIDSearch_TextChanged(object sender, EventArgs e)
         {
             btnSearch.Enabled = !string.IsNullOrWhiteSpace(txtRFIDIDSearch.Text);
+        }
+
+        private void btnBindRfid_Click(object sender, EventArgs e)
+        {
+            var rfid = txtRFIDPassCode.Text;
+            var g = (Guest) cmbListOfGuest.SelectedItem;
+            if (g != null)
+            {
+                g.PassID = rfid;
+                LogicCollection.GuestLogic.UpdateGuest(g);
+                MessageBox.Show("Pas koppelen is gelukt");
+                txtRFIDPassCode.Text = "";
+                cmbListOfGuest.SelectedIndex = -1;
+            }
+            else
+            {
+                MessageBox.Show("Selecteer een bezoeker.");
+            }
         }
     }
 }
