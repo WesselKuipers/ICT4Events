@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Windows.Forms;
 using Phidgets;
 using Phidgets.Events;
-using SharedModels.Data.ContextInterfaces;
-using SharedModels.Data.OracleContexts;
 using SharedModels.Logic;
 using SharedModels.Models;
 
@@ -17,7 +16,7 @@ namespace ICT4Events.Views.MaterialSystem.Forms
         #region Local Variables
         private readonly Event _event;
         private bool _rfidScanned;
-        //private RFID rfid;
+        private RFID _rfid;
         #endregion
 
         /// <summary>
@@ -33,24 +32,13 @@ namespace ICT4Events.Views.MaterialSystem.Forms
         }
 
         #region RFID (Do not delete)
-        /*
-        private void frmToegang_Load(object sender, EventArgs e)
-        {
-            rfid = new RFID();
-            rfid.Attach += new AttachEventHandler(this.rfid_Attach);
-            rfid.Detach += new DetachEventHandler(this.rfid_Detach);
-            rfid.Tag += new TagEventHandler(this.rfid_Tag);
-            rfid.TagLost += new TagEventHandler(this.rfid_TagLost);
-            this.openCmdLine(this.rfid);
-
-        }
 
         private void rfid_Attach(object sender, AttachEventArgs e)
         {
             RFID attached = (RFID)sender;
-            if (this.rfid.outputs.Count > 0)
+            if (this._rfid.outputs.Count > 0)
             {
-                this.rfid.Antenna = true;
+                this._rfid.Antenna = true;
             }
         }
 
@@ -60,44 +48,32 @@ namespace ICT4Events.Views.MaterialSystem.Forms
         }
         private void rfid_Tag(object sender, TagEventArgs e)
         {
-            
-            string id = tbRFIDIDZoeken.Text;
-            bool aanwezig = x.AanwezigheidsStatusupdate(id);
-            aanwezig = !aanwezig;
-            x.AanwezigheidsUpdate(aanwezig, id);
-            tbRFIDIDZoeken.Text = e.Tag;
-            x.DatabaseConnect();
-            DataTable validatie = x.Check(id);
-            DataRow[] datarow1 = validatie.Select("VNAAM = VNAAM");
-            foreach (DataRow row in datarow1)
-            {
-                tbNaam.Text = datarow1[0].ToString();
-                tbRekeningNummer.Text = datarow1[6].ToString();
-                tbKampeerplaats.Text = datarow1[2].ToString();
-                tbTelefoonNummer.Text = datarow1[1].ToString();
-                if (datarow1[5].ToString() == "Y")
+            //Refresh user listbox
+            btnReturn.Enabled = true;
+            txtGuestPassId.Text = e.Tag;
+            lsbUserMaterial.Items.Clear();
+                foreach (
+                    var material in
+                        LogicCollection.GuestLogic.GetGuestsByEvent(_event)
+                            .Where(guest => guest.PassID == e.Tag)
+                            .SelectMany(guest => LogicCollection.MaterialLogic.GetReservedMaterialsByGuest(guest)))
                 {
-                    cbBetaald.Checked = true;
+                    lsbUserMaterial.Items.Add(material.Name);
                 }
-                else
-                {
-                    cbBetaald.Checked = false;
-                }
-            }
+
+            var g = LogicCollection.GuestLogic.GetByRfid(e.Tag);
+            txtUserName.Text = $"{g.Name} {g.Surname}";
 
             this.Refresh();
         }
 
         private void rfid_TagLost(object sender, TagEventArgs e)
         {
-            tbRFIDIDZoeken.Text = string.Empty;
-            tbNaam.Text = string.Empty;
-            tbRekeningNummer.Text = string.Empty;
-            tbTelefoonNummer.Text = string.Empty;
-            tbKampeerplaats.Text = string.Empty;
-            cbBetaald.Checked = false;
+            txtGuestPassId.Text = string.Empty;
+            txtUserName.Text = string.Empty;
+            lsbUserMaterial.Items.Clear();
+            btnReturn.Enabled = false;
         }
-        */
         #endregion
 
         #region Other Functions
@@ -147,20 +123,6 @@ namespace ICT4Events.Views.MaterialSystem.Forms
         /// </summary>
         private void UpdateListBoxAndCategory()
         {
-            //Refresh user listbox
-            if (_rfidScanned)
-            {
-                lsbUserMaterial.Items.Clear();
-                foreach (
-                    var material in
-                        LogicCollection.GuestLogic.GetGuestsByEvent(_event)
-                            .Where(guest => guest.PassID == txtUserNumber.Text)
-                            .SelectMany(guest => LogicCollection.MaterialLogic.GetReservedMaterialsByGuest(guest)))
-                {
-                    lsbUserMaterial.Items.Add(material.Name);
-                }
-            }
-
             //Refresh storage listbox
             lsbMaterialStorage.Items.Clear();
             foreach (var material in LogicCollection.MaterialLogic.GetAllByEventAndNonReserved(_event))
@@ -191,7 +153,7 @@ namespace ICT4Events.Views.MaterialSystem.Forms
                 foreach (
                     var material in
                         LogicCollection.GuestLogic.GetGuestsByEvent(_event)
-                            .Where(guest => guest.PassID == txtUserNumber.Text)
+                            .Where(guest => guest.PassID == txtGuestPassId.Text)
                             .SelectMany(guest => LogicCollection.MaterialLogic.GetReservedMaterialsByGuest(guest)))
                 {
                     lsbUserMaterial.Items.Add(material.Name);
@@ -222,7 +184,7 @@ namespace ICT4Events.Views.MaterialSystem.Forms
                 foreach (
                     var material in
                         LogicCollection.GuestLogic.GetGuestsByEvent(_event)
-                            .Where(guest => guest.PassID == txtUserNumber.Text)
+                            .Where(guest => guest.PassID == txtGuestPassId.Text)
                             .SelectMany(guest => LogicCollection.MaterialLogic.GetReservedMaterialsByGuest(guest)))
                 {
                     lsbUserMaterial.Items.Add(material.Name);
@@ -276,14 +238,14 @@ namespace ICT4Events.Views.MaterialSystem.Forms
         /// <param name="e"></param>
         private void btnReturn_Click(object sender, EventArgs e)
         {
-            var boxes = new List<TextBox> {txtUserNumber, txtUserName};
+            var boxes = new List<TextBox> { txtGuestPassId, txtUserName };
 
             if (FieldsFilled(boxes) && lsbUserMaterial.Items.Count > 0 && lsbUserMaterial.SelectedIndex != -1)
             {
                 foreach (
                     var material in
                         LogicCollection.MaterialLogic.GetReservedMaterialsByGuest(
-                            LogicCollection.GuestLogic.GetByRfid(txtUserNumber.Text))
+                            LogicCollection.GuestLogic.GetByRfid(txtGuestPassId.Text))
                             .Where(material => material.Name == lsbUserMaterial.Text)
                             .Where(material => !LogicCollection.MaterialLogic.RemoveReservation(material)))
                 {
@@ -301,7 +263,7 @@ namespace ICT4Events.Views.MaterialSystem.Forms
         private void btnRentMaterial_Click(object sender, EventArgs e)
         {
             //Specify required textboxes
-            var boxes = new List<TextBox> {txtUserNumber, txtUserName, txtMaterialID, txtMaterialName};
+            var boxes = new List<TextBox> {txtGuestPassId, txtUserName, txtMaterialID, txtMaterialName};
 
             if (FieldsFilled(boxes) && lsbMaterialStorage.Items.Count > 0 && lsbMaterialStorage.SelectedIndex != -1)
             {
@@ -311,7 +273,7 @@ namespace ICT4Events.Views.MaterialSystem.Forms
                             .Where(material => material.ID.ToString() == txtMaterialID.Text))
                 {
                     LogicCollection.MaterialLogic.AddReservation(material,
-                        LogicCollection.GuestLogic.GetByRfid(txtUserNumber.Text).ID,
+                        LogicCollection.GuestLogic.GetByRfid(txtGuestPassId.Text).ID,
                         _event.StartDate, _event.EndDate);
                 }
             }
@@ -455,7 +417,117 @@ namespace ICT4Events.Views.MaterialSystem.Forms
         private void MaterialSystem_Load(object sender, EventArgs e)
         {
             UpdateListBoxAndCategory();
+            _rfid = new RFID();
+            _rfid.Attach += rfid_Attach;
+            _rfid.Detach += rfid_Detach;
+            _rfid.Tag += rfid_Tag;
+            _rfid.TagLost += rfid_TagLost;
+            openCmdLine(_rfid);
         }
         #endregion
+
+        private void openCmdLine(Phidget p)
+        {
+            openCmdLine(p, null);
+        }
+
+        private void openCmdLine(Phidget p, string pass)
+        {
+            var serial = -1;
+            string logFile = null;
+            var port = 5001;
+            string host = null;
+            bool remote = false, remoteIp = false;
+            var args = Environment.GetCommandLineArgs();
+            var appName = args[0];
+
+            try
+            {
+                for (var i = 1; i < args.Length; i++)
+                {
+                    if (args[i].StartsWith("-"))
+                    {
+                        switch (args[i].Remove(0, 1).ToLower())
+                        {
+                            case "l":
+                                logFile = args[++i];
+                                break;
+                            case "n":
+                                serial = int.Parse(args[++i]);
+                                break;
+                            case "r":
+                                remote = true;
+                                break;
+                            case "s":
+                                remote = true;
+                                host = args[++i];
+                                break;
+                            case "p":
+                                pass = args[++i];
+                                break;
+                            case "i":
+                                remoteIp = true;
+                                host = args[++i];
+                                if (host.Contains(":"))
+                                {
+                                    port = int.Parse(host.Split(':')[1]);
+                                    host = host.Split(':')[0];
+                                }
+
+                                break;
+                            default:
+                                goto usage;
+                        }
+                    }
+                    else
+                    {
+                        goto usage;
+                    }
+                }
+
+                if (logFile != null)
+                {
+                    Phidget.enableLogging(Phidget.LogLevel.PHIDGET_LOG_INFO, logFile);
+                }
+
+                if (remoteIp)
+                {
+                    p.open(serial, host, port, pass);
+                }
+                else if (remote)
+                {
+                    p.open(serial, host, pass);
+                }
+                else
+                {
+                    p.open(serial);
+                }
+
+                return;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
+            usage:
+            var sb = new StringBuilder();
+            sb.AppendLine("Invalid Command line arguments." + Environment.NewLine);
+            sb.AppendLine("Usage: " + appName + " [Flags...]");
+            sb.AppendLine("Flags:\t-n   serialNumber\tSerial Number, omit for any serial");
+            sb.AppendLine("\t-l   logFile\tEnable phidget21 logging to logFile.");
+            sb.AppendLine("\t-r\t\tOpen remotely");
+            sb.AppendLine("\t-s   serverID\tServer ID, omit for any server");
+            sb.AppendLine("\t-i   ipAddress:port\tIp Address and Port. Port is optional, defaults to 5001");
+            sb.AppendLine("\t-p   password\tPassword, omit for no password" + Environment.NewLine);
+            sb.AppendLine("Examples: ");
+            sb.AppendLine(appName + " -n 50098");
+            sb.AppendLine(appName + " -r");
+            sb.AppendLine(appName + " -s myphidgetserver");
+            sb.AppendLine(appName + " -n 45670 -i 127.0.0.1:5001 -p paswrd");
+            MessageBox.Show(sb.ToString(), "Argument Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            Application.Exit();
+        }
     }
 }

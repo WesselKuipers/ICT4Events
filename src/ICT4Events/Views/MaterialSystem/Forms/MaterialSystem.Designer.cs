@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.txtUserNumber = new System.Windows.Forms.TextBox();
+            this.txtGuestPassId = new System.Windows.Forms.TextBox();
             this.txtUserName = new System.Windows.Forms.TextBox();
             this.txtMaterialName = new System.Windows.Forms.TextBox();
             this.txtMaterialID = new System.Windows.Forms.TextBox();
@@ -51,14 +51,13 @@
             this.txtNewMaterialType = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
-            // txtUserNumber
+            // txtGuestPassId
             // 
-            this.txtUserNumber.Location = new System.Drawing.Point(113, 8);
-            this.txtUserNumber.Margin = new System.Windows.Forms.Padding(2);
-            this.txtUserNumber.Name = "txtUserNumber";
-            this.txtUserNumber.Size = new System.Drawing.Size(206, 20);
-            this.txtUserNumber.TabIndex = 0;
-            this.txtUserNumber.Text = "mwir9vmb14";
+            this.txtGuestPassId.Location = new System.Drawing.Point(113, 8);
+            this.txtGuestPassId.Margin = new System.Windows.Forms.Padding(2);
+            this.txtGuestPassId.Name = "txtGuestPassId";
+            this.txtGuestPassId.Size = new System.Drawing.Size(206, 20);
+            this.txtGuestPassId.TabIndex = 0;
             // 
             // txtUserName
             // 
@@ -67,7 +66,6 @@
             this.txtUserName.Name = "txtUserName";
             this.txtUserName.Size = new System.Drawing.Size(206, 20);
             this.txtUserName.TabIndex = 1;
-            this.txtUserName.Text = "Joakim Doest";
             // 
             // txtMaterialName
             // 
@@ -148,6 +146,7 @@
             // 
             // btnReturn
             // 
+            this.btnReturn.Enabled = false;
             this.btnReturn.Location = new System.Drawing.Point(170, 133);
             this.btnReturn.Margin = new System.Windows.Forms.Padding(2);
             this.btnReturn.Name = "btnReturn";
@@ -283,7 +282,7 @@
             this.Controls.Add(this.txtMaterialID);
             this.Controls.Add(this.txtMaterialName);
             this.Controls.Add(this.txtUserName);
-            this.Controls.Add(this.txtUserNumber);
+            this.Controls.Add(this.txtGuestPassId);
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "MaterialSystem";
             this.Text = "MateriaalVerhuurSysteem";
@@ -295,7 +294,7 @@
 
         #endregion
 
-        private System.Windows.Forms.TextBox txtUserNumber;
+        private System.Windows.Forms.TextBox txtGuestPassId;
         private System.Windows.Forms.TextBox txtUserName;
         private System.Windows.Forms.TextBox txtMaterialName;
         private System.Windows.Forms.TextBox txtMaterialID;
