@@ -286,7 +286,7 @@
             this.Controls.Add(this.txtGuestPassId);
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "MaterialSystem";
-            this.Text = "MateriaalVerhuurSysteem";
+            this.Text = "Materiaalbeheer";
             this.Load += new System.EventHandler(this.MaterialSystem_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

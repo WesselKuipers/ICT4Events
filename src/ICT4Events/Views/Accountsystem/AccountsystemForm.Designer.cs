@@ -62,7 +62,7 @@
             this.ClientSize = new System.Drawing.Size(606, 397);
             this.Controls.Add(this.tcAccountsystem);
             this.Name = "AccountSystemForm";
-            this.Text = "Accountsystem";
+            this.Text = "Accountbeheer";
             this.Load += new System.EventHandler(this.Accountsystem_Load);
             this.tcAccountsystem.ResumeLayout(false);
             this.ResumeLayout(false);

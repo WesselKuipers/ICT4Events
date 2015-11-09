@@ -16,6 +16,8 @@ namespace ICT4Events.Views.SocialSystem.Forms
             InitializeComponent();
             _user = user;
             _event = ev;
+
+            Text = $"Tijdlijn {ev.Name}";
         }
         /// <summary>
         /// SocialMediaSystem on load

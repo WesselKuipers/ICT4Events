@@ -73,7 +73,7 @@
             this.Controls.Add(this.lblPaymentAmount);
             this.Controls.Add(this.label1);
             this.Name = "GuestPaymentForm";
-            this.Text = "GuestPaymentForm";
+            this.Text = "Betalingsformulier";
             this.ResumeLayout(false);
             this.PerformLayout();
 

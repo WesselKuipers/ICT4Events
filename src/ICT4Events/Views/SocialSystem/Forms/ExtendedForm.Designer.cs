@@ -58,7 +58,7 @@
             this.ClientSize = new System.Drawing.Size(759, 661);
             this.Controls.Add(this.tbcExtendedForm);
             this.Name = "ExtendedForm";
-            this.Text = "ExtendedForm";
+            this.Text = "Bericht bekijken";
             this.tbcExtendedForm.ResumeLayout(false);
             this.ResumeLayout(false);
 

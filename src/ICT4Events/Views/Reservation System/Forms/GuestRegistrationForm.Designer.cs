@@ -274,7 +274,7 @@
             this.Controls.Add(this.lblEventName);
             this.Controls.Add(this.label1);
             this.Name = "GuestRegistrationForm";
-            this.Text = "Registration for Event";
+            this.Text = "Reserveren voor evenement";
             this.tblAdditionalGuests.ResumeLayout(false);
             this.tblAdditionalGuests.PerformLayout();
             this.ResumeLayout(false);

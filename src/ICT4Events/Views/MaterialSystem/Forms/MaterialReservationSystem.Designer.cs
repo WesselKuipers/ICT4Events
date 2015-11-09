@@ -38,7 +38,7 @@
             // 
             this.lsbUserMaterials.FormattingEnabled = true;
             this.lsbUserMaterials.Location = new System.Drawing.Point(9, 39);
-            this.lsbUserMaterials.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.lsbUserMaterials.Margin = new System.Windows.Forms.Padding(2);
             this.lsbUserMaterials.Name = "lsbUserMaterials";
             this.lsbUserMaterials.Size = new System.Drawing.Size(392, 511);
             this.lsbUserMaterials.TabIndex = 19;
@@ -47,7 +47,7 @@
             // 
             this.btnReserve.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnReserve.Location = new System.Drawing.Point(290, 555);
-            this.btnReserve.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnReserve.Margin = new System.Windows.Forms.Padding(2);
             this.btnReserve.Name = "btnReserve";
             this.btnReserve.Size = new System.Drawing.Size(110, 24);
             this.btnReserve.TabIndex = 21;
@@ -58,7 +58,7 @@
             // txtSearch
             // 
             this.txtSearch.Location = new System.Drawing.Point(10, 11);
-            this.txtSearch.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtSearch.Margin = new System.Windows.Forms.Padding(2);
             this.txtSearch.Name = "txtSearch";
             this.txtSearch.Size = new System.Drawing.Size(276, 20);
             this.txtSearch.TabIndex = 22;
@@ -67,7 +67,7 @@
             // btnSearch
             // 
             this.btnSearch.Location = new System.Drawing.Point(290, 7);
-            this.btnSearch.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnSearch.Margin = new System.Windows.Forms.Padding(2);
             this.btnSearch.Name = "btnSearch";
             this.btnSearch.Size = new System.Drawing.Size(110, 24);
             this.btnSearch.TabIndex = 23;
@@ -84,9 +84,9 @@
             this.Controls.Add(this.txtSearch);
             this.Controls.Add(this.btnReserve);
             this.Controls.Add(this.lsbUserMaterials);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "MaterialReservationSystem";
-            this.Text = "MaterialReservationSystem";
+            this.Text = "Materiaalverhuur";
             this.Load += new System.EventHandler(this.MaterialReservationSystem_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

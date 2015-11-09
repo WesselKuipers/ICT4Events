@@ -81,7 +81,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnOk);
             this.Name = "ReportPostForm";
-            this.Text = "Bericht Rapporteren";
+            this.Text = "Bericht rapporteren";
             this.ResumeLayout(false);
             this.PerformLayout();
 
