@@ -62,11 +62,18 @@
             this.clhMaterial = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.clhDateStart = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.clhDateEnd = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.txtRFIDPassCode = new System.Windows.Forms.TextBox();
+            this.cmbListOfGuest = new System.Windows.Forms.ComboBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.btnBindRfid = new System.Windows.Forms.Button();
             this.tabPage2.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage3.SuspendLayout();
+            this.tabPage4.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabPage2
@@ -352,6 +359,7 @@
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Controls.Add(this.tabPage3);
+            this.tabControl1.Controls.Add(this.tabPage4);
             this.tabControl1.Location = new System.Drawing.Point(0, 3);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -404,6 +412,64 @@
             this.clhDateEnd.Text = "Datum terugbrengen";
             this.clhDateEnd.Width = 153;
             // 
+            // tabPage4
+            // 
+            this.tabPage4.Controls.Add(this.btnBindRfid);
+            this.tabPage4.Controls.Add(this.label9);
+            this.tabPage4.Controls.Add(this.label8);
+            this.tabPage4.Controls.Add(this.cmbListOfGuest);
+            this.tabPage4.Controls.Add(this.txtRFIDPassCode);
+            this.tabPage4.Location = new System.Drawing.Point(4, 22);
+            this.tabPage4.Name = "tabPage4";
+            this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage4.Size = new System.Drawing.Size(530, 375);
+            this.tabPage4.TabIndex = 3;
+            this.tabPage4.Text = "PasKoppelen";
+            this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // txtRFIDPassCode
+            // 
+            this.txtRFIDPassCode.Location = new System.Drawing.Point(57, 46);
+            this.txtRFIDPassCode.Name = "txtRFIDPassCode";
+            this.txtRFIDPassCode.Size = new System.Drawing.Size(178, 20);
+            this.txtRFIDPassCode.TabIndex = 0;
+            // 
+            // cmbListOfGuest
+            // 
+            this.cmbListOfGuest.FormattingEnabled = true;
+            this.cmbListOfGuest.Location = new System.Drawing.Point(57, 85);
+            this.cmbListOfGuest.Name = "cmbListOfGuest";
+            this.cmbListOfGuest.Size = new System.Drawing.Size(178, 21);
+            this.cmbListOfGuest.TabIndex = 1;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(54, 30);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(49, 13);
+            this.label8.TabIndex = 2;
+            this.label8.Text = "Pascode";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(54, 69);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(81, 13);
+            this.label9.TabIndex = 3;
+            this.label9.Text = "Lijst van gasten";
+            // 
+            // btnBindRfid
+            // 
+            this.btnBindRfid.Location = new System.Drawing.Point(57, 112);
+            this.btnBindRfid.Name = "btnBindRfid";
+            this.btnBindRfid.Size = new System.Drawing.Size(75, 23);
+            this.btnBindRfid.TabIndex = 4;
+            this.btnBindRfid.Text = "Koppelen";
+            this.btnBindRfid.UseVisualStyleBackColor = true;
+            this.btnBindRfid.Click += new System.EventHandler(this.btnBindRfid_Click);
+            // 
             // EntraceControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -421,6 +487,8 @@
             this.groupBox1.PerformLayout();
             this.tabControl1.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
+            this.tabPage4.ResumeLayout(false);
+            this.tabPage4.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -461,5 +529,11 @@
         private System.Windows.Forms.ColumnHeader clhMaterial;
         private System.Windows.Forms.ColumnHeader clhDateStart;
         private System.Windows.Forms.ColumnHeader clhDateEnd;
+        private System.Windows.Forms.TabPage tabPage4;
+        private System.Windows.Forms.Button btnBindRfid;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.ComboBox cmbListOfGuest;
+        private System.Windows.Forms.TextBox txtRFIDPassCode;
     }
 }
