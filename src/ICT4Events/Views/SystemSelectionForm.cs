@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 using ICT4Events.Views;
@@ -30,11 +31,8 @@ namespace ICT4Events
             btnAccountManagementSystem.Click += OpenAccountManagement;
 
             var btnSocialMediaSystem = new Button {Text = "Tijdlijn bekijken", Dock = DockStyle.Fill };
-
             var btnEntraceControlSystem = new Button { Text = "Toegangscontrole", Dock = DockStyle.Fill };
-
             var btnMaterialSystem = new Button { Text = "Materiaal Verhuur", Dock = DockStyle.Fill};
-            var btnMaterialReservationSystem = new Button {Text = "Materiaal Reserveren", Dock = DockStyle.Fill};
 
             if (_user.Permission == PermissionType.User)
             {
@@ -44,12 +42,13 @@ namespace ICT4Events
 
                 btnSocialMediaSystem.Click += OpenSocialMediaUser;
 
+                btnMaterialSystem.Text = "Materiaal Reserveren";
+                btnMaterialSystem.Click += OpenMaterialReservation;
+
                 tblSystemButtons.Controls.Add(btnSocialMediaSystem);
                 tblSystemButtons.Controls.Add(btnReservationSytem);
                 tblSystemButtons.Controls.Add(btnAccountManagementSystem);
-
-                btnMaterialReservationSystem.Click += OpenMaterialReservation;
-                tblSystemButtons.Controls.Add(btnMaterialReservationSystem);
+                tblSystemButtons.Controls.Add(btnMaterialSystem);
 
             }
             if (_user.Permission == PermissionType.Employee || _user.Permission == PermissionType.Administrator)
@@ -60,11 +59,19 @@ namespace ICT4Events
                 tblSystemButtons.Controls.Add(btnSocialMediaSystem);
                 tblSystemButtons.Controls.Add(btnAccountManagementSystem);
 
-                
                 btnMaterialSystem.Click += OpenMaterialManagement;
                 tblSystemButtons.Controls.Add(btnMaterialSystem);
 
+                var phidgetInstalled = CheckLibrary("phidget21.dll");
+                if (!phidgetInstalled)
+                {
+                    btnMaterialSystem.Enabled = false;
+                    btnEntraceControlSystem.Enabled = false;
+                    MessageBox.Show("Phidget RFID driver is niet geïnstalleerd.\r\nMateriaalverhuursysteem en Toegangscontrolesysteem zijn uitgeschakeld.");
+                }
+
                 btnEntraceControlSystem.Click += OpenEntranceControl;
+
                 tblSystemButtons.Controls.Add(btnEntraceControlSystem);
             }
             if (_user.Permission == PermissionType.Administrator)
@@ -168,7 +175,6 @@ namespace ICT4Events
                 MessageBox.Show("Er zijn geen actieve evenementen gevonden");
                 return default(KeyValuePair<Event, Guest>);
             }
-            ;
 
             // If user is a guest in multiple active events..
             if (guests.Count > 1)
@@ -184,6 +190,19 @@ namespace ICT4Events
             guest = guests.First(x => x.EventID == ev.ID);
 
             return new KeyValuePair<Event, Guest>(ev, guest);
+        }
+
+        [DllImport("kernel32", SetLastError = true)]
+        static extern IntPtr LoadLibrary(string lpFileName);
+
+        /// <summary>
+        /// Checks if a dll library exists on the machine
+        /// </summary>
+        /// <param name="fileName">Filename of the library</param>
+        /// <returns>True if the library exists</returns>
+        static bool CheckLibrary(string fileName)
+        {
+            return !(LoadLibrary(fileName) == IntPtr.Zero);
         }
     }
 }
