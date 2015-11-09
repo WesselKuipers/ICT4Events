@@ -61,8 +61,15 @@ namespace ICT4Events.Views.MaterialSystem.Forms
                     lsbUserMaterial.Items.Add(material.Name);
                 }
 
-            var g = LogicCollection.GuestLogic.GetByRfid(e.Tag);
-            txtUserName.Text = $"{g.Name} {g.Surname}";
+            var g = LogicCollection.GuestLogic.GetByRfid(e.Tag, _event);
+            if (g != null)
+            {
+                txtUserName.Text = $"{g.Name} {g.Surname}";
+            }
+            else
+            {
+                MessageBox.Show("Niemand gevonden.");
+            }
 
             this.Refresh();
         }
@@ -245,7 +252,7 @@ namespace ICT4Events.Views.MaterialSystem.Forms
                 foreach (
                     var material in
                         LogicCollection.MaterialLogic.GetReservedMaterialsByGuest(
-                            LogicCollection.GuestLogic.GetByRfid(txtGuestPassId.Text))
+                            LogicCollection.GuestLogic.GetByRfid(txtGuestPassId.Text,_event))
                             .Where(material => material.Name == lsbUserMaterial.Text)
                             .Where(material => !LogicCollection.MaterialLogic.RemoveReservation(material)))
                 {
@@ -273,7 +280,7 @@ namespace ICT4Events.Views.MaterialSystem.Forms
                             .Where(material => material.ID.ToString() == txtMaterialID.Text))
                 {
                     LogicCollection.MaterialLogic.AddReservation(material,
-                        LogicCollection.GuestLogic.GetByRfid(txtGuestPassId.Text).ID,
+                        LogicCollection.GuestLogic.GetByRfid(txtGuestPassId.Text, _event).ID,
                         _event.StartDate, _event.EndDate);
                 }
             }

@@ -64,5 +64,13 @@ namespace ICT4Events.Views.Accountsystem.Controls
                 MessageBox.Show("Selecteer eerst een useraccount");
             }
         }
+
+        private void linkRegister_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            var registerForm = new RegisterUserForm();
+            registerForm.ShowDialog();
+            lbUsers.Items.Clear();
+            lbUsers.Items.AddRange(_logic.AllUsers.Where(user => user.ID != _user.ID).ToArray());
+        }
     }
 }

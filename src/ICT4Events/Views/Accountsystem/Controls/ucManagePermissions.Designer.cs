@@ -32,6 +32,7 @@
             this.btnUpdatePermissions = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.cbPermTypes = new System.Windows.Forms.ComboBox();
+            this.linkRegister = new System.Windows.Forms.LinkLabel();
             this.SuspendLayout();
             // 
             // lbUsers
@@ -71,10 +72,22 @@
             this.cbPermTypes.Size = new System.Drawing.Size(183, 21);
             this.cbPermTypes.TabIndex = 4;
             // 
+            // linkRegister
+            // 
+            this.linkRegister.AutoSize = true;
+            this.linkRegister.Location = new System.Drawing.Point(3, 289);
+            this.linkRegister.Name = "linkRegister";
+            this.linkRegister.Size = new System.Drawing.Size(106, 13);
+            this.linkRegister.TabIndex = 11;
+            this.linkRegister.TabStop = true;
+            this.linkRegister.Text = "Account aanmaken?";
+            this.linkRegister.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkRegister_LinkClicked);
+            // 
             // UcManagePermissions
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.linkRegister);
             this.Controls.Add(this.cbPermTypes);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnUpdatePermissions);
@@ -93,5 +106,6 @@
         private System.Windows.Forms.Button btnUpdatePermissions;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox cbPermTypes;
+        private System.Windows.Forms.LinkLabel linkRegister;
     }
 }

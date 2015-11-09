@@ -220,7 +220,7 @@ namespace ICT4Events.Views.EntraceControlSystem.Forms
         }
         private void LoadSearchGuest(string rfid)
         {
-            _searchGuest = LogicCollection.GuestLogic.GetByRfid(rfid);
+            _searchGuest = LogicCollection.GuestLogic.GetByRfid(rfid, _event);
             if (_searchGuest != null)
             {
                 txtName.Text = _searchGuest.Name;

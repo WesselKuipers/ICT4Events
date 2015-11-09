@@ -25,7 +25,13 @@ namespace ICT4Events.Views.Accountsystem.Controls
             }
             else
             {
-                _logic.SetNewPassword(_user, txtOld.Text, txtNew1.Text, txtNew2.Text);
+                if(_logic.SetNewPassword(_user, txtOld.Text, txtNew1.Text, txtNew2.Text))
+                {
+                    MessageBox.Show("Wachtwoord is aangepast");
+                    txtOld.Text = string.Empty;
+                    txtNew1.Text = string.Empty;
+                    txtNew2.Text = string.Empty;
+                }
             }
         }
 
