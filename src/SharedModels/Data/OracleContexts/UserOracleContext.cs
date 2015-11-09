@@ -59,11 +59,12 @@ namespace SharedModels.Data.OracleContexts
 
         public bool Update(User user)
         {
-            const string query = "UPDATE useraccount SET firstname = :firstname, surname = :surname, country = :country, address = :address, city = :city, postal = :postal, phonenumber = :phonenumber, permissionlevel = :permissionlevel WHERE userid = :userid";
+            const string query = "UPDATE useraccount SET password = :pass, firstname = :firstname, surname = :surname, country = :country, address = :address, city = :city, postal = :postal, phonenumber = :phonenumber, permissionlevel = :permissionlevel WHERE userid = :userid";
 
             var parameters = new List<OracleParameter>
             {
                 new OracleParameter("userid", user.ID),
+                new OracleParameter("pass", user.Password),
                 new OracleParameter("firstname", user.Name),
                 new OracleParameter("surname", user.Surname),
                 new OracleParameter("country", user.Country.ToString()),

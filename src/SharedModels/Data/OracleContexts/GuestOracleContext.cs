@@ -21,13 +21,14 @@ namespace SharedModels.Data.OracleContexts
             return res.Select(GetEntityFromRecord).ToList();
         }
 
-        public Guest GetByRfid(string rfid)
+        public Guest GetByRfid(string rfid, Event ev)
         {
             var query =
-                "SELECT u.*, g.eventid, g.locationid, g.passid, g.paid, g.present, g.datestart, g.dateend, g.leaderid FROM guest g INNER JOIN useraccount u ON g.userid = u.userid WHERE g.passid = :passid";
+                "SELECT u.*, g.eventid, g.locationid, g.passid, g.paid, g.present, g.datestart, g.dateend, g.leaderid FROM guest g INNER JOIN useraccount u ON g.userid = u.userid WHERE g.passid = :passid AND g.eventid = :eventid";
             var parameters = new List<OracleParameter>
             {
-                new OracleParameter("passid", rfid)
+                new OracleParameter("passid", rfid),
+                new OracleParameter("eventid", ev.ID)
             };
 
             if (rfid == null) return null;
