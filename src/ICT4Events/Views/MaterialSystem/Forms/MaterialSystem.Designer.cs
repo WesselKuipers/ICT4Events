@@ -68,6 +68,7 @@
             this.txtUserName.Size = new System.Drawing.Size(206, 20);
             this.txtUserName.TabIndex = 1;
             this.txtUserName.Text = "Joakim Doest";
+
             // 
             // txtMaterialName
             // 

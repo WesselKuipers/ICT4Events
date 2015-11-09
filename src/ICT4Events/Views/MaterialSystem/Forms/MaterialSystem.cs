@@ -6,6 +6,7 @@ using Phidgets;
 using Phidgets.Events;
 using SharedModels.Data.ContextInterfaces;
 using SharedModels.Data.OracleContexts;
+using SharedModels.Enums;
 using SharedModels.Logic;
 using SharedModels.Models;
 
@@ -15,6 +16,8 @@ namespace ICT4Events.Views.MaterialSystem.Forms
     public partial class MaterialSystem : Form
     {
         #region Local Variables
+
+        private readonly User _user;
         private readonly Event _event;
         private bool _rfidScanned;
         //private RFID rfid;
@@ -24,11 +27,11 @@ namespace ICT4Events.Views.MaterialSystem.Forms
         /// Constructor of the material system
         /// </summary>
         /// <param name="ev"></param>
-        public MaterialSystem(Event ev)
+        public MaterialSystem(Event ev, User user)
         {
             InitializeComponent();
             _event = ev;
-
+            _user = user;
             _rfidScanned = true;
         }
 
@@ -454,6 +457,7 @@ namespace ICT4Events.Views.MaterialSystem.Forms
         /// <param name="e"></param>
         private void MaterialSystem_Load(object sender, EventArgs e)
         {
+            btnRemoveMaterial.Enabled = btnMaterialAdd.Enabled = _user.Permission == PermissionType.Administrator;
             UpdateListBoxAndCategory();
         }
         #endregion
