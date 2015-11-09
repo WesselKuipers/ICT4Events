@@ -57,6 +57,11 @@ namespace ICT4Events.Views.EventManagementSystem.Controls
             if (!CheckRequiredFields()) return;
 
             var location = (Location) lsbLocations.SelectedItem;
+            if (location == null)
+            {
+                MessageBox.Show("U heeft geen locatie geselecteerd");
+                return;
+            }
 
             var guestCount = LogicCollection.GuestLogic.GetGuestCountByLocation(location);
             if (numLocationCapacity.Value < guestCount)
@@ -86,6 +91,11 @@ namespace ICT4Events.Views.EventManagementSystem.Controls
         private void btnDeleteLocation_Click(object sender, EventArgs e)
         {
             var location = (Location) lsbLocations.SelectedItem;
+            if (location == null)
+            {
+                MessageBox.Show("U heeft geen locatie geselecteerd");
+                return;
+            }
 
             if (!LogicCollection.LocationLogic.DeleteLocation(location))
             {
@@ -94,14 +104,21 @@ namespace ICT4Events.Views.EventManagementSystem.Controls
             else
             {
                 lsbLocations.Items.Remove(location);
+
+                txtLocationName.Text = string.Empty;
+                numLocationCapacity.Value = 1;
+                numLocationPrice.Value = 0;
             }
         }
 
         private void lsbLocations_SelectedIndexChanged(object sender, EventArgs e)
         {
             var location = (Location) lsbLocations.SelectedItem;
-
-            if (location == null) return;
+            if (location == null)
+            {
+                MessageBox.Show("U heeft geen locatie geselecteerd");
+                return;
+            }
 
             txtLocationName.Text = location.Name;
             numLocationCapacity.Value = location.Capacity;
