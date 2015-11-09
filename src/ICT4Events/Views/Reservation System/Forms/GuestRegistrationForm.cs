@@ -29,6 +29,7 @@ namespace ICT4Events.Views.Reservation_System.Forms
             _user = user;
             _event = ev;
 
+            lblEventName.Text = ev.Name;
             cmbLocations.DataSource = LogicCollection.LocationLogic.GetLocationsByEvent(ev);
 
             calEventDate.MinDate = _event.StartDate;
@@ -39,6 +40,26 @@ namespace ICT4Events.Views.Reservation_System.Forms
         }
 
         private void btnRegister_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                RegisterUsersForEvent();
+            }
+            catch (InvalidEventRegistrationException ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void cmbLocations_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            _location = (Location) cmbLocations.SelectedItem;
+
+            _locationGuestCount = LogicCollection.GuestLogic.GetGuestCountByLocation(_location);
+            lblLocationCapacity.Text = $"{_locationGuestCount} / {_location.Capacity}";
+        }
+
+        private void RegisterUsersForEvent()
         {
             if (_locationGuestCount + 1 > _location.Capacity)
             {
@@ -75,7 +96,7 @@ namespace ICT4Events.Views.Reservation_System.Forms
 
             if (MessageBox.Show("Wilt u nu betalen?", "Betalingsverzoek", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
-                var totalAmount = _location.Price * 1 + additionalGuests.Count;
+                var totalAmount = _location.Price * (1 + additionalGuests.Count);
 
                 if (new GuestPaymentForm(totalAmount).ShowDialog() == DialogResult.OK)
                 {
@@ -91,14 +112,6 @@ namespace ICT4Events.Views.Reservation_System.Forms
 
             DialogResult = DialogResult.OK;
             Close();
-        }
-
-        private void cmbLocations_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            _location = (Location) cmbLocations.SelectedItem;
-
-            _locationGuestCount = LogicCollection.GuestLogic.GetGuestCountByLocation(_location);
-            lblLocationCapacity.Text = $"{_locationGuestCount} / {_location.Capacity}";
         }
     }
 }

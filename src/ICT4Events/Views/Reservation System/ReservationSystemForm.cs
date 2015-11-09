@@ -42,6 +42,7 @@ namespace ICT4Events.Views.Reservation_System
 
         private void cmbEvents_SelectedIndexChanged(object sender, EventArgs e)
         {
+            picEventMap.Image = picEventMap.InitialImage;
             UpdateEventInformation();
         }
 
@@ -61,7 +62,10 @@ namespace ICT4Events.Views.Reservation_System
                 eventDays.Add(date);
             }
 
-            // TODO: Determine if it's desired to have max start and end date set
+            // Sets max and min date to a low and high value to prevent exceptions being thrown on max and min dates being assigned in conflicting orders
+            calEventDate.MinDate = new DateTime(1970, 1, 1);
+            calEventDate.MaxDate = new DateTime(3000, 1, 1);
+
             calEventDate.MinDate = ev.StartDate;
             calEventDate.MaxDate = ev.EndDate;
 
@@ -69,7 +73,6 @@ namespace ICT4Events.Views.Reservation_System
             calEventDate.SetSelectionRange(ev.StartDate, ev.EndDate);
             calEventDate.MaxSelectionCount = (int) (ev.EndDate.Subtract(ev.StartDate).TotalDays) + 1;
 
-            // TODO: Make sure this actually gets saved here
             picEventMap.ImageLocation = $"{SharedModels.FTP.FtpHelper.ServerHardLogin}/{ev.ID}/{ev.MapPath}";
             picEventMap.SizeMode = PictureBoxSizeMode.Zoom;
             RefreshStatus();
@@ -110,7 +113,8 @@ namespace ICT4Events.Views.Reservation_System
 
             var group = _guestRepo.GetGuestsByGroup((Event) cmbEvents.SelectedItem, _guest.LeaderID);
 
-            var totalAmount = location.Price * group.Count;
+            // It's possible for people in groups to pay individually, so the payment status is checked
+            var totalAmount = location.Price * group.Count(x => !x.Paid);
 
             if (new GuestPaymentForm(totalAmount).ShowDialog() != DialogResult.OK) return;
 
