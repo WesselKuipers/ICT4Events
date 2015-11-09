@@ -67,6 +67,11 @@ namespace ICT4EventsTests.Data
             throw new NotImplementedException();
         }
 
+        public List<Material> GetAllReservedMaterials(Event ev)
+        {
+            throw new NotImplementedException();
+        }
+
         public Material AddReservation(Material material, int guestID, DateTime startDate, DateTime endDate)
         {
             material.GuestID = guestID;

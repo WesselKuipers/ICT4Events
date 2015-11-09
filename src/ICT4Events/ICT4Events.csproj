@@ -372,7 +372,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\LoadingIcon.gif" />
-    <Content Include="Views\MaterialSystem\Forms\TempCopyPasteShortCuts.txt" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\mp3.jpg" />

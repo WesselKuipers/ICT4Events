@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Net.NetworkInformation;
 using System.Security.Authentication;
 using System.Windows.Forms;
 using ICT4Events.Views.Accountsystem;
 using SharedModels.Data.OracleContexts;
+using SharedModels.Debug;
 using SharedModels.Logic;
 using SharedModels.Models;
 
@@ -73,6 +75,12 @@ namespace ICT4Events.Views
                 return;
             }
 
+            if (!PingHost("192.168.20.221"))
+            {
+                MessageBox.Show("Kan geen verbinding maken met de database.\r\nBent u ingelogd op het juiste netwerk?");
+                return;
+            }
+
             try
             {
                 var userLogic = new UserLogic(new UserOracleContext());
@@ -96,6 +104,23 @@ namespace ICT4Events.Views
         {
             var registerForm = new RegisterUserForm();
             registerForm.ShowDialog();
+        }
+
+        public static bool PingHost(string nameOrAddress)
+        {
+            var pingable = false;
+            var pinger = new Ping();
+            try
+            {
+                var reply = pinger.Send(nameOrAddress);
+                pingable = reply.Status == IPStatus.Success;
+            }
+            catch (PingException e)
+            {
+                Logger.Write(e.Message);
+                return false;
+            }
+            return pingable;
         }
     }
 }
