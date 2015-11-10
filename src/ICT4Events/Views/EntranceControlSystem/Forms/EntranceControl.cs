@@ -83,17 +83,6 @@ namespace ICT4Events.Views.EntranceControlSystem.Forms
 
         private void rfid_TagLost(object sender, TagEventArgs e)
         {
-            txtRFIDIDSearch.Text = string.Empty;
-            txtName.Text = string.Empty;
-            txtLastName.Text = string.Empty;
-            txtEmail.Text = string.Empty;
-            txtPhoneNumber.Text = string.Empty;
-            txtLocationId.Text = string.Empty;
-            chbPaid.Checked = false;
-
-            btnCheckIn.Enabled = false;
-            btnCheckOut.Enabled = false;
-            btnPay.Enabled = false;
         }
 
         #region Command line open functions
@@ -246,6 +235,21 @@ namespace ICT4Events.Views.EntranceControlSystem.Forms
                 lsvPresentGuests.Items.Add(item);
             }
 
+            LoadListofReservedItems();
+            LoadListOfGuestsWithoutPass();
+        }
+
+        private void LoadListOfGuestsWithoutPass()
+        {
+            cmbListOfGuest.Items.Clear();
+            var listofGuestWithoutPass = LogicCollection.GuestLogic.GetGuestsByEvent(_event).Where(x => string.IsNullOrWhiteSpace(x.PassID));
+            foreach (var guestPass in listofGuestWithoutPass)
+            {
+                cmbListOfGuest.Items.Add(guestPass);
+            }
+        }
+        private void LoadListofReservedItems()
+        {
             lsvReserved.Items.Clear();
             var reservedItems = LogicCollection.MaterialLogic.GetAllReservedMaterials(_event);
             foreach (var reserverd in reservedItems)
@@ -260,18 +264,11 @@ namespace ICT4Events.Views.EntranceControlSystem.Forms
                         material = m;
 
                     if (material == null) continue;
-                    
+
                     string[] row = { $"{user.Name} {user.Surname}", material.Name, reserverd.StartDate.ToString(), reserverd.EndDate.ToString() };
                     var item = new ListViewItem(row);
                     lsvReserved.Items.Add(item);
                 }
-            }
-
-            cmbListOfGuest.Items.Clear();
-            var listofGuestWithoutPass = LogicCollection.GuestLogic.GetGuestsByEvent(_event).Where(x => string.IsNullOrWhiteSpace(x.PassID));
-            foreach (var guestPass in listofGuestWithoutPass)  
-            {
-                cmbListOfGuest.Items.Add(guestPass);
             }
         }
 
@@ -300,17 +297,26 @@ namespace ICT4Events.Views.EntranceControlSystem.Forms
         }
         private void btnCheckOut_Click(object sender, EventArgs e)
         {
-            _searchGuest.Present = false;
-            // Update guest
-            if (LogicCollection.GuestLogic.UpdateGuest(_searchGuest))
+            lsvReserved.Items.Clear();
+            var hasReservedItems = LogicCollection.MaterialLogic.GetAllReservedMaterials(_event).Any(x => x.GuestID == _searchGuest.ID);
+            if (!hasReservedItems)
             {
-                //MessageBox.Show($"We gaan je missen {_searchGuest.Name}");
-                btnCheckOut.Enabled = false;
-                btnCheckIn.Enabled = true;
+                _searchGuest.Present = false;
+                // Update guest
+                if (LogicCollection.GuestLogic.UpdateGuest(_searchGuest))
+                {
+                    //MessageBox.Show($"We gaan je missen {_searchGuest.Name}");
+                    btnCheckOut.Enabled = false;
+                    btnCheckIn.Enabled = true;
+                }
+                else
+                {
+                    MessageBox.Show("ERROR: Er is iets misgegaan.");
+                }
             }
             else
             {
-                MessageBox.Show("ERROR: Er is iets misgegaan.");
+                MessageBox.Show("Je kan niet uitchecken. Je heb nog items gereserveeerd.");
             }
         }
 
@@ -343,11 +349,28 @@ namespace ICT4Events.Views.EntranceControlSystem.Forms
                 MessageBox.Show("Pas koppelen is gelukt");
                 txtRFIDPassCode.Text = "";
                 cmbListOfGuest.SelectedIndex = -1;
+                LoadListOfGuestsWithoutPass();
+
             }
             else
             {
                 MessageBox.Show("Selecteer een bezoeker.");
             }
+        }
+
+        private void Reset()
+        {
+            txtRFIDIDSearch.Text = string.Empty;
+            txtName.Text = string.Empty;
+            txtLastName.Text = string.Empty;
+            txtEmail.Text = string.Empty;
+            txtPhoneNumber.Text = string.Empty;
+            txtLocationId.Text = string.Empty;
+            chbPaid.Checked = false;
+
+            btnCheckIn.Enabled = false;
+            btnCheckOut.Enabled = false;
+            btnPay.Enabled = false;
         }
     }
 }
