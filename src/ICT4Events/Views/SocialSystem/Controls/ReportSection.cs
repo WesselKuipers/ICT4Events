@@ -35,6 +35,7 @@ namespace ICT4Events.Views.SocialSystem.Controls
             lbReportsUnder5.Items.Clear();
             lbUnvisiblePosts.Items.Clear();
             lbReportsAbove5.Items.Clear();
+            lbAllPosts.Items.Clear();
 
             // Under 5 listbox
             foreach (var p in getAllPostByEvent)
@@ -64,6 +65,12 @@ namespace ICT4Events.Views.SocialSystem.Controls
                     lbReportsAbove5.Items.Add(p);
                 }
             }
+
+            foreach (var p in getAllPostByEvent)
+            {
+                lbAllPosts.Items.Add(p);
+            }
+            lblTotal.Text = $"Totaal aantal posts: {getAllPostByEvent.Count} posts";
         }
         private void WatchPost(Post post)
         {
