@@ -125,7 +125,8 @@ namespace SharedModels.Logic
                     "Hello " + user.Name + ",\r\n\r\n" +
                     $"Your have been registered to participate in event {ev.Name}!\r\n" +
                     $"The location you entered is {location.Name}.\r\n" +
-                    $"We will be expecting to see you on {start.Date} until {end.Date}." +
+                    $"We will be expecting to see you on {start.Date} until {end.Date}.\r\n" +
+                    $"Your user ID is: {user.ID}. Make sure to remember this for your check-in!" +
                     "\r\n\r\nHave a nice day!"
             };
 
