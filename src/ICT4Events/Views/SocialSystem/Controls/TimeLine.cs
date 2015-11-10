@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
@@ -38,8 +39,7 @@ namespace ICT4Events.Views.SocialSystem.Controls
         private void CompareAndRefreshPosts()
         {
             var newPosts = _logic.GetAllByEvent(_event).Where(p => p.Visible).OrderByDescending(x => x.Date).ToList();
-
-            if (newPosts.SequenceEqual(newPosts, new PostComparer())) return;
+            if (_posts.SequenceEqual(newPosts, new PostComparer())) return;
             var postIDs = _posts.Select(x => x.ID);
 
             foreach (var post in newPosts.Where(post => !postIDs.Contains(post.ID))) // Adds all new posts to the timeline
@@ -55,6 +55,46 @@ namespace ICT4Events.Views.SocialSystem.Controls
                 tableLayoutPanel1.Controls.Remove(feed);
             }
 
+            foreach (var post in newPosts)
+            {
+                if (postIDs.Contains(post.ID))
+                {
+                    if (post.MediaID != _posts.First(p => p.ID == post.ID).MediaID)
+                    {
+                        foreach (
+                            var row in
+                                tableLayoutPanel1.Controls.OfType<PostFeed>().Where(feed => feed.Post.ID == post.ID))
+                        {
+                            row.Post.MediaID = 0;
+                            row.pbMediaMessage.Visible = false;
+                            // Post doesn't have any attached media
+                            row.pbMediaMessage.Visible = false;
+                            row.lblDownloadMedia.Visible = false;
+
+                            row.tbMessage.Width = 614;
+
+                            row.lblLikeStatus.Location = new Point(545, row.lblLikeStatus.Location.Y);
+                            row.lbLike.Location = new Point(560, row.lbLike.Location.Y);
+
+                            row.lblDeletePost.Location = new Point(481, row.lblDeletePost.Location.Y);
+                            row.lbReport.Location = new Point(481, row.lbReport.Location.Y);
+
+                            row.lbReaction.Location = new Point(420, row.lbReaction.Location.Y);
+                        }
+                    }
+
+                    if (post.Visible != _posts.First(p => p.ID == post.ID).Visible)
+                    {
+                        foreach (
+                            var row in
+                                tableLayoutPanel1.Controls.OfType<PostFeed>().Where(feed => feed.Post.ID == post.ID))
+                        {
+                            tableLayoutPanel1.RowCount--;
+                            tableLayoutPanel1.Controls.Remove(row);
+                        }
+                    }
+                }
+            }
             _posts = newPosts;
         }
 

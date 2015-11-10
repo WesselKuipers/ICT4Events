@@ -106,6 +106,7 @@ namespace ICT4Events.Views.SocialSystem.Controls
                 cmbOwnMedia.Enabled = false;
                 return;
             }
+            cmbOwnMedia.Enabled = true;
             foreach (var media in mediaList)
             {
                 cmbOwnMedia.Items.Add(media);
