@@ -32,6 +32,9 @@
             this.tbBerichtPost = new System.Windows.Forms.TextBox();
             this.btPostAanmaken = new System.Windows.Forms.Button();
             this.tbpLoadUcUpload = new System.Windows.Forms.TableLayoutPanel();
+            this.cmbOwnMedia = new System.Windows.Forms.ComboBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.btnRefreshOwnMediaList = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -74,10 +77,41 @@
             this.tbpLoadUcUpload.Size = new System.Drawing.Size(622, 148);
             this.tbpLoadUcUpload.TabIndex = 4;
             // 
+            // cmbOwnMedia
+            // 
+            this.cmbOwnMedia.FormattingEnabled = true;
+            this.cmbOwnMedia.Location = new System.Drawing.Point(18, 317);
+            this.cmbOwnMedia.Name = "cmbOwnMedia";
+            this.cmbOwnMedia.Size = new System.Drawing.Size(307, 21);
+            this.cmbOwnMedia.TabIndex = 5;
+            this.cmbOwnMedia.SelectionChangeCommitted += new System.EventHandler(this.cmbOwnMedia_SelectionChangeCommitted);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(15, 301);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(131, 13);
+            this.label2.TabIndex = 6;
+            this.label2.Text = "Je eigen media uploaden?";
+            // 
+            // btnRefreshOwnMediaList
+            // 
+            this.btnRefreshOwnMediaList.Location = new System.Drawing.Point(331, 317);
+            this.btnRefreshOwnMediaList.Name = "btnRefreshOwnMediaList";
+            this.btnRefreshOwnMediaList.Size = new System.Drawing.Size(75, 23);
+            this.btnRefreshOwnMediaList.TabIndex = 7;
+            this.btnRefreshOwnMediaList.Text = "Herladen";
+            this.btnRefreshOwnMediaList.UseVisualStyleBackColor = true;
+            this.btnRefreshOwnMediaList.Click += new System.EventHandler(this.btnRefreshOwnMediaList_Click);
+            // 
             // MakePost
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.btnRefreshOwnMediaList);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.cmbOwnMedia);
             this.Controls.Add(this.tbpLoadUcUpload);
             this.Controls.Add(this.btPostAanmaken);
             this.Controls.Add(this.tbBerichtPost);
@@ -95,5 +129,8 @@
         private System.Windows.Forms.TextBox tbBerichtPost;
         private System.Windows.Forms.Button btPostAanmaken;
         private System.Windows.Forms.TableLayoutPanel tbpLoadUcUpload;
+        private System.Windows.Forms.ComboBox cmbOwnMedia;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button btnRefreshOwnMediaList;
     }
 }

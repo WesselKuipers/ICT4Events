@@ -39,7 +39,7 @@ namespace ICT4Events.Views.SocialSystem.Controls
         {
             var newPosts = _logic.GetAllByEvent(_event).Where(p => p.Visible).OrderByDescending(x => x.Date).ToList();
 
-            if (_posts.SequenceEqual(newPosts, new PostComparer())) return;
+            if (newPosts.SequenceEqual(newPosts, new PostComparer())) return;
             var postIDs = _posts.Select(x => x.ID);
 
             foreach (var post in newPosts.Where(post => !postIDs.Contains(post.ID))) // Adds all new posts to the timeline
