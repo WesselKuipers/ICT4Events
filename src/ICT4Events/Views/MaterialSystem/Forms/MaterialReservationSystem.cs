@@ -61,7 +61,7 @@ namespace ICT4Events.Views.MaterialSystem.Forms
             lsbReserved.Items.Clear();
             foreach (var material in LogicCollection.MaterialLogic.GetReservedMaterialsByGuest(_guest))
             {
-                lsbReserved.Items.Add(material);
+                lsbReserved.Items.Add(material + "    " +  material.StartDate.ToString() + "  -  " + material.EndDate.ToString());
             }
         }
 
