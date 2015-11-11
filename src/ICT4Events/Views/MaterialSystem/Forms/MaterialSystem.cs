@@ -300,10 +300,9 @@ namespace ICT4Events.Views.MaterialSystem.Forms
         {
             var boxes = new List<TextBox> {txtNewMaterialName, txtMaterialID, txtMaterialName};
             if (!FieldsFilled(boxes)) return;
-            foreach (
-                var material in
-                    LogicCollection.MaterialLogic.GetAllByEvent(_event)
-                        .Where(material => material.ID.ToString() == txtMaterialID.Text))
+            foreach (var material in
+                LogicCollection.MaterialLogic.GetAllByEvent(_event)
+                    .Where(material => material.ID.ToString() == txtMaterialID.Text))
             {
                 if (!string.IsNullOrEmpty(txtNewMaterialType.Text))
                 {

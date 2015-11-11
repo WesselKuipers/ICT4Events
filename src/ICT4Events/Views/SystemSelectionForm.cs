@@ -192,7 +192,7 @@ namespace ICT4Events.Views
             }
             else
             {
-                ev = activeEvents.First();
+                ev = activeEvents.Find(x => x.ID == guests.First().EventID);
             }
 
             guest = guests.First(x => x.EventID == ev.ID);
