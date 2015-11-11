@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using SharedModels.Exceptions;
 using SharedModels.Logic;
 using SharedModels.Models;
 
@@ -25,13 +26,20 @@ namespace ICT4Events.Views.Accountsystem.Controls
             }
             else
             {
-                if(_logic.SetNewPassword(_user, txtOld.Text, txtNew1.Text, txtNew2.Text))
+                try
                 {
-                    MessageBox.Show("Wachtwoord is aangepast");
-                    txtOld.Text = string.Empty;
-                    txtNew1.Text = string.Empty;
-                    txtNew2.Text = string.Empty;
+                    MessageBox.Show(_logic.SetNewPassword(_user, txtOld.Text, txtNew1.Text, txtNew2.Text)
+                        ? "Wachtwoord is aangepast"
+                        : "Wachtwoord is niet aangepast, er is iets misgegaan");
+                        txtOld.Text = string.Empty;
+                        txtNew1.Text = string.Empty;
+                        txtNew2.Text = string.Empty;
                 }
+                catch (PasswordsDontMatchException x)
+                {
+                    MessageBox.Show(x.Message);
+                }
+                
             }
         }
 

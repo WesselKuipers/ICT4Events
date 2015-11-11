@@ -56,8 +56,8 @@ namespace SharedModels.Logic
         {
             if (string.Equals(password, passwordAgain))
                 return GetHashString(password + Salt);
-            else
-                throw new PasswordsDontMatchException();
+
+            throw new PasswordsDontMatchException();
         }
 
         /// <summary>
