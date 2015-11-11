@@ -34,7 +34,8 @@ namespace ICT4Events.Views.MaterialSystem.Forms
         private void reserveBtn_Click(object sender, EventArgs e)
         {
             if (lsbUserMaterials.SelectedIndex == -1 || lsbUserMaterials.Items.Count <= 0) return;
-            LogicCollection.MaterialLogic.AddReservation(((Material)lsbUserMaterials.SelectedItem), _guest.ID, dtpStart.Value, dtpEnd.Value);
+            var mat = LogicCollection.MaterialLogic.AddReservation(((Material)lsbUserMaterials.SelectedItem), _guest.ID, dtpStart.Value, dtpEnd.Value);
+            MessageBox.Show("Succesfully reserved " + mat.Name + " . It will be available from " + mat.StartDate + " till " + mat.EndDate + " at " + _event.Name);
             UpdateListBox();
         }
 
@@ -61,8 +62,17 @@ namespace ICT4Events.Views.MaterialSystem.Forms
         private void MaterialReservationSystem_Load(object sender, EventArgs e)
         {
             UpdateListBox();
-            dtpStart.Value = dtpStart.MinDate = dtpEnd.MinDate = _event.StartDate;
-            dtpEnd.Value = dtpEnd.MaxDate = dtpStart.MaxDate = _event.EndDate;
+            if (_event.StartDate > DateTime.Now && _event.EndDate < DateTime.Now)
+            {
+                dtpStart.Value = dtpStart.MinDate = dtpEnd.MinDate = DateTime.Today;
+                dtpEnd.Value = dtpEnd.MaxDate = dtpStart.MaxDate = _event.EndDate;
+            }
+            else
+            {
+                MessageBox.Show("WARNING: You are accesing an event that has already happened");
+                dtpStart.Value = dtpStart.MinDate = dtpEnd.MinDate = _event.StartDate;
+                dtpEnd.Value = dtpEnd.MaxDate = dtpStart.MaxDate = _event.EndDate;
+            }
         }
 
         private void searchTb_TextChanged(object sender, EventArgs e)
