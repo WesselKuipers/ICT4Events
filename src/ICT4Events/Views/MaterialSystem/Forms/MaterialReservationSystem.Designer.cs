@@ -35,6 +35,7 @@
             this.label6 = new System.Windows.Forms.Label();
             this.dtpEnd = new System.Windows.Forms.DateTimePicker();
             this.dtpStart = new System.Windows.Forms.DateTimePicker();
+            this.lsbReserved = new System.Windows.Forms.ListBox();
             this.SuspendLayout();
             // 
             // lsbUserMaterials
@@ -102,11 +103,23 @@
             this.dtpStart.Size = new System.Drawing.Size(200, 22);
             this.dtpStart.TabIndex = 30;
             // 
+            // lsbReserved
+            // 
+            this.lsbReserved.FormattingEnabled = true;
+            this.lsbReserved.ItemHeight = 16;
+            this.lsbReserved.Location = new System.Drawing.Point(583, 48);
+            this.lsbReserved.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.lsbReserved.Name = "lsbReserved";
+            this.lsbReserved.Size = new System.Drawing.Size(525, 628);
+            this.lsbReserved.TabIndex = 33;
+            this.lsbReserved.SelectedIndexChanged += new System.EventHandler(this.lsbReserved_SelectedIndexChanged);
+            // 
             // MaterialReservationSystem
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(548, 756);
+            this.ClientSize = new System.Drawing.Size(1120, 756);
+            this.Controls.Add(this.lsbReserved);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.dtpEnd);
             this.Controls.Add(this.dtpStart);
@@ -131,5 +144,6 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.DateTimePicker dtpEnd;
         private System.Windows.Forms.DateTimePicker dtpStart;
+        private System.Windows.Forms.ListBox lsbReserved;
     }
 }

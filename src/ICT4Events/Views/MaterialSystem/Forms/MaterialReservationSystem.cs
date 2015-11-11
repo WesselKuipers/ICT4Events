@@ -70,8 +70,17 @@ namespace ICT4Events.Views.MaterialSystem.Forms
             else
             {
                 MessageBox.Show("WARNING: You are accesing an event that has already happened");
-                dtpStart.Value = dtpStart.MinDate = dtpEnd.MinDate = _event.StartDate;
-                dtpEnd.Value = dtpEnd.MaxDate = dtpStart.MaxDate = _event.EndDate;
+                if (_event.StartDate > DateTime.Now && _event.EndDate < DateTime.Now)
+                {
+                    dtpStart.Value = dtpStart.MinDate = dtpEnd.MinDate = DateTime.Today;
+                    dtpEnd.Value = dtpEnd.MaxDate = dtpStart.MaxDate = _event.EndDate;
+                }
+                else
+                {
+                    MessageBox.Show("WARNING: You are accesing an event that has already happened");
+                    dtpStart.Value = dtpStart.MinDate = dtpEnd.MinDate = _event.StartDate;
+                    dtpEnd.Value = dtpEnd.MaxDate = dtpStart.MaxDate = _event.EndDate;
+                }
             }
         }
 
@@ -83,6 +92,11 @@ namespace ICT4Events.Views.MaterialSystem.Forms
         private void searchBtn_Click(object sender, EventArgs e)
         {
             UpdateListBox();
+        }
+
+        private void lsbReserved_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
