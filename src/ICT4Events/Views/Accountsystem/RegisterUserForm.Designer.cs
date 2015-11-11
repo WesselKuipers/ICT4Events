@@ -177,23 +177,22 @@
             // 
             this.txtPass1.Location = new System.Drawing.Point(115, 96);
             this.txtPass1.Name = "txtPass1";
-            this.txtPass1.PasswordChar = '•';
             this.txtPass1.Size = new System.Drawing.Size(201, 20);
             this.txtPass1.TabIndex = 14;
+            this.txtPass1.UseSystemPasswordChar = true;
             // 
             // txtPass2
             // 
             this.txtPass2.Location = new System.Drawing.Point(115, 122);
             this.txtPass2.Name = "txtPass2";
-            this.txtPass2.PasswordChar = '•';
             this.txtPass2.Size = new System.Drawing.Size(201, 20);
             this.txtPass2.TabIndex = 15;
+            this.txtPass2.UseSystemPasswordChar = true;
             // 
             // txtCity
             // 
             this.txtCity.Location = new System.Drawing.Point(115, 184);
             this.txtCity.Name = "txtCity";
-            this.txtCity.PasswordChar = '•';
             this.txtCity.Size = new System.Drawing.Size(201, 20);
             this.txtCity.TabIndex = 16;
             // 
@@ -201,7 +200,6 @@
             // 
             this.txtAddress.Location = new System.Drawing.Point(115, 210);
             this.txtAddress.Name = "txtAddress";
-            this.txtAddress.PasswordChar = '•';
             this.txtAddress.Size = new System.Drawing.Size(201, 20);
             this.txtAddress.TabIndex = 17;
             // 
@@ -209,7 +207,6 @@
             // 
             this.txtPostal.Location = new System.Drawing.Point(115, 236);
             this.txtPostal.Name = "txtPostal";
-            this.txtPostal.PasswordChar = '•';
             this.txtPostal.Size = new System.Drawing.Size(99, 20);
             this.txtPostal.TabIndex = 18;
             // 
@@ -217,7 +214,6 @@
             // 
             this.txtPhone.Location = new System.Drawing.Point(115, 262);
             this.txtPhone.Name = "txtPhone";
-            this.txtPhone.PasswordChar = '•';
             this.txtPhone.Size = new System.Drawing.Size(201, 20);
             this.txtPhone.TabIndex = 19;
             // 

@@ -114,9 +114,9 @@ namespace ICT4Events.Views.EventManagementSystem.Controls
         private void lsbLocations_SelectedIndexChanged(object sender, EventArgs e)
         {
             var location = (Location) lsbLocations.SelectedItem;
+
             if (location == null)
             {
-                MessageBox.Show("U heeft geen locatie geselecteerd");
                 return;
             }
 
