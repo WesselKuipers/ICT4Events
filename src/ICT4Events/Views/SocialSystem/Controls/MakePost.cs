@@ -85,6 +85,10 @@ namespace ICT4Events.Views.SocialSystem.Controls
                             _logicPost.AddTagToPost(addedPost, tag.ToLower());
                         }
                         MessageBox.Show("Je bericht is gepubliceerd op je tijdlijn");
+                        tbBerichtPost.Text = string.Empty;
+                        cmbOwnMedia.SelectedIndex = -1;
+                        _uploadedMedia.pbPreview.ImageLocation = null;
+                        _uploadedMedia.pbPreview.Invalidate();
                     }
                     else
                     {
