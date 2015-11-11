@@ -34,15 +34,9 @@ namespace ICT4Events.Views.MaterialSystem.Forms
         private void reserveBtn_Click(object sender, EventArgs e)
         {
             if (lsbUserMaterials.SelectedIndex == -1 || lsbUserMaterials.Items.Count <= 0) return;
-
-            foreach (
-                var material in
-                    LogicCollection.MaterialLogic.GetAllByEventAndNonReserved(_event)
-                        .Where(material => material.Name == lsbUserMaterials.SelectedItem.ToString()))
-            {
-                LogicCollection.MaterialLogic.AddReservation(material, _guest.ID, _event.StartDate, _event.EndDate);
-            }
-
+            var mat = LogicCollection.MaterialLogic.AddReservation(((Material)lsbUserMaterials.SelectedItem), _guest.ID, dtpStart.Value, dtpEnd.Value);
+            MessageBox.Show("Succesfully reserved " + mat.Name + " . It will be available from " + mat.StartDate +
+                            " till " + mat.EndDate);
             UpdateListBox();
         }
 
@@ -54,21 +48,37 @@ namespace ICT4Events.Views.MaterialSystem.Forms
             {
                 foreach (var material in LogicCollection.MaterialLogic.GetAllByEventAndNonReserved(_event))
                 {
-                    lsbUserMaterials.Items.Add(material.Name);
+                    lsbUserMaterials.Items.Add(material);
                 }
             }
             else
             {
                 foreach (var material in LogicCollection.MaterialLogic.GetAllByEventAndNonReserved(_event).Where(material => txtSearch.Text == material.Name))
                 {
-                    lsbUserMaterials.Items.Add(material.Name);
+                    lsbUserMaterials.Items.Add(material);
                 }
+            }
+            lsbReserved.Items.Clear();
+            foreach (var material in LogicCollection.MaterialLogic.GetReservedMaterialsByGuest(_guest))
+            {
+                lsbReserved.Items.Add(material + "    " +  material.StartDate.ToString() + "  -  " + material.EndDate.ToString());
             }
         }
 
         private void MaterialReservationSystem_Load(object sender, EventArgs e)
         {
             UpdateListBox();
+            if (_event.StartDate > DateTime.Now && _event.EndDate < DateTime.Now)
+            {
+                dtpStart.Value = dtpStart.MinDate = dtpEnd.MinDate = DateTime.Today;
+                dtpEnd.Value = dtpEnd.MaxDate = dtpStart.MaxDate = _event.EndDate;
+            }
+            else
+            {
+                MessageBox.Show("WARNING: You are accesing an event that has already happened");
+                dtpStart.Value = dtpStart.MinDate = dtpEnd.MinDate = _event.StartDate;
+                dtpEnd.Value = dtpEnd.MaxDate = dtpStart.MaxDate = _event.EndDate;
+            }
         }
 
         private void searchTb_TextChanged(object sender, EventArgs e)
@@ -80,5 +90,6 @@ namespace ICT4Events.Views.MaterialSystem.Forms
         {
             UpdateListBox();
         }
+
     }
 }

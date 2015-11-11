@@ -16,6 +16,7 @@ namespace ICT4Events.Views.MaterialSystem.Forms
 {
     public partial class MaterialSystem : Form
     {
+
         #region Local Variables
 
         private readonly User _user;
@@ -64,7 +65,7 @@ namespace ICT4Events.Views.MaterialSystem.Forms
                             .Where(guest => guest.PassID == e.Tag)
                             .SelectMany(guest => LogicCollection.MaterialLogic.GetReservedMaterialsByGuest(guest)))
             {
-                    lsbUserMaterial.Items.Add(material.Name);
+                    lsbUserMaterial.Items.Add(material);
                 }
 
             var g = LogicCollection.GuestLogic.GetByRfid(e.Tag, _event);
@@ -109,14 +110,8 @@ namespace ICT4Events.Views.MaterialSystem.Forms
         {
             if (lsbMaterialStorage.SelectedIndex != -1)
             {
-                foreach (
-                    var material in
-                        LogicCollection.MaterialLogic.GetAllByEvent(_event)
-                            .Where(material => material.Name == lsbMaterialStorage.SelectedItem.ToString()))
-                {
-                    txtMaterialID.Text = material.ID.ToString();
-                    txtMaterialName.Text = material.Name;
-                }
+                    txtMaterialID.Text = ((Material)lsbMaterialStorage.SelectedItem).ID.ToString();
+                    txtMaterialName.Text = ((Material)lsbMaterialStorage.SelectedItem).ToString();
             }
             else
             {
@@ -136,7 +131,7 @@ namespace ICT4Events.Views.MaterialSystem.Forms
             lsbMaterialStorage.Items.Clear();
             foreach (var material in LogicCollection.MaterialLogic.GetAllByEventAndNonReserved(_event))
             {
-                lsbMaterialStorage.Items.Add(material.Name);
+                lsbMaterialStorage.Items.Add(material);
             }
 
             //Refresh categorie combobox
@@ -145,7 +140,7 @@ namespace ICT4Events.Views.MaterialSystem.Forms
             cbCategory.Items.Add("Any");
             foreach (var mt in LogicCollection.MaterialLogic.GetAll())
             {
-                cbCategory.Items.Add(mt.Name);
+                cbCategory.Items.Add(mt);
             }
             cbCategory.SelectedIndex = savedIndex;
         }
@@ -165,7 +160,7 @@ namespace ICT4Events.Views.MaterialSystem.Forms
                             .Where(guest => guest.PassID == txtGuestPassId.Text)
                             .SelectMany(guest => LogicCollection.MaterialLogic.GetReservedMaterialsByGuest(guest)))
                 {
-                    lsbUserMaterial.Items.Add(material.Name);
+                    lsbUserMaterial.Items.Add(material);
                 }
             }
 
@@ -176,7 +171,7 @@ namespace ICT4Events.Views.MaterialSystem.Forms
                     LogicCollection.MaterialLogic.GetAllByEventAndNonReserved(_event)
                         .Where(material => material.TypeID == LogicCollection.MaterialLogic.GetByName(categorie).ID))
             {
-                lsbMaterialStorage.Items.Add(material.Name);
+                lsbMaterialStorage.Items.Add(material);
             }
 
         }
@@ -196,7 +191,7 @@ namespace ICT4Events.Views.MaterialSystem.Forms
                             .Where(guest => guest.PassID == txtGuestPassId.Text)
                             .SelectMany(guest => LogicCollection.MaterialLogic.GetReservedMaterialsByGuest(guest)))
                 {
-                    lsbUserMaterial.Items.Add(material.Name);
+                    lsbUserMaterial.Items.Add(material);
                 }
             }
 
@@ -204,7 +199,7 @@ namespace ICT4Events.Views.MaterialSystem.Forms
             lsbMaterialStorage.Items.Clear();
             foreach (var material in LogicCollection.MaterialLogic.GetAllByEventAndNonReserved(_event))
             {
-                lsbMaterialStorage.Items.Add(material.Name);
+                lsbMaterialStorage.Items.Add(material);
             }
         }
         #endregion
@@ -248,6 +243,20 @@ namespace ICT4Events.Views.MaterialSystem.Forms
         private void btnReturn_Click(object sender, EventArgs e)
         {
             var boxes = new List<TextBox> { txtGuestPassId, txtUserName };
+            if (FieldsFilled(boxes) && lsbUserMaterial.Items.Count > 0 && lsbUserMaterial.SelectedIndex != -1)
+            {
+                var convertedToMaterial = (Material) lsbUserMaterial.SelectedItem;
+                if (convertedToMaterial.EndDate.Value < DateTime.Now)
+                {
+                    MessageBox.Show("Het " + ((Material)lsbUserMaterial.SelectedItem).Name + " is " + Math.Round((DateTime.Now - ((Material)lsbUserMaterial.SelectedItem).EndDate).Value.TotalDays) +
+                                    " dag(en) te laat ingeleverd.");
+                }
+                LogicCollection.MaterialLogic.RemoveReservation(((Material)lsbUserMaterial.SelectedItem));
+            }
+            UpdateListBox();
+            UpdateListBoxAndCategory();
+            /*
+            var boxes = new List<TextBox> { txtGuestPassId, txtUserName };
 
             if (FieldsFilled(boxes) && lsbUserMaterial.Items.Count > 0 && lsbUserMaterial.SelectedIndex != -1)
             {
@@ -262,6 +271,7 @@ namespace ICT4Events.Views.MaterialSystem.Forms
                 }
             }
             UpdateListBoxAndCategory();
+            */
         }
 
         /// <summary>
@@ -271,20 +281,13 @@ namespace ICT4Events.Views.MaterialSystem.Forms
         /// <param name="e"></param>
         private void btnRentMaterial_Click(object sender, EventArgs e)
         {
-            //Specify required textboxes
-            var boxes = new List<TextBox> {txtGuestPassId, txtUserName, txtMaterialID, txtMaterialName};
+            var boxes = new List<TextBox> { txtGuestPassId, txtUserName, txtMaterialID, txtMaterialName };
 
             if (FieldsFilled(boxes) && lsbMaterialStorage.Items.Count > 0 && lsbMaterialStorage.SelectedIndex != -1)
             {
-                foreach (
-                    var material in
-                        LogicCollection.MaterialLogic.GetAllByEvent(_event)
-                            .Where(material => material.ID.ToString() == txtMaterialID.Text))
-                {
-                    LogicCollection.MaterialLogic.AddReservation(material,
-                        LogicCollection.GuestLogic.GetByRfid(txtGuestPassId.Text, _event).ID,
-                        _event.StartDate, _event.EndDate);
-                }
+                LogicCollection.MaterialLogic.AddReservation((Material)lsbMaterialStorage.SelectedItem,
+                    LogicCollection.GuestLogic.GetByRfid(txtGuestPassId.Text, _event).ID,
+                    dtpStart.Value, dtpEnd.Value);
             }
             UpdateListBoxAndCategory();
             UpdateArtNumberArtName();
@@ -298,6 +301,13 @@ namespace ICT4Events.Views.MaterialSystem.Forms
         /// <param name="e"></param>
         private void btnRemoveMaterial_Click(object sender, EventArgs e)
         {
+            if (!LogicCollection.MaterialLogic.Delete(((Material)lsbMaterialStorage.SelectedItem)))
+            {
+                MessageBox.Show("Failed to delete material: " + lsbMaterialStorage.SelectedItem + ".");
+            }
+            UpdateListBoxAndCategory();
+            //Old code
+            /*
             var remove = new List<Material>();
             foreach (
                 var material in
@@ -319,6 +329,7 @@ namespace ICT4Events.Views.MaterialSystem.Forms
                     : "Failed to delete material");
                 LogicCollection.MaterialLogic.GetAllByEvent(_event).Remove(material);
             }
+            */
         }
 
         /// <summary>
@@ -329,6 +340,26 @@ namespace ICT4Events.Views.MaterialSystem.Forms
         /// werkend
         private void btnMaterialEdit_Click(object sender, EventArgs e)
         {
+            var boxes = new List<TextBox> { txtNewMaterialName, txtMaterialID, txtMaterialName };
+            if (!FieldsFilled(boxes)) return;
+            foreach (var material in LogicCollection.MaterialLogic.GetAllByEvent(_event).Where(material => material.ID.ToString() == txtMaterialID.Text))
+            {
+                if (!string.IsNullOrEmpty(txtNewMaterialType.Text))
+                {
+
+                    LogicCollection.MaterialLogic.Insert(new MaterialType(0, txtNewMaterialType.Text));
+                    LogicCollection.MaterialLogic.Update(new Material(material.ID, txtNewMaterialName.Text, material.EventID,
+                        LogicCollection.MaterialLogic.GetByName(txtNewMaterialType.Text).ID));
+                }
+                else
+                {
+                    LogicCollection.MaterialLogic.Update(new Material(material.ID, txtNewMaterialName.Text, material.EventID,
+                        material.TypeID));
+                }
+            }
+            UpdateListBoxAndCategory();
+            UpdateArtNumberArtName();
+            /*
             var boxes = new List<TextBox> {txtNewMaterialName, txtMaterialID, txtMaterialName};
             if (!FieldsFilled(boxes)) return;
             foreach (var material in LogicCollection.MaterialLogic.GetAllByEvent(_event).Where(material => material.ID.ToString() == txtMaterialID.Text))
@@ -348,6 +379,7 @@ namespace ICT4Events.Views.MaterialSystem.Forms
             }
             UpdateListBoxAndCategory();
             UpdateArtNumberArtName();
+            */
         }
 
         /*
@@ -380,7 +412,6 @@ namespace ICT4Events.Views.MaterialSystem.Forms
         private void btnMaterialAdd_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(txtNewMaterialName.Text)) return;
-
             if (!string.IsNullOrEmpty(txtNewMaterialType.Text))
             {
                 var typeAppearsAlready = false;
@@ -427,6 +458,16 @@ namespace ICT4Events.Views.MaterialSystem.Forms
         {
             btnRemoveMaterial.Enabled = btnMaterialAdd.Enabled = _user.Permission == PermissionType.Administrator;
             UpdateListBoxAndCategory();
+            if (_event.StartDate > DateTime.Now && _event.EndDate < DateTime.Now)
+            {
+                dtpStart.Value = dtpStart.MinDate = dtpEnd.MinDate = DateTime.Today;
+                dtpEnd.Value = dtpEnd.MaxDate = dtpStart.MaxDate = _event.EndDate;
+            }
+            else
+            {
+                dtpStart.Value = dtpStart.MinDate = dtpEnd.MinDate = _event.StartDate;
+                dtpEnd.Value = dtpEnd.MaxDate = dtpStart.MaxDate = _event.EndDate;
+            }
             _rfid = new RFID();
             _rfid.Attach += rfid_Attach;
             _rfid.Detach += rfid_Detach;
