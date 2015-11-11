@@ -6,7 +6,6 @@ namespace SharedModels.Data.ContextInterfaces
     /// Generic interface implemented by repositories
     /// </summary>
     /// <typeparam name="TEntity">Type of model implemented</typeparam>
-    /// <typeparam name="TKey">Type of key used for identification</typeparam>
     public interface IRepositoryContext<TEntity> where TEntity : class
     {
         List<TEntity> GetAll();

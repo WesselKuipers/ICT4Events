@@ -248,30 +248,12 @@ namespace ICT4Events.Views.MaterialSystem.Forms
                 var convertedToMaterial = (Material) lsbUserMaterial.SelectedItem;
                 if (convertedToMaterial.EndDate.Value < DateTime.Now)
                 {
-                    MessageBox.Show("Het " + ((Material)lsbUserMaterial.SelectedItem).Name + " is " + Math.Round((DateTime.Now - ((Material)lsbUserMaterial.SelectedItem).EndDate).Value.TotalDays) +
-                                    " dag(en) te laat ingeleverd.");
+                    MessageBox.Show($"Product {((Material) lsbUserMaterial.SelectedItem).Name} is {Math.Round((DateTime.Now - ((Material) lsbUserMaterial.SelectedItem).EndDate).Value.TotalDays)} dag(en) te laat ingeleverd.");
                 }
                 LogicCollection.MaterialLogic.RemoveReservation(((Material)lsbUserMaterial.SelectedItem));
             }
             UpdateListBox();
             UpdateListBoxAndCategory();
-            /*
-            var boxes = new List<TextBox> { txtGuestPassId, txtUserName };
-
-            if (FieldsFilled(boxes) && lsbUserMaterial.Items.Count > 0 && lsbUserMaterial.SelectedIndex != -1)
-            {
-                foreach (
-                    var material in
-                        LogicCollection.MaterialLogic.GetReservedMaterialsByGuest(
-                            LogicCollection.GuestLogic.GetByRfid(txtGuestPassId.Text,_event))
-                            .Where(material => material.Name == lsbUserMaterial.Text)
-                            .Where(material => !LogicCollection.MaterialLogic.RemoveReservation(material)))
-                {
-                    MessageBox.Show("Material unsuccesfully deleted: " + material.Name);
-                }
-            }
-            UpdateListBoxAndCategory();
-            */
         }
 
         /// <summary>
@@ -303,33 +285,9 @@ namespace ICT4Events.Views.MaterialSystem.Forms
         {
             if (!LogicCollection.MaterialLogic.Delete(((Material)lsbMaterialStorage.SelectedItem)))
             {
-                MessageBox.Show("Failed to delete material: " + lsbMaterialStorage.SelectedItem + ".");
+                MessageBox.Show($"Materiaal verwijderen mislukt.\r\nMateriaal: {lsbMaterialStorage.SelectedItem}.");
             }
             UpdateListBoxAndCategory();
-            //Old code
-            /*
-            var remove = new List<Material>();
-            foreach (
-                var material in
-                    LogicCollection.MaterialLogic.GetAllByEvent(_event)
-                        .Where(
-                            material =>
-                                txtMaterialID.Text == material.ID.ToString() && txtMaterialName.Text == material.Name))
-            {
-                remove.Add(material);
-                if (lsbMaterialStorage.Items.Count >= 1 && lsbMaterialStorage.SelectedItem != null)
-                {
-                    lsbMaterialStorage.Items.Remove(lsbMaterialStorage.SelectedItem.ToString());
-                }
-            }
-            foreach (var material in remove)
-            {
-                MessageBox.Show(LogicCollection.MaterialLogic.Delete(material)
-                    ? "Succesfully deleted material"
-                    : "Failed to delete material");
-                LogicCollection.MaterialLogic.GetAllByEvent(_event).Remove(material);
-            }
-            */
         }
 
         /// <summary>
@@ -340,70 +298,32 @@ namespace ICT4Events.Views.MaterialSystem.Forms
         /// werkend
         private void btnMaterialEdit_Click(object sender, EventArgs e)
         {
-            var boxes = new List<TextBox> { txtNewMaterialName, txtMaterialID, txtMaterialName };
-            if (!FieldsFilled(boxes)) return;
-            foreach (var material in LogicCollection.MaterialLogic.GetAllByEvent(_event).Where(material => material.ID.ToString() == txtMaterialID.Text))
-            {
-                if (!string.IsNullOrEmpty(txtNewMaterialType.Text))
-                {
-
-                    LogicCollection.MaterialLogic.Insert(new MaterialType(0, txtNewMaterialType.Text));
-                    LogicCollection.MaterialLogic.Update(new Material(material.ID, txtNewMaterialName.Text, material.EventID,
-                        LogicCollection.MaterialLogic.GetByName(txtNewMaterialType.Text).ID));
-                }
-                else
-                {
-                    LogicCollection.MaterialLogic.Update(new Material(material.ID, txtNewMaterialName.Text, material.EventID,
-                        material.TypeID));
-                }
-            }
-            UpdateListBoxAndCategory();
-            UpdateArtNumberArtName();
-            /*
             var boxes = new List<TextBox> {txtNewMaterialName, txtMaterialID, txtMaterialName};
             if (!FieldsFilled(boxes)) return;
-            foreach (var material in LogicCollection.MaterialLogic.GetAllByEvent(_event).Where(material => material.ID.ToString() == txtMaterialID.Text))
+            foreach (
+                var material in
+                    LogicCollection.MaterialLogic.GetAllByEvent(_event)
+                        .Where(material => material.ID.ToString() == txtMaterialID.Text))
             {
                 if (!string.IsNullOrEmpty(txtNewMaterialType.Text))
                 {
 
                     LogicCollection.MaterialLogic.Insert(new MaterialType(0, txtNewMaterialType.Text));
-                    LogicCollection.MaterialLogic.Update(new Material(material.ID, txtNewMaterialName.Text, material.EventID,
+                    LogicCollection.MaterialLogic.Update(new Material(material.ID, txtNewMaterialName.Text,
+                        material.EventID,
                         LogicCollection.MaterialLogic.GetByName(txtNewMaterialType.Text).ID));
                 }
                 else
                 {
-                    LogicCollection.MaterialLogic.Update(new Material(material.ID, txtNewMaterialName.Text, material.EventID,
+                    LogicCollection.MaterialLogic.Update(new Material(material.ID, txtNewMaterialName.Text,
+                        material.EventID,
                         material.TypeID));
                 }
             }
             UpdateListBoxAndCategory();
             UpdateArtNumberArtName();
-            */
         }
 
-        /*
-            Material oldMaterial = new Material();
-            Material newMaterial = new Material();
-            //var editable = false;
-
-            if (ArtikelnummerTb.Text != "" && ProductNewTb.Text != "")
-            {
-                foreach (var material in _contextMaterial.GetAllByEvent(_event))
-                {
-                    if (material.Name == ProductTb.Text && material.ID.ToString() == ArtikelnummerTb.Text)
-                    {
-                        oldMaterial = material;
-                    }
-                }
-
-                newMaterial = new Material(0, ProductNewTb.Text, _event.ID, _contextMaterialType.GetByName(TypeNewTb.Text).ID);
-                //newMaterial = new Material(int.Parse(ArtikelnummerNewTb.Text), ProductNewTb.Text, TypeNewTb.Text);
-            }
-            EditMaterial(oldMaterial, newMaterial);
-            
-        }      
-*/
         /// <summary>
         /// Adds a material to storage
         /// </summary>
@@ -437,15 +357,6 @@ namespace ICT4Events.Views.MaterialSystem.Forms
             }
             UpdateListBoxAndCategory();
             UpdateArtNumberArtName();
-            /*
-            if (!string.IsNullOrEmpty(ProductNewTb.Text))
-            {
-                if(!string.IsNullOrEmpty(TypeNewTb.Text))
-                    AddMaterial(new Material(0, ProductNewTb.Text, _event.ID, _contextMaterialType.GetByName(TypeNewTb.Text).ID));
-                else
-                    AddMaterial(new Material(0, ProductNewTb.Text, _event.ID, _contextMaterialType.GetByName("Overige").ID));
-            }
-            */
         }
         #endregion
 

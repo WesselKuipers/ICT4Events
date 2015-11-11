@@ -34,9 +34,9 @@ namespace ICT4Events.Views.MaterialSystem.Forms
         private void reserveBtn_Click(object sender, EventArgs e)
         {
             if (lsbUserMaterials.SelectedIndex == -1 || lsbUserMaterials.Items.Count <= 0) return;
+
             var mat = LogicCollection.MaterialLogic.AddReservation(((Material)lsbUserMaterials.SelectedItem), _guest.ID, dtpStart.Value, dtpEnd.Value);
-            MessageBox.Show("Succesfully reserved " + mat.Name + " . It will be available from " + mat.StartDate +
-                            " till " + mat.EndDate);
+            MessageBox.Show($"Succesvol {mat.Name} gereserveerd.\r\nU heeft het geserveerd vanaf {mat.StartDate} tot {mat.EndDate}");
             UpdateListBox();
         }
 
@@ -53,7 +53,7 @@ namespace ICT4Events.Views.MaterialSystem.Forms
             }
             else
             {
-                foreach (var material in LogicCollection.MaterialLogic.GetAllByEventAndNonReserved(_event).Where(material => txtSearch.Text == material.Name))
+                foreach (var material in LogicCollection.MaterialLogic.GetAllByEventAndNonReserved(_event).Where(material => material.Name == txtSearch.Text))
                 {
                     lsbUserMaterials.Items.Add(material);
                 }
@@ -61,7 +61,7 @@ namespace ICT4Events.Views.MaterialSystem.Forms
             lsbReserved.Items.Clear();
             foreach (var material in LogicCollection.MaterialLogic.GetReservedMaterialsByGuest(_guest))
             {
-                lsbReserved.Items.Add(material + "    " +  material.StartDate.ToString() + "  -  " + material.EndDate.ToString());
+                lsbReserved.Items.Add($"{material}    {material.StartDate}  -  {material.EndDate}");
             }
         }
 
@@ -75,7 +75,7 @@ namespace ICT4Events.Views.MaterialSystem.Forms
             }
             else
             {
-                MessageBox.Show("WARNING: You are accesing an event that has already happened");
+                MessageBox.Show("Melding: Dit evenement is al afgelopen");
                 dtpStart.Value = dtpStart.MinDate = dtpEnd.MinDate = _event.StartDate;
                 dtpEnd.Value = dtpEnd.MaxDate = dtpStart.MaxDate = _event.EndDate;
             }
