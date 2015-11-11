@@ -16,6 +16,8 @@ namespace ICT4Events.Views.MaterialSystem.Forms
 {
     public partial class MaterialSystem : Form
     {
+        //Blablabla
+
         #region Local Variables
 
         private readonly User _user;
