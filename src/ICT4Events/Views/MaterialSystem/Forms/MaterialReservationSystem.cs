@@ -35,7 +35,8 @@ namespace ICT4Events.Views.MaterialSystem.Forms
         {
             if (lsbUserMaterials.SelectedIndex == -1 || lsbUserMaterials.Items.Count <= 0) return;
             var mat = LogicCollection.MaterialLogic.AddReservation(((Material)lsbUserMaterials.SelectedItem), _guest.ID, dtpStart.Value, dtpEnd.Value);
-            MessageBox.Show("Succesfully reserved " + mat.Name + " . It will be available from " + mat.StartDate + " till " + mat.EndDate + " at " + _event.Name);
+            MessageBox.Show("Succesfully reserved " + mat.Name + " . It will be available from " + mat.StartDate +
+                            " till " + mat.EndDate);
             UpdateListBox();
         }
 
@@ -57,6 +58,11 @@ namespace ICT4Events.Views.MaterialSystem.Forms
                     lsbUserMaterials.Items.Add(material);
                 }
             }
+            lsbReserved.Items.Clear();
+            foreach (var material in LogicCollection.MaterialLogic.GetReservedMaterialsByGuest(_guest))
+            {
+                lsbReserved.Items.Add(material);
+            }
         }
 
         private void MaterialReservationSystem_Load(object sender, EventArgs e)
@@ -70,17 +76,8 @@ namespace ICT4Events.Views.MaterialSystem.Forms
             else
             {
                 MessageBox.Show("WARNING: You are accesing an event that has already happened");
-                if (_event.StartDate > DateTime.Now && _event.EndDate < DateTime.Now)
-                {
-                    dtpStart.Value = dtpStart.MinDate = dtpEnd.MinDate = DateTime.Today;
-                    dtpEnd.Value = dtpEnd.MaxDate = dtpStart.MaxDate = _event.EndDate;
-                }
-                else
-                {
-                    MessageBox.Show("WARNING: You are accesing an event that has already happened");
-                    dtpStart.Value = dtpStart.MinDate = dtpEnd.MinDate = _event.StartDate;
-                    dtpEnd.Value = dtpEnd.MaxDate = dtpStart.MaxDate = _event.EndDate;
-                }
+                dtpStart.Value = dtpStart.MinDate = dtpEnd.MinDate = _event.StartDate;
+                dtpEnd.Value = dtpEnd.MaxDate = dtpStart.MaxDate = _event.EndDate;
             }
         }
 
@@ -94,9 +91,5 @@ namespace ICT4Events.Views.MaterialSystem.Forms
             UpdateListBox();
         }
 
-        private void lsbReserved_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
     }
 }

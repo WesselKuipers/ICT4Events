@@ -112,7 +112,6 @@
             this.lsbReserved.Name = "lsbReserved";
             this.lsbReserved.Size = new System.Drawing.Size(525, 628);
             this.lsbReserved.TabIndex = 33;
-            this.lsbReserved.SelectedIndexChanged += new System.EventHandler(this.lsbReserved_SelectedIndexChanged);
             // 
             // MaterialReservationSystem
             // 

@@ -251,7 +251,7 @@ namespace ICT4Events.Views.MaterialSystem.Forms
                     MessageBox.Show("Het " + ((Material)lsbUserMaterial.SelectedItem).Name + " is " + Math.Round((DateTime.Now - ((Material)lsbUserMaterial.SelectedItem).EndDate).Value.TotalDays) +
                                     " dag(en) te laat ingeleverd.");
                 }
-                //LogicCollection.MaterialLogic.RemoveReservation(((Material)lsbUserMaterial.SelectedItem));
+                LogicCollection.MaterialLogic.RemoveReservation(((Material)lsbUserMaterial.SelectedItem));
             }
             UpdateListBox();
             UpdateListBoxAndCategory();
