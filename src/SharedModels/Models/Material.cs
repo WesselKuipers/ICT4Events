@@ -52,5 +52,10 @@ namespace SharedModels.Models
             Name = name;
             EventID = ev;
         }
+
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }

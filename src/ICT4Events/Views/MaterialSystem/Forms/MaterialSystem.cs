@@ -16,7 +16,6 @@ namespace ICT4Events.Views.MaterialSystem.Forms
 {
     public partial class MaterialSystem : Form
     {
-        //Blablabla
 
         #region Local Variables
 
@@ -429,6 +428,8 @@ namespace ICT4Events.Views.MaterialSystem.Forms
         {
             btnRemoveMaterial.Enabled = btnMaterialAdd.Enabled = _user.Permission == PermissionType.Administrator;
             UpdateListBoxAndCategory();
+            dtpStart.Value = dtpStart.MinDate = dtpEnd.MinDate = _event.StartDate;
+            dtpEnd.Value = dtpEnd.MaxDate = dtpStart.MaxDate = _event.EndDate;
             _rfid = new RFID();
             _rfid.Attach += rfid_Attach;
             _rfid.Detach += rfid_Detach;

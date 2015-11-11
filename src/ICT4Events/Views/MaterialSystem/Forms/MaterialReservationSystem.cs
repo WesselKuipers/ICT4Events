@@ -38,11 +38,10 @@ namespace ICT4Events.Views.MaterialSystem.Forms
             foreach (
                 var material in
                     LogicCollection.MaterialLogic.GetAllByEventAndNonReserved(_event)
-                        .Where(material => material.Name == lsbUserMaterials.SelectedItem.ToString()))
+                        .Where(material => material == ((Material)lsbUserMaterials.SelectedItem)))
             {
                 LogicCollection.MaterialLogic.AddReservation(material, _guest.ID, _event.StartDate, _event.EndDate);
             }
-
             UpdateListBox();
         }
 
@@ -54,14 +53,14 @@ namespace ICT4Events.Views.MaterialSystem.Forms
             {
                 foreach (var material in LogicCollection.MaterialLogic.GetAllByEventAndNonReserved(_event))
                 {
-                    lsbUserMaterials.Items.Add(material.Name);
+                    lsbUserMaterials.Items.Add(material);
                 }
             }
             else
             {
                 foreach (var material in LogicCollection.MaterialLogic.GetAllByEventAndNonReserved(_event).Where(material => txtSearch.Text == material.Name))
                 {
-                    lsbUserMaterials.Items.Add(material.Name);
+                    lsbUserMaterials.Items.Add(material);
                 }
             }
         }
@@ -69,6 +68,8 @@ namespace ICT4Events.Views.MaterialSystem.Forms
         private void MaterialReservationSystem_Load(object sender, EventArgs e)
         {
             UpdateListBox();
+            dtpStart.Value = dtpStart.MinDate = dtpEnd.MinDate = _event.StartDate;
+            dtpEnd.Value = dtpEnd.MaxDate = dtpStart.MaxDate = _event.EndDate;
         }
 
         private void searchTb_TextChanged(object sender, EventArgs e)
