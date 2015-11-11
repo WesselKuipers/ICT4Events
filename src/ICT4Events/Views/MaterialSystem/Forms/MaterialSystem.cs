@@ -249,6 +249,18 @@ namespace ICT4Events.Views.MaterialSystem.Forms
         private void btnReturn_Click(object sender, EventArgs e)
         {
             var boxes = new List<TextBox> { txtGuestPassId, txtUserName };
+            if (FieldsFilled(boxes) && lsbUserMaterial.Items.Count > 0 && lsbUserMaterial.SelectedIndex != -1)
+            {
+                if (((Material)lsbUserMaterial.SelectedItem).EndDate > DateTime.Now)
+                {
+                    MessageBox.Show("Het" + ((Material)lsbUserMaterial.SelectedItem).Name + " is " + (DateTime.Now - ((Material)lsbUserMaterial.SelectedItem).EndDate).Value.TotalDays +
+                                    " dag(en) te laat ingeleverd.");
+                }
+                LogicCollection.MaterialLogic.RemoveReservation(((Material)lsbUserMaterial.SelectedItem));
+            }
+            UpdateListBoxAndCategory();
+            /*
+            var boxes = new List<TextBox> { txtGuestPassId, txtUserName };
 
             if (FieldsFilled(boxes) && lsbUserMaterial.Items.Count > 0 && lsbUserMaterial.SelectedIndex != -1)
             {
@@ -263,6 +275,7 @@ namespace ICT4Events.Views.MaterialSystem.Forms
                 }
             }
             UpdateListBoxAndCategory();
+            */
         }
 
         /// <summary>

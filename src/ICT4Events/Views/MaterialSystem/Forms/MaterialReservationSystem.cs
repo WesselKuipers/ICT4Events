@@ -34,14 +34,7 @@ namespace ICT4Events.Views.MaterialSystem.Forms
         private void reserveBtn_Click(object sender, EventArgs e)
         {
             if (lsbUserMaterials.SelectedIndex == -1 || lsbUserMaterials.Items.Count <= 0) return;
-
-            foreach (
-                var material in
-                    LogicCollection.MaterialLogic.GetAllByEventAndNonReserved(_event)
-                        .Where(material => material == ((Material)lsbUserMaterials.SelectedItem)))
-            {
-                LogicCollection.MaterialLogic.AddReservation(material, _guest.ID, _event.StartDate, _event.EndDate);
-            }
+            LogicCollection.MaterialLogic.AddReservation(((Material)lsbUserMaterials.SelectedItem), _guest.ID, dtpStart.Value, dtpEnd.Value);
             UpdateListBox();
         }
 
