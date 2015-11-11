@@ -113,7 +113,7 @@ namespace ICT4Events.Views.MaterialSystem.Forms
                 foreach (
                     var material in
                         LogicCollection.MaterialLogic.GetAllByEvent(_event)
-                            .Where(material => material.Name == lsbMaterialStorage.SelectedItem.ToString()))
+                            .Where(material => material == ((Material)lsbMaterialStorage.SelectedItem)))
                 {
                     txtMaterialID.Text = material.ID.ToString();
                     txtMaterialName.Text = material.Name;
@@ -137,7 +137,7 @@ namespace ICT4Events.Views.MaterialSystem.Forms
             lsbMaterialStorage.Items.Clear();
             foreach (var material in LogicCollection.MaterialLogic.GetAllByEventAndNonReserved(_event))
             {
-                lsbMaterialStorage.Items.Add(material.Name);
+                lsbMaterialStorage.Items.Add(material);
             }
 
             //Refresh categorie combobox
@@ -146,7 +146,7 @@ namespace ICT4Events.Views.MaterialSystem.Forms
             cbCategory.Items.Add("Any");
             foreach (var mt in LogicCollection.MaterialLogic.GetAll())
             {
-                cbCategory.Items.Add(mt.Name);
+                cbCategory.Items.Add(mt);
             }
             cbCategory.SelectedIndex = savedIndex;
         }
@@ -166,7 +166,7 @@ namespace ICT4Events.Views.MaterialSystem.Forms
                             .Where(guest => guest.PassID == txtGuestPassId.Text)
                             .SelectMany(guest => LogicCollection.MaterialLogic.GetReservedMaterialsByGuest(guest)))
                 {
-                    lsbUserMaterial.Items.Add(material.Name);
+                    lsbUserMaterial.Items.Add(material);
                 }
             }
 
@@ -177,7 +177,7 @@ namespace ICT4Events.Views.MaterialSystem.Forms
                     LogicCollection.MaterialLogic.GetAllByEventAndNonReserved(_event)
                         .Where(material => material.TypeID == LogicCollection.MaterialLogic.GetByName(categorie).ID))
             {
-                lsbMaterialStorage.Items.Add(material.Name);
+                lsbMaterialStorage.Items.Add(material);
             }
 
         }
@@ -197,7 +197,7 @@ namespace ICT4Events.Views.MaterialSystem.Forms
                             .Where(guest => guest.PassID == txtGuestPassId.Text)
                             .SelectMany(guest => LogicCollection.MaterialLogic.GetReservedMaterialsByGuest(guest)))
                 {
-                    lsbUserMaterial.Items.Add(material.Name);
+                    lsbUserMaterial.Items.Add(material);
                 }
             }
 
@@ -205,7 +205,7 @@ namespace ICT4Events.Views.MaterialSystem.Forms
             lsbMaterialStorage.Items.Clear();
             foreach (var material in LogicCollection.MaterialLogic.GetAllByEventAndNonReserved(_event))
             {
-                lsbMaterialStorage.Items.Add(material.Name);
+                lsbMaterialStorage.Items.Add(material);
             }
         }
         #endregion
