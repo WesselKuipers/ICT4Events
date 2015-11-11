@@ -74,7 +74,22 @@ namespace ICT4Events.Views.SocialSystem.Controls
         }
         private void WatchPost(Post post)
         {
-            MessageBox.Show($"Content: {post.Content} | Datum: {post.Date.ToString("yyyy MMMM dd")} | GuestID: {post.GuestID}");
+            var listOfReports = LogicCollection.PostLogic.GetReportsByPost(post);
+            if (listOfReports.Count >= 1)
+            {
+                string rep = null;
+                for (var i = 0; i < listOfReports.Count; i++)
+                {
+                    rep += $"Report{i + 1}: {listOfReports[i].Reason} \n";
+                }
+                MessageBox.Show(
+                    $"{post.Content} \n Datum: {post.Date.ToString("yyyy MMMM dd")} \n GuestID: {post.GuestID} \n {rep}");
+            }
+            else
+            {
+                MessageBox.Show(
+                        $"{post.Content} \n Datum: {post.Date.ToString("yyyy MMMM dd")} \n GuestID: {post.GuestID}");
+            }
         }
 
         private void btHidePost_Click(object sender, System.EventArgs e)
