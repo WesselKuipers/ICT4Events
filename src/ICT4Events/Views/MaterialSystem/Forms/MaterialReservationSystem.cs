@@ -75,7 +75,6 @@ namespace ICT4Events.Views.MaterialSystem.Forms
             }
             else
             {
-                MessageBox.Show("Melding: Dit evenement is al afgelopen");
                 dtpStart.Value = dtpStart.MinDate = dtpEnd.MinDate = _event.StartDate;
                 dtpEnd.Value = dtpEnd.MaxDate = dtpStart.MaxDate = _event.EndDate;
             }
