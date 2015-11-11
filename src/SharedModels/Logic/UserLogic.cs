@@ -8,6 +8,7 @@ using SharedModels.Models;
 using System.Security.Cryptography;
 using SharedModels.Data.ContextInterfaces;
 using SharedModels.Data.OracleContexts;
+using SharedModels.Debug;
 using SharedModels.Enums;
 using SharedModels.Exceptions;
 
@@ -83,6 +84,7 @@ namespace SharedModels.Logic
             }
             catch (MailWasNotSentException e)
             {
+                Logger.Write(e.Message);
                 throw new MailWasNotSentException();
             }
             
@@ -207,7 +209,7 @@ namespace SharedModels.Logic
         /// <summary>
         /// Hashes the given string in SHA1 format.
         /// </summary>
-        /// <param name="inputString">string to hash</param>
+        /// <param name="inputString">String to hash</param>
         /// <returns>an array of bytes</returns>
         private static byte[] GetHash(string inputString)
         {
@@ -216,10 +218,10 @@ namespace SharedModels.Logic
         }
 
         /// <summary>
-        /// returns a hashed string in SHA1 format;
+        /// Returns a hashed string in SHA1 format;
         /// </summary>
-        /// <param name="inputString">string to hash</param>
-        /// <returns></returns>
+        /// <param name="inputString">String to hash</param>
+        /// <returns>The resulting hashed string</returns>
         private static string GetHashString(string inputString)
         {
             var sb = new StringBuilder();

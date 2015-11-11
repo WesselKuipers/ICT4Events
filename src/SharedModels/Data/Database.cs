@@ -18,6 +18,9 @@ namespace SharedModels.Data
 
         private static OracleConnection _connection;
 
+        /// <summary>
+        /// Returns an active Oracle Database connection
+        /// </summary>
         public static OracleConnection Connection
         {
             get
@@ -44,6 +47,12 @@ namespace SharedModels.Data
             }
         }
 
+        /// <summary>
+        /// Executes the given query using the ExecuteReader method
+        /// </summary>
+        /// <param name="query">Query to execute</param>
+        /// <param name="args">List of OracleParameters containing the named arguments</param>
+        /// <returns>A string[][] representing the result</returns>
         public static List<List<string>> ExecuteReader(string query, List<OracleParameter> args = null)
         {
             var result = new List<List<string>>();
@@ -76,7 +85,7 @@ namespace SharedModels.Data
                                 }
                                 else
                                 {
-                                    record[i] = "0";
+                                    record[i] = "0"; // Used for defaulting integers in the domain models
                                 }
                             }
                             else
@@ -100,7 +109,15 @@ namespace SharedModels.Data
 
             return result;
         }
-       
+
+        /// <summary>
+        /// Executes the given query using the ExecuteReader method
+        /// </summary>
+        /// <param name="query">Query to execute</param>
+        /// <param name="args">List of OracleParameters containing the named arguments</param>
+        /// <returns>A list of dictionaries representing the resulting records
+        /// Key represents the column name
+        /// Value represents the value of a specific column</returns>
         public static List<Dictionary<string, string>> ExecuteReaderDict(string query, List<OracleParameter> args = null)
         {
             var result = new List<Dictionary<string, string>>();
@@ -144,6 +161,12 @@ namespace SharedModels.Data
             return result;
         }
 
+        /// <summary>
+        /// Executes a query to the database, expecting no returning result
+        /// </summary>
+        /// <param name="query">Query to execute</param>
+        /// <param name="args">List of OracleParameters containing the named arguments</param>
+        /// <returns>True if the query succeeded (can still be 0 rows affected)</returns>
         public static bool ExecuteNonQuery(string query, List<OracleParameter> args = null)
         {
             var result = -1;
@@ -175,6 +198,13 @@ namespace SharedModels.Data
             return result >= 0;
         }
 
+        /// <summary>
+        /// Executes a query on the database, expecting one value to be returned
+        /// </summary>
+        /// <param name="query">Query to execute</param>
+        /// <param name="returnValue">Out parameter used for storing an oracle return value</param>
+        /// <param name="args">List of OracleParameters containing the named arguments</param>
+        /// <returns>True if the query succeeded (can still be 0 rows affected)</returns>
         public static bool ExecuteNonQuery(string query, out string returnValue, List<OracleParameter> args = null)
         {
             var result = -1;
@@ -219,6 +249,12 @@ namespace SharedModels.Data
             return result >= 0;
         }
 
+        /// <summary>
+        /// Executes a query to the database, expecting one value to be returned
+        /// </summary>
+        /// <param name="query">Query to execute</param>
+        /// <param name="args">List of OracleParameters containing the named arguments</param>
+        /// <returns>Object representing the result of the query</returns>
         public static object ExecuteScalar(string query, List<OracleParameter> args = null)
         {
             object result;

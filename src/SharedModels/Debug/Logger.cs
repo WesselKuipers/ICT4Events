@@ -13,6 +13,10 @@ namespace SharedModels.Debug
 
         private static readonly object _logObject = new object();
 
+        /// <summary>
+        /// Writes a message to the log
+        /// </summary>
+        /// <param name="logMessage">Message to log</param>
         public static void Write(string logMessage)
         {
             try
@@ -25,7 +29,6 @@ namespace SharedModels.Debug
                 Console.WriteLine(e.Message);
             }
         }
-
 
         private static void Log(string logMessage, TextWriter w)
         {

@@ -145,6 +145,11 @@ namespace ICT4Events.Views
             new SocialMediaSystemForm(_user, ev).ShowDialog();
         }
 
+        /// <summary>
+        /// Opens a form in which an event can be chosen
+        /// </summary>
+        /// <param name="events">The list of events to choose from</param>
+        /// <returns>The chosen event</returns>
         private Event SelectEvent(List<Event> events)
         {
             Event result = null;
@@ -158,6 +163,10 @@ namespace ICT4Events.Views
             return result;
         }
 
+        /// <summary>
+        /// Determines whether the currently logged in user is participating in any events and allows them to choose it if there is more than one active
+        /// </summary>
+        /// <returns>Selected event</returns>
         private KeyValuePair<Event, Guest> SelectEvent()
         {
             Event ev;

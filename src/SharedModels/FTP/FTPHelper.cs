@@ -16,6 +16,11 @@ namespace SharedModels.FTP
         public static string ServerHardLogin => "ftp://"+ Properties.Settings.Default.FTPUser + ":"+ Properties.Settings.Default.FTPPassword +"@"+ Properties.Settings.Default.FTPAddress;
         private static NetworkCredential DefaultCredentials => new NetworkCredential(Properties.Settings.Default.FTPUser, Properties.Settings.Default.FTPPassword);
 
+        /// <summary>
+        /// Attempts to create a new directory at the given path on the FTP server
+        /// </summary>
+        /// <param name="path">Path of the directory to create</param>
+        /// <returns>True if the directory has been created</returns>
         public static bool CreateDirectory(string path)
         {
             try
@@ -48,6 +53,12 @@ namespace SharedModels.FTP
             }
         }
 
+        /// <summary>
+        /// Uploads a file to the FTP server
+        /// </summary>
+        /// <param name="infilepath">Local filepath of file</param>
+        /// <param name="outfilepath">Target filepath on FTP server</param>
+        /// <returns></returns>
         public static bool UploadFile(string infilepath, string outfilepath)
         {
             using (var request = new WebClient())
@@ -66,6 +77,12 @@ namespace SharedModels.FTP
             }
         }
 
+        /// <summary>
+        /// Downloads and saves a file locally from the FTP server
+        /// </summary>
+        /// <param name="infilepath">Location of the file on the server</param>
+        /// <param name="outfilepath">Target location on local machine</param>
+        /// <returns></returns>
         public static bool DownloadFile(string infilepath, string outfilepath)
         {
             using (var request = new WebClient())
@@ -81,9 +98,19 @@ namespace SharedModels.FTP
                     Logger.Write(ex.Message);
                     return false;
                 }
+                catch (IOException ex)
+                {
+                    Logger.Write(ex.Message);
+                    return false;
+                }
             }
         }
 
+        /// <summary>
+        /// Downloads a file from the FTP server and stores it in memory
+        /// </summary>
+        /// <param name="filepath">The filepath of the file on the server</param>
+        /// <returns>Binary data of the downloaded file</returns>
         public static byte[] DownloadFile(string filepath)
         {
             try
@@ -118,6 +145,11 @@ namespace SharedModels.FTP
             }
         }
 
+        /// <summary>
+        /// Deletes a file from the FTP server
+        /// </summary>
+        /// <param name="filepath">Filepath of the file to delete</param>
+        /// <returns>True if the file was successfully deleted</returns>
         public static bool DeleteFile(string filepath)
         {
             try
