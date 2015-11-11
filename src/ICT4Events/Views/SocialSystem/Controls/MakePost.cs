@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Linq;
 using System.Windows.Forms;
+using ICT4Events.Views.SocialSystem.Forms;
 using SharedModels.Data.OracleContexts;
+using SharedModels.FTP;
 using SharedModels.Logic;
 using SharedModels.Models;
 
@@ -27,6 +30,7 @@ namespace ICT4Events.Views.SocialSystem.Controls
 
             _uploadedMedia = new UcUpload(_user, _event);
             tbpLoadUcUpload.Controls.Add(_uploadedMedia);
+            LoadMediaList();
         }
         /// <summary>
         /// Creates a post adds it to database
@@ -50,12 +54,21 @@ namespace ICT4Events.Views.SocialSystem.Controls
                     Post addedPost = null;
                     if (string.IsNullOrEmpty(_uploadedMedia.Filepath))
                     {
-                        // Post without media
-                        var p = new Post(0, _user.ID, _event.ID, 0, DateTime.Now, true, tbBerichtPost.Text);
+                        var media = (Media)cmbOwnMedia.SelectedItem;
+                        Post p;
+                        if (media == null)
+                        {
+                            // Post without media
+                            p = new Post(0, _user.ID, _event.ID, 0, DateTime.Now, true, tbBerichtPost.Text);
+                        }
+                        else
+                        {
+                            p = new Post(0, _user.ID, _event.ID, media.ID, DateTime.Now, true, tbBerichtPost.Text);
+                        }
                         addedPost = _logicPost.InsertPost(p);
-                        
+
                     }
-                    else
+                    else if(!string.IsNullOrEmpty(_uploadedMedia.Filepath))
                     {
                         // Post with media
                         if (_uploadedMedia.UploadedFile != null)
@@ -77,9 +90,40 @@ namespace ICT4Events.Views.SocialSystem.Controls
                     {
                         MessageBox.Show("Je bericht is niet gepubliceerd op de tijdlijn");
                     }
+
                 }
             }
         }
+        /// <summary>
+        /// Loads the media list of the catalogue from the user
+        /// </summary>
+        private void LoadMediaList()
+        {
+            cmbOwnMedia.Items.Clear();
+            var mediaList = LogicCollection.MediaLogic.GetAllMedia(_event).Where(x => x.UserID == _user.ID);
+            if (!mediaList.Any())
+            {
+                cmbOwnMedia.Enabled = false;
+                return;
+            }
+            cmbOwnMedia.Enabled = true;
+            foreach (var media in mediaList)
+            {
+                cmbOwnMedia.Items.Add(media);
+            }
+        }
+        private void cmbOwnMedia_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            var selectedMedia = (Media) cmbOwnMedia.SelectedItem;
+            if (selectedMedia != null)
+            {
+                _uploadedMedia.pbPreview.ImageLocation = $"{FtpHelper.ServerHardLogin}/{_event.ID}/{_user.ID}/{selectedMedia.Path}";
+            }
+        }
 
+        private void btnRefreshOwnMediaList_Click(object sender, EventArgs e)
+        {
+            LoadMediaList();
+        }
     }
 }

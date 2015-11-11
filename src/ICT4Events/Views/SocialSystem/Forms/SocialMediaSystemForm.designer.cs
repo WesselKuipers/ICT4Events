@@ -79,9 +79,8 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.TabControl tbControlSMSF;
-        private System.Windows.Forms.TabPage tbTimeLine;
         private System.Windows.Forms.TabPage tbMakePost;
+        public System.Windows.Forms.TabControl tbControlSMSF;
+        public System.Windows.Forms.TabPage tbTimeLine;
     }
 }

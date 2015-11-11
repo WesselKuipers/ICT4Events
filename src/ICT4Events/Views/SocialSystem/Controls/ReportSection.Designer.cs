@@ -38,12 +38,12 @@
             this.btRemoveReports = new System.Windows.Forms.Button();
             this.lbUnvisiblePosts = new System.Windows.Forms.ListBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.btPostWatch3 = new System.Windows.Forms.Button();
             this.btZichtbaarMaken = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.btPostWatch3 = new System.Windows.Forms.Button();
             this.lblWelkom = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
+            this.lbAllPosts = new System.Windows.Forms.ListBox();
+            this.lblTotal = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -150,6 +150,16 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Posts die niet worden weergegeven";
             // 
+            // btPostWatch3
+            // 
+            this.btPostWatch3.Location = new System.Drawing.Point(33, 187);
+            this.btPostWatch3.Name = "btPostWatch3";
+            this.btPostWatch3.Size = new System.Drawing.Size(277, 23);
+            this.btPostWatch3.TabIndex = 4;
+            this.btPostWatch3.Text = "Post bekijken";
+            this.btPostWatch3.UseVisualStyleBackColor = true;
+            this.btPostWatch3.Click += new System.EventHandler(this.btPostWatch3_Click);
+            // 
             // btZichtbaarMaken
             // 
             this.btZichtbaarMaken.Location = new System.Drawing.Point(33, 158);
@@ -162,24 +172,14 @@
             // 
             // groupBox4
             // 
-            this.groupBox4.Controls.Add(this.label2);
-            this.groupBox4.Controls.Add(this.label1);
+            this.groupBox4.Controls.Add(this.lblTotal);
+            this.groupBox4.Controls.Add(this.lbAllPosts);
             this.groupBox4.Location = new System.Drawing.Point(3, 373);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(320, 224);
             this.groupBox4.TabIndex = 6;
             this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "Statistieken";
-            // 
-            // btPostWatch3
-            // 
-            this.btPostWatch3.Location = new System.Drawing.Point(33, 187);
-            this.btPostWatch3.Name = "btPostWatch3";
-            this.btPostWatch3.Size = new System.Drawing.Size(277, 23);
-            this.btPostWatch3.TabIndex = 4;
-            this.btPostWatch3.Text = "Post bekijken";
-            this.btPostWatch3.UseVisualStyleBackColor = true;
-            this.btPostWatch3.Click += new System.EventHandler(this.btPostWatch3_Click);
+            this.groupBox4.Text = "Alle posts";
             // 
             // lblWelkom
             // 
@@ -191,23 +191,22 @@
             this.lblWelkom.TabIndex = 7;
             this.lblWelkom.Text = "Welkom";
             // 
-            // label1
+            // lbAllPosts
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(6, 31);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(100, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Totaal aantal posts:";
+            this.lbAllPosts.FormattingEnabled = true;
+            this.lbAllPosts.Location = new System.Drawing.Point(22, 19);
+            this.lbAllPosts.Name = "lbAllPosts";
+            this.lbAllPosts.Size = new System.Drawing.Size(277, 173);
+            this.lbAllPosts.TabIndex = 6;
             // 
-            // label2
+            // lblTotal
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(113, 31);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(64, 13);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "NOT DONE";
+            this.lblTotal.AutoSize = true;
+            this.lblTotal.Location = new System.Drawing.Point(22, 199);
+            this.lblTotal.Name = "lblTotal";
+            this.lblTotal.Size = new System.Drawing.Size(35, 13);
+            this.lblTotal.TabIndex = 7;
+            this.lblTotal.Text = "label1";
             // 
             // ReportSection
             // 
@@ -247,7 +246,7 @@
         private System.Windows.Forms.Button btPostWatch2;
         private System.Windows.Forms.Button btPostWatch3;
         private System.Windows.Forms.Label lblWelkom;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ListBox lbAllPosts;
+        private System.Windows.Forms.Label lblTotal;
     }
 }

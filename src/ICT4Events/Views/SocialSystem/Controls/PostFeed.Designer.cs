@@ -186,16 +186,16 @@
         }
 
         #endregion
-        private System.Windows.Forms.PictureBox pbMediaMessage;
-        private System.Windows.Forms.Label tbMessage;
-        private System.Windows.Forms.Label lblAuteurNaam;
-        private System.Windows.Forms.Label lblDatum;
-        private System.Windows.Forms.LinkLabel lblDownloadMedia;
-        private System.Windows.Forms.LinkLabel lbReaction;
-        private System.Windows.Forms.LinkLabel lbLike;
-        private System.Windows.Forms.LinkLabel lbReport;
-        private System.Windows.Forms.LinkLabel lblLikeStatus;
-        private System.Windows.Forms.Label lblCountLikes;
-        private System.Windows.Forms.LinkLabel lblDeletePost;
+        public System.Windows.Forms.PictureBox pbMediaMessage;
+        public System.Windows.Forms.Label tbMessage;
+        public System.Windows.Forms.LinkLabel lbReaction;
+        public System.Windows.Forms.LinkLabel lblLikeStatus;
+        public System.Windows.Forms.LinkLabel lblDeletePost;
+        public System.Windows.Forms.Label lblAuteurNaam;
+        public System.Windows.Forms.Label lblDatum;
+        public System.Windows.Forms.LinkLabel lblDownloadMedia;
+        public System.Windows.Forms.LinkLabel lbLike;
+        public System.Windows.Forms.LinkLabel lbReport;
+        public System.Windows.Forms.Label lblCountLikes;
     }
 }

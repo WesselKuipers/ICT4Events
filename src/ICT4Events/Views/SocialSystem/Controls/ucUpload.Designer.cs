@@ -105,8 +105,8 @@
 
         private System.Windows.Forms.GroupBox gbUpload;
         private System.Windows.Forms.Button btBestandUploaden;
-        private System.Windows.Forms.PictureBox pbPreview;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Button btnUpload;
+        public System.Windows.Forms.PictureBox pbPreview;
+        public System.Windows.Forms.Button btnUpload;
     }
 }

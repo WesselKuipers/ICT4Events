@@ -107,6 +107,8 @@ namespace ICT4Events.Views
             var eventGuest = SelectEvent();
             var ev = eventGuest.Key;
             var guest = eventGuest.Value;
+            if (ev == null || guest == null) { return; }
+
             new MaterialReservationSystem(ev, guest).ShowDialog();
         }
 

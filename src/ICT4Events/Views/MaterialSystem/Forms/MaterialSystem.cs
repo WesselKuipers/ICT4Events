@@ -82,10 +82,6 @@ namespace ICT4Events.Views.MaterialSystem.Forms
 
         private void rfid_TagLost(object sender, TagEventArgs e)
         {
-            txtGuestPassId.Text = string.Empty;
-            txtUserName.Text = string.Empty;
-            lsbUserMaterial.Items.Clear();
-            btnReturn.Enabled = false;
         }
         #endregion
 
@@ -542,6 +538,14 @@ namespace ICT4Events.Views.MaterialSystem.Forms
             MessageBox.Show(sb.ToString(), "Argument Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
             Application.Exit();
+        }
+
+        private void Reset()
+        {
+            txtGuestPassId.Text = string.Empty;
+            txtUserName.Text = string.Empty;
+            lsbUserMaterial.Items.Clear();
+            btnReturn.Enabled = false;
         }
     }
 }

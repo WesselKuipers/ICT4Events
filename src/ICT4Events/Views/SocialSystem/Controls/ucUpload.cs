@@ -54,6 +54,9 @@ namespace ICT4Events.Views.SocialSystem.Controls
                     MessageBox.Show("Uw bestand is succesvol upgeload", "File successfully uploaded",
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+                    btnUpload.Text = "Selecteer een bestand...";
+                    pbPreview.ImageLocation = null;
+                    Invalidate();
                 }
                 else
                     MessageBox.Show("Er is iets misgegaan");
