@@ -221,6 +221,18 @@ namespace ICT4Events.Views.EntranceControlSystem.Forms
                 btnCheckIn.Enabled = !_searchGuest.Present;
                 btnCheckOut.Enabled = _searchGuest.Present;
             }
+            else
+            {
+                txtName.Text = string.Empty;
+                txtLastName.Text = string.Empty;
+                txtLocationId.Text = string.Empty;
+                txtPhoneNumber.Text = string.Empty;
+                txtEmail.Text = string.Empty;
+                chbPaid.Checked = false;
+                btnPay.Enabled = false;
+                btnCheckIn.Enabled = false;
+                btnCheckOut.Enabled = false;
+            }
 
             Refresh();
         }
