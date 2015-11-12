@@ -55,6 +55,11 @@ namespace ICT4EventsTests.Data
             throw new NotImplementedException();
         }
 
+        public Guest GetByRfid(string rfid, Event ev)
+        {
+            throw new NotImplementedException();
+        }
+
         public Guest GetByRfid(string rfid)
         {
             throw new NotImplementedException();

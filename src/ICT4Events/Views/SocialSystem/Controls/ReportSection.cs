@@ -72,23 +72,22 @@ namespace ICT4Events.Views.SocialSystem.Controls
             }
             lblTotal.Text = $"Totaal aantal posts: {getAllPostByEvent.Count} posts";
         }
+
         private void WatchPost(Post post)
         {
             var listOfReports = LogicCollection.PostLogic.GetReportsByPost(post);
             if (listOfReports.Count >= 1)
             {
-                string rep = null;
+                var rep = string.Empty;
                 for (var i = 0; i < listOfReports.Count; i++)
                 {
-                    rep += $"Report{i + 1}: {listOfReports[i].Reason} \n";
+                    rep += $"Report {i + 1}: {listOfReports[i].Reason}\r\n";
                 }
-                MessageBox.Show(
-                    $"{post.Content} \n Datum: {post.Date.ToString("yyyy MMMM dd")} \n GuestID: {post.GuestID} \n {rep}");
+                MessageBox.Show($"Inhoud bericht:\r\n{post.Content}\r\nDatum: {post.Date.ToString("dd MMMM yyyy")}\r\nGuestID: {post.GuestID}\r\n\r\n{rep}");
             }
             else
             {
-                MessageBox.Show(
-                        $"{post.Content} \n Datum: {post.Date.ToString("yyyy MMMM dd")} \n GuestID: {post.GuestID}");
+                MessageBox.Show($"{post.Content}\r\nDatum: {post.Date.ToString("dd MMMM yyyy")}\r\nGuestID: {post.GuestID}");
             }
         }
 
@@ -97,7 +96,7 @@ namespace ICT4Events.Views.SocialSystem.Controls
             var post = (Post) lbReportsUnder5.SelectedItem;
             if (post != null)
             {
-                var messageBoxResult = System.Windows.MessageBox.Show("Weet je het zeker?", "Verbergen?", System.Windows.MessageBoxButton.YesNo);
+                var messageBoxResult = System.Windows.MessageBox.Show("Weet je het zeker?", "Verbergen?", MessageBoxButton.YesNo);
                 if (messageBoxResult == MessageBoxResult.Yes)
                 {
                     post.Visible = false;
@@ -115,7 +114,7 @@ namespace ICT4Events.Views.SocialSystem.Controls
             var post = (Post)lbUnvisiblePosts.SelectedItem;
             if (post != null)
             {
-                var messageBoxResult = System.Windows.MessageBox.Show("Weet je het zeker?", "Zichtbaar maken?", System.Windows.MessageBoxButton.YesNo);
+                var messageBoxResult = System.Windows.MessageBox.Show("Weet je het zeker?", "Zichtbaar maken?", MessageBoxButton.YesNo);
                 if (messageBoxResult == MessageBoxResult.Yes)
                 {
                     post.Visible = true;
@@ -133,7 +132,7 @@ namespace ICT4Events.Views.SocialSystem.Controls
             var post = (Post)lbReportsAbove5.SelectedItem;
             if (post != null)
             {
-                var messageBoxResult = System.Windows.MessageBox.Show("Weet je het zeker?", "Zichtbaar maken & Reports verwijderen?", System.Windows.MessageBoxButton.YesNo);
+                var messageBoxResult = System.Windows.MessageBox.Show("Weet je het zeker?", "Zichtbaar maken & Reports verwijderen?", MessageBoxButton.YesNo);
                 if (messageBoxResult == MessageBoxResult.Yes)
                 {
                     post.Visible = true;
