@@ -46,13 +46,13 @@
             // 
             // tbTimeLine
             // 
+            this.tbTimeLine.BackColor = System.Drawing.SystemColors.Control;
             this.tbTimeLine.Location = new System.Drawing.Point(4, 22);
             this.tbTimeLine.Name = "tbTimeLine";
             this.tbTimeLine.Padding = new System.Windows.Forms.Padding(3);
             this.tbTimeLine.Size = new System.Drawing.Size(705, 633);
             this.tbTimeLine.TabIndex = 0;
             this.tbTimeLine.Text = "Tijdlijn";
-            this.tbTimeLine.UseVisualStyleBackColor = true;
             // 
             // tbMakePost
             // 

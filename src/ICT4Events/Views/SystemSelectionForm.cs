@@ -175,6 +175,8 @@ namespace ICT4Events.Views
             Guest guest;
 
             //var activeEvents = LogicCollection.EventLogic.GetAllEvents().Where(x => x.StartDate >= DateTime.Now && x.EndDate < DateTime.Now).ToList();
+            //var guests = LogicCollection.GuestLogic.GetGuestsByUser(_user).Where(x => x.Paid && x.Present).ToList();
+
             var activeEvents = LogicCollection.EventLogic.GetAllEvents();
             var guests = LogicCollection.GuestLogic.GetGuestsByUser(_user);
 
